@@ -1,10 +1,26 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
+import styled from 'styled-components';
+import Header from './Header';
 function AppLayout(props) {
-  return <div></div>;
+  return (
+    <Container>
+      <Header />
+      <Main>{props.children}</Main>
+    </Container>
+  );
 }
 
-AppLayout.propTypes = {};
+const Container = styled.div`
+  height: 100vh;
+  ${(props) => props.theme.flex_column};
+
+  @media ${(props) => props.theme.desktop} {
+    flex-direction: row;
+  }
+`;
+const Main = styled.div`
+  width: 100%;
+  height: 100%;
+`;
 
 export default AppLayout;

@@ -2,7 +2,6 @@ import React from 'react';
 
 // Redux
 
-
 // Router
 import { Route, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
@@ -14,18 +13,17 @@ import NotFound from '../pages/NotFound';
 import Chat from '../pages/Chat';
 
 
+import AppLayout from '../components/AppLayout';
 
 function App() {
   return (
     <ConnectedRouter history={history}>
-      <div className="App">
+      <AppLayout>
         <Switch>
-          <Route path='/login' exact component={Login} />
-          <Route path='/chat' exact component={Chat} />
-          {/* NotFound */}
-          <NotFound />
+          <Route path="/" exact component={Login} />
+          <Route component={NotFound} />
         </Switch>
-      </div>
+      </AppLayout>
     </ConnectedRouter>
   );
 }
