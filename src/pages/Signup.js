@@ -32,7 +32,7 @@ const Signup = (props) => {
   return (
     <Container>
       <Text>회원가입</Text>
-      <table>
+      <Table>
         <tbody>
           <tr>
             <th>
@@ -43,8 +43,10 @@ const Signup = (props) => {
                 _onChange={onChangeEmail}
                 placeholder="이메일을 입력해주세요"
               ></Input>
-              <Button _onClick={onClickCheckPw}>중복확인</Button>- 이메일 형식 -
-              이메일 중복확인
+              - 이메일 형식 - 이메일 중복확인
+            </td>
+            <td>
+              <Button _onClick={onClickCheckPw}>중복확인</Button>
             </td>
           </tr>
 
@@ -66,6 +68,7 @@ const Signup = (props) => {
             </th>
             <td>
               <Input
+                type="password"
                 _onChange={onChangePassword}
                 placeholder="비밀번호를 입력해주세요"
               ></Input>
@@ -78,13 +81,14 @@ const Signup = (props) => {
             </th>
             <td>
               <Input
+                type="password"
                 _onChange={onChangePasswordCheck}
                 placeholder="비밀번호를 한번 더 입력해주세요"
               ></Input>
             </td>
           </tr>
         </tbody>
-      </table>
+      </Table>
       <Wrapper>
         <Button _onClick={() => props.history.push('/')}>취소</Button>
         <Button _onClick={onClickSignup}>회원가입</Button>
@@ -102,5 +106,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
+const Table = styled.table``;
 
 export default Signup;

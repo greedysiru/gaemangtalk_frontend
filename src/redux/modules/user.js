@@ -20,32 +20,20 @@ const user = createReducer(initialState, {
 const signup = (data) => {
   return function (dispatch, getState, { history }) {
     console.log(data);
-    axios({
-      url: '/api/user/signup',
-      method: 'post',
-      data: data,
-      withCredentials: true
-    });
-    /*  axios.post(`/api/user/signup`, data).then((res) => {
-      //dispatch(setDetailPost(res.data));
+
+    axios.post(`/api/user/signup`, data).then((res) => {
       console.log('signup res', res);
-    }); */
+    });
   };
 };
 
 const emailCheck = (email) => {
   return function (dispatch, getState, { history }) {
     console.log(email);
-    axios({
-      url: '/api/user/signup/emailCheck',
-      method: 'post',
-      data: { email },
-      withCredentials: true
+    axios.post(`/api/user/signup/emailCheck`, { email }).then((res) => {
+      //dispatch(setDetailPost(res.data));
+      console.log('signup res', res);
     });
-    /*  axios.post(`/api/user/signup`, data).then((res) => {
-          //dispatch(setDetailPost(res.data));
-          console.log('signup res', res);
-        }); */
   };
 };
 
