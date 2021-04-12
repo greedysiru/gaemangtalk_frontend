@@ -29,22 +29,19 @@ const Popup = (props) => {
   return (
 
     <PopupOverlay>
-      <PopupWrapper tabIndex='-1'>
-        <PopupInner ref={popupInside}>
-          <Input
-          ></Input>
-          <PopupButtons>
-            <Button
-              width="40%"
-            >생성</Button>
-            <Button
-              width="40%"
-              _onClick={closePopup}
-            >취소</Button>
-          </PopupButtons>
-        </PopupInner>
-
-      </PopupWrapper>
+      <PopupInner ref={popupInside}>
+        <Input
+        ></Input>
+        <PopupButtons>
+          <Button
+            width="40%"
+          >생성</Button>
+          <Button
+            width="40%"
+            _onClick={closePopup}
+          >취소</Button>
+        </PopupButtons>
+      </PopupInner>
     </PopupOverlay >
   )
 
@@ -56,6 +53,8 @@ const PopupOverlay = styled.div`
   position: fixed;
   background-color: rgba(0, 0, 0, 0.6);
   top: 0;
+  right: 0;
+  bottom: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
@@ -65,6 +64,8 @@ const PopupWrapper = styled.div`
 ${(props) => props.theme.border_box}
 position: fixed;
 top: 0;
+right: 0;
+bottom: 0;
 left: 0;
 width: 50%;
 height: 50%;
@@ -76,11 +77,12 @@ const PopupInner = styled.div`
   ${(props) => props.theme.flex_column};
   position: relative;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
-  width: 100%;
-  height: 100%;
+  width: 50%;
+  height: 50%;
   background-color: whitesmoke;
   border-radius: 10px;
   top: 50%;
+  margin: 0 auto;
   transform: translateY(-50%);
 
 `
