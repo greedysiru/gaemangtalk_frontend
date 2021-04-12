@@ -10,7 +10,17 @@ function AppLayout(props) {
   );
 }
 
-const Container = styled.div``;
-const Main = styled.div``;
+const Container = styled.div`
+  height: 100vh;
+  ${(props) => props.theme.flex_column};
+
+  @media ${(props) => props.theme.desktop} {
+    flex-direction: row;
+  }
+`;
+const Main = styled.div`
+  width: 100%;
+  height: 100%;
+`;
 
 export default AppLayout;
