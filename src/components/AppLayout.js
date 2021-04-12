@@ -11,5 +11,6 @@ function AppLayout(props) {
 }
 
 const Container = styled.div``;
+const Main = styled.div``;
 
 export default AppLayout;
