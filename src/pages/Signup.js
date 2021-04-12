@@ -46,7 +46,10 @@ const Signup = (props) => {
   const onChangeEmail = (e) => {
     setEmail(e.target.value);
     setIsStartEmail(true);
-    //dispatch(userActions.setIsValidEmailMultiple(false));
+
+    if (isValidEmailMultiple) {
+      dispatch(userActions.setIsValidEmailMultiple(false));
+    }
 
     let _reg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 
