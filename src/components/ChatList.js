@@ -17,8 +17,11 @@ const ChatList = (props) => {
 }
 
 const Container = styled.div`
+  ${(props) => props.theme.border_box};
   background-color: ${(props) => props.theme.main_color};
   color: ${(props) => props.theme.theme_yellow};
+  width: 20%;
+  height: 100%;
 `;
 
 export default ChatList;

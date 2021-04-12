@@ -1,7 +1,12 @@
 const theme = {
+  // 메인 테마 컬러 세가지
   main_color: '#5D6E91',
   theme_yellow: '#F9964f',
   theme_gray: '#EEEDED',
+  // 메시지 색상
+  message_you: '#EEEDED',
+  message_me: '#174090',
+
   mobile: `(max-width: 767px)`,
   tablet: `(max-width: 1024px)`,
   desktop: `(min-width: 1025px)`,

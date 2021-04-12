@@ -10,16 +10,18 @@ import Message from '../elements/Message';
 const MessageList = (props) => {
   return (
     <Container>
-      메시지리스트
-      <Message />
+      <Message is_me={true} />
     </Container>
 
   )
 }
 
 const Container = styled.div`
-  background-color: ${(props) => props.theme.main_color};
-  color: ${(props) => props.theme.theme_yellow};
+  ${(props) => props.theme.border_box};
+  ${(props) => props.theme.flex_column};
+  width: 100%;
+  height: 90%;
+  padding: 0px 60px;
 `;
 
 export default MessageList;

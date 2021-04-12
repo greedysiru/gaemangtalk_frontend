@@ -14,7 +14,9 @@ const ChatName = (props) => {
 }
 
 const Container = styled.div`
-  width: 70vw;
+${(props) => props.theme.border_box};
+  width: 100%;
+  height: 10%;
   background-color: ${(props) => props.theme.main_color};
   color: ${(props) => props.theme.theme_yellow};
 `;

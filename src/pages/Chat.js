@@ -14,28 +14,30 @@ import ChatName from '../elements/ChatName';
 const Chat = (props) => {
   return (
     <Container>
-      <div
-        style={{
-          width: '30vw',
-          backgroundColor: 'green'
-        }}
-      >
-        헤더
-      </div>
-      <ChatName />
       <ChatList />
-      <MessageList />
-
+      <ChatWrap>
+        <ChatName />
+        <MessageList />
+      </ChatWrap>
     </Container>
 
   )
 }
 
 const Container = styled.div`
-  display: ${(props) => props.theme.flex_row};
-  width: 100vw;
-  height: 100vh;
-  background-color: ${(props) => props.theme.theme_gray};
+  ${(props) => props.theme.flex_row};
+  width: 100%;
+  height: 100%;
+  ${(props) => props.theme.border_box};
 `;
+
+// ChatName, MessageList 감싸는 요소
+const ChatWrap = styled.div`
+  ${(props) => props.theme.flex_column};
+  justify-content: flex-start;
+  ${(props) => props.theme.border_box};
+  width: 80%;
+  height: 100%;
+`
 
 export default Chat;
