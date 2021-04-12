@@ -1,10 +1,16 @@
-import React from "react";
-import styled from "styled-components";
-
+import React from 'react';
+import styled from 'styled-components';
 
 const Button = (props) => {
-  const { _onClick, is_float, children, margin, width, padding } = props;
-
+  const {
+    disabled,
+    _onClick,
+    is_float,
+    children,
+    margin,
+    width,
+    padding
+  } = props;
 
   if (is_float) {
     return (
@@ -14,30 +20,28 @@ const Button = (props) => {
     );
   }
 
-
   const styles = {
     margin: margin,
     width: width,
-    padding: padding,
+    padding: padding
   };
 
   return (
     <React.Fragment>
-      <ElButton {...styles} onClick={_onClick}>
+      <ElButton disabled={disabled} {...styles} onClick={_onClick}>
         {children}
       </ElButton>
     </React.Fragment>
   );
 };
 
-
 Button.defaultProps = {
   children: null,
   _onClick: () => {},
   is_float: false,
   margin: false,
-  width: "100%",
-  padding: "12px 0px",
+  width: '100%',
+  padding: '12px 0px'
 };
 
 const ElButton = styled.button`
@@ -47,7 +51,15 @@ const ElButton = styled.button`
   padding: ${(props) => props.padding};
   box-sizing: border-box;
   border: none;
-  ${(props) => (props.margin ? `margin: ${props.margin};` : "")}
+  ${(props) => (props.margin ? `margin: ${props.margin};` : '')};
+  cursor: pointer;
+  border-color: ${(props) => (props.disabled ? 'gray' : '#ffffff')};
+  ${(props) =>
+    props.disabled
+      ? `background-color:gray; color:white`
+      : `
+  background-color:#212121; color:white
+  `}
 `;
 
 const FloatButton = styled.button`

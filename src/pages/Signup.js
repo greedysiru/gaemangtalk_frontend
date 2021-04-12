@@ -1,18 +1,30 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { Button, Input, Text, Wrapper } from '../elements';
+import { Button, Text, Wrapper } from '../elements';
+import InputValid from '../elements/InputValid';
 import { userActions } from '../redux/modules/user';
-import userInput from '../shared/useInput';
 
 const Signup = (props) => {
   const dispatch = useDispatch();
-  const [email, setEmail, onChangeEmail] = userInput('');
-  const [username, setUsername, onChangeUsername] = userInput('');
-  const [password, setPassword, onChangePassword] = userInput('');
-  const [passwordCheck, setPasswordCheck, onChangePasswordCheck] = userInput(
-    ''
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordCheck, setPasswordCheck] = useState('');
+
+  const [isOpenEmailValid, setIsOpenEmailValid] = useState(false);
+  const [isStartEmail, setIsStartEmail] = useState(false);
+  const [isValidEmail, setIsValidEmail] = useState(false);
+  const [isValidEmailChk, setIsValidEmailChk] = useState(false);
+  const isValidEmailMultiple = useSelector(
+    (state) => state.user.isValidEmailMultiple
   );
+
+  const [isOpenUsernameValid, setIsOpenUsernameValid] = useState(false);
+
+  const [isOpenPwValid, setIsOpenPwValid] = useState(false);
+
+  const [isOpenPwChkValid, setIsOpenPwChkValid] = useState(false);
 
   const onClickSignup = () => {
     if (!email || !username || !password || !passwordCheck) return;
@@ -26,8 +38,19 @@ const Signup = (props) => {
     dispatch(userActions.signup(data));
   };
 
-  const onClickCheckPw = () => {
+  const onClickMultipleChk = () => {
     dispatch(userActions.emailCheck(email));
+    setIsValidEmailChk(true);
+  };
+
+  const onChangeEmail = (e) => {
+    setEmail(e.target.value);
+    setIsStartEmail(true);
+    //dispatch(userActions.setIsValidEmailMultiple(false));
+
+    let _reg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+
+    setIsValidEmail(_reg.test(email));
   };
   return (
     <Container>
@@ -40,13 +63,26 @@ const Signup = (props) => {
             </th>
             <td>
               <Input
-                _onChange={onChangeEmail}
+                onChange={onChangeEmail}
+                onClick={() => setIsOpenEmailValid(true)}
                 placeholder="이메일을 입력해주세요"
               ></Input>
-              - 이메일 형식 - 이메일 중복확인
+              <ValidWrapper isOpen={isOpenEmailValid}>
+                <InputValid isStart={isStartEmail} isValid={isValidEmail}>
+                  이메일 형식
+                </InputValid>
+                <InputValid
+                  isStart={isValidEmailChk}
+                  isValid={isValidEmailMultiple}
+                >
+                  아이디 중복확인
+                </InputValid>
+              </ValidWrapper>
             </td>
             <td>
-              <Button _onClick={onClickCheckPw}>중복확인</Button>
+              <Button _onClick={onClickMultipleChk} disabled={!isValidEmail}>
+                중복확인
+              </Button>
             </td>
           </tr>
 
@@ -56,7 +92,7 @@ const Signup = (props) => {
             </th>
             <td>
               <Input
-                _onChange={onChangeUsername}
+                /* onChange={onChangeUsername} */
                 placeholder="3~20자리의 숫자 또는 문자만 가능합니다."
               ></Input>
             </td>
@@ -69,7 +105,7 @@ const Signup = (props) => {
             <td>
               <Input
                 type="password"
-                _onChange={onChangePassword}
+                /* onChange={onChangePassword} */
                 placeholder="비밀번호를 입력해주세요"
               ></Input>
             </td>
@@ -82,7 +118,7 @@ const Signup = (props) => {
             <td>
               <Input
                 type="password"
-                _onChange={onChangePasswordCheck}
+                /* onChange={onChangePasswordCheck} */
                 placeholder="비밀번호를 한번 더 입력해주세요"
               ></Input>
             </td>
@@ -98,7 +134,6 @@ const Signup = (props) => {
 };
 
 const Container = styled.div`
-  background-color: skyblue;
   width: 100%;
   height: 100%;
 
@@ -107,6 +142,15 @@ const Container = styled.div`
   justify-content: center;
 `;
 
+const Input = styled.input`
+  border: 1px solid #212121;
+  width: 100%;
+  padding: 12px 4px;
+  box-sizing: border-box;
+`;
 const Table = styled.table``;
 
+const ValidWrapper = styled.div`
+  display: ${(props) => (props.isOpen ? 'block' : 'none')};
+`;
 export default Signup;
