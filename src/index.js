@@ -7,6 +7,9 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './redux/configureStore';
 
+// CSS reset
+import './styles/reset.css';
+
 ReactDOM.render(
   <Provider store={store}>
     <App />
