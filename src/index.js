@@ -8,6 +8,9 @@ import theme from './shared/theme';
 import { Provider } from 'react-redux';
 import store from './redux/configureStore';
 
+// CSS reset
+import './styles/reset.css';
+
 ReactDOM.render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
