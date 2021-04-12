@@ -1,6 +1,8 @@
-// 채팅 관련 모듈
-import { createAction, handleActions } from "redux-actions";
-// 불변성 관리 패키지
-import { produce } from "immer";
-// axios
+import { createReducer, createAction } from '@reduxjs/toolkit';
 import axios from 'axios';
+
+axios.defaults.baseURL = 'http://54.180.141.91:8080';
+
+export const initialState = {
+  chatInfo: []
+};

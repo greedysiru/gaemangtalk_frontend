@@ -13,6 +13,8 @@ import ChatName from '../elements/ChatName';
 
 // 채팅 페이지 컴포넌트
 const Chat = (props) => {
+
+
   return (
     <Container>
       <ChatList />
@@ -20,6 +22,7 @@ const Chat = (props) => {
         <ChatName />
         <MessageList />
         <MessageWrite />
+
       </ChatWrap>
     </Container>
 
