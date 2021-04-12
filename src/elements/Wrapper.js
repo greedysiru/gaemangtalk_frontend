@@ -1,12 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Wrapper = (props) => {
   return <Container {...props}>{props.children}</Container>;
 };
-
-Wrapper.propTypes = {};
 
 const Container = styled.div`
   width: ${(props) => (props.width ? props.width : '')};
