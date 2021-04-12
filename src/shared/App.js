@@ -10,7 +10,7 @@ import { history } from '../redux/configureStore';
 // Pages
 import Login from '../pages/Login';
 import NotFound from '../pages/NotFound';
-import Chat from '../pages/Chat';
+import Chating from '../pages/Chating';
 import Signup from '../pages/Signup';
 
 // component
@@ -22,7 +22,7 @@ function App() {
       <AppLayout>
         <Switch>
           <Route path="/" exact component={Login} />
-          <Route path="/chat" exact component={Chat} />
+          <Route path="/chat" exact component={Chating} />
           <Route path="/signup" exact component={Signup} />
           <Route component={NotFound} />
         </Switch>

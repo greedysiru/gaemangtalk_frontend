@@ -2,6 +2,11 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+// elements
+import { Button } from '../elements';
+
+// components
+import Chat from './Chat';
 
 // 채팅 리스트 컴포넌트
 // 모바일, 데스크탑에 따라 위치가 달리지도록 한다
@@ -10,9 +15,23 @@ import styled from 'styled-components';
 const ChatList = (props) => {
   return (
     <Container>
-      채팅리스트
-    </Container>
-
+      <Chat/>
+      <Chat/>
+      <Chat/>
+      <Chat/>
+      <Chat/>
+      <Chat/>
+      <Chat/>
+      <Chat/>
+      <Chat/>
+      <Chat/>
+  <Button
+    is_float
+  >
+    +
+  </Button>
+    </Container >
+      
   )
 }
 
@@ -22,6 +41,8 @@ const Container = styled.div`
   color: ${(props) => props.theme.theme_yellow};
   width: 20%;
   height: 100%;
+  position: relative;
+  padding: 10px;
 `;
 
 export default ChatList;

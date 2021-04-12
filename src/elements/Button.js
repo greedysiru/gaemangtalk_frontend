@@ -33,7 +33,7 @@ const Button = (props) => {
 
 Button.defaultProps = {
   children: null,
-  _onClick: () => {},
+  _onClick: () => { },
   is_float: false,
   margin: false,
   width: "100%",
@@ -58,7 +58,7 @@ const FloatButton = styled.button`
   box-sizing: border-box;
   font-size: 36px;
   font-weight: 800;
-  position: fixed;
+  position: absolute;
   bottom: 50px;
   right: 16px;
   text-align: center;
