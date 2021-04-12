@@ -22,6 +22,66 @@ const Message = (props) => {
           메시지
         </ElMessage>
       </MessageWrap>
+      <MessageWrap>
+        <ElMessage>
+          메시지
+        </ElMessage>
+      </MessageWrap>
+      <MessageWrap is_me={is_me}>
+        <ElMessage is_me={is_me}>
+          메시지
+        </ElMessage>
+      </MessageWrap>
+      <MessageWrap>
+        <ElMessage>
+          메시지
+        </ElMessage>
+      </MessageWrap>
+      <MessageWrap is_me={is_me}>
+        <ElMessage is_me={is_me}>
+          메시지
+        </ElMessage>
+      </MessageWrap>
+      <MessageWrap>
+        <ElMessage>
+          메시지
+        </ElMessage>
+      </MessageWrap>
+      <MessageWrap is_me={is_me}>
+        <ElMessage is_me={is_me}>
+          메시지
+        </ElMessage>
+      </MessageWrap>
+      <MessageWrap>
+        <ElMessage>
+          메시지
+        </ElMessage>
+      </MessageWrap>
+      <MessageWrap is_me={is_me}>
+        <ElMessage is_me={is_me}>
+          메시지
+        </ElMessage>
+      </MessageWrap>
+      <MessageWrap>
+        <ElMessage>
+          메시지
+        </ElMessage>
+      </MessageWrap>
+      <MessageWrap is_me={is_me}>
+        <ElMessage is_me={is_me}>
+          메시지
+        </ElMessage>
+      </MessageWrap>
+      <MessageWrap>
+        <ElMessage>
+          메시지
+        </ElMessage>
+      </MessageWrap>
+      <MessageWrap is_me={is_me}>
+        <ElMessage is_me={is_me}>
+          메시지
+        </ElMessage>
+      </MessageWrap>
 
     </div>
   )

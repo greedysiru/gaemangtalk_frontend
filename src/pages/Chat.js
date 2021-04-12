@@ -5,6 +5,7 @@ import styled from 'styled-components';
 // Components
 import ChatList from '../components/ChatList';
 import MessageList from '../components/MesseageList';
+import MessageWrite from '../components/MessageWrite';
 
 // Elements
 import ChatName from '../elements/ChatName';
@@ -18,6 +19,7 @@ const Chat = (props) => {
       <ChatWrap>
         <ChatName />
         <MessageList />
+        <MessageWrite />
       </ChatWrap>
     </Container>
 
@@ -38,6 +40,7 @@ const ChatWrap = styled.div`
   ${(props) => props.theme.border_box};
   width: 80%;
   height: 100%;
+  position: relative;
 `
 
 export default Chat;

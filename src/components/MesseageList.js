@@ -6,11 +6,15 @@ import styled from 'styled-components';
 import Message from '../elements/Message';
 
 
+// 스크롤 css
+import '../styles/scroll.css';
+
 // 메시지 리스트 컴포넌트
 const MessageList = (props) => {
   return (
-    <Container>
+    <Container className="scroll">
       <Message is_me={true} />
+
     </Container>
 
   )
@@ -22,6 +26,7 @@ const Container = styled.div`
   width: 100%;
   height: 90%;
   padding: 0px 60px;
+  overflow: auto;
 `;
 
 export default MessageList;

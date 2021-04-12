@@ -13,6 +13,7 @@ const Input = (props) => {
     value,
     is_submit,
     onSubmit,
+    messageWrite,
   } = props;
 
   if (multiLine) {
@@ -27,6 +28,21 @@ const Input = (props) => {
         ></ElTextarea>
       </Grid>
     );
+  }
+
+  // 메시지 작성 폼
+  if (messageWrite) {
+    return (
+      <Grid>
+        {label && <Text margin="0px">{label}</Text>}
+        <ElmessageWrite
+          rows={13}
+          value={value}
+          placeholder={placeholder}
+          onChange={_onChange}
+        ></ElmessageWrite>
+      </Grid>
+    )
   }
 
   return (
@@ -54,14 +70,15 @@ const Input = (props) => {
 };
 
 Input.defaultProps = {
+  messageWrite: false,
   multiLine: false,
   label: false,
   placeholder: "텍스트를 입력해주세요.",
   type: "text",
   value: "",
   is_submit: false,
-  onSubmit: () => {},
-  _onChange: () => {},
+  onSubmit: () => { },
+  _onChange: () => { },
 };
 
 const ElTextarea = styled.textarea`
@@ -78,4 +95,11 @@ const ElInput = styled.input`
   box-sizing: border-box;
 `;
 
+// 메시지 입력 폼
+const ElmessageWrite = styled.input`
+  border: 1px solid #212121;
+  width: 100%;
+  padding: 12px 4px;
+  box-sizing: border-box;
+`
 export default Input;
