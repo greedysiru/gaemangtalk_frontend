@@ -13,7 +13,7 @@ const Signup = (props) => {
   const [passwordCheck, setPasswordCheck] = useState('');
 
   const [isOpenEmailValid, setIsOpenEmailValid] = useState(false);
-  const [isStartEmail, setIsStartEmail] = useState(false);
+  const [isStartEmailInput, setIsStartEmailInput] = useState(false);
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [isValidEmailChk, setIsValidEmailChk] = useState(false);
   const isValidEmailMultiple = useSelector(
@@ -21,8 +21,13 @@ const Signup = (props) => {
   );
 
   const [isOpenUsernameValid, setIsOpenUsernameValid] = useState(false);
+  const [isStartUsernameInput, setIsStartUsernameInput] = useState(false);
+  const [isValidUsername, setIsValidUsername] = useState(false);
 
-  const [isOpenPwValid, setIsOpenPwValid] = useState(false);
+  const [isOpenPasswordValid, setIsOpenPasswordValid] = useState(false);
+  const [isStartPasswordInput, setIsStartPasswordInput] = useState(false);
+
+  const [isValidPassword, setIsValidPassword] = useState(false);
 
   const [isOpenPwChkValid, setIsOpenPwChkValid] = useState(false);
 
@@ -44,8 +49,9 @@ const Signup = (props) => {
   };
 
   const onChangeEmail = (e) => {
+    setIsStartEmailInput(true);
+    e.target.value = e.target.value.replace(/[^A-Za-z0-9@.]/gi, '');
     setEmail(e.target.value);
-    setIsStartEmail(true);
 
     if (isValidEmailMultiple) {
       dispatch(userActions.setIsValidEmailMultiple(false));
@@ -54,6 +60,23 @@ const Signup = (props) => {
     let _reg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 
     setIsValidEmail(_reg.test(email));
+  };
+
+  const onChangeUsername = (e) => {
+    e.target.value = e.target.value.replace(/[^A-Za-z0-9_-]/gi, '');
+
+    setUsername(e.target.value);
+    setIsStartUsernameInput(true);
+    setIsValidUsername(
+      e.target.value.length >= 3 && e.target.value.length <= 20
+    );
+  };
+
+  const onChangePassword = (e) => {
+    if (!isStartEmailInput) setIsStartPasswordInput(true);
+    console.log(e.target.value);
+    e.target.value = e.target.value.replace(/[^A-Za-z0-9_-]/gi, '');
+    setPassword(e.target.value);
   };
   return (
     <Container>
@@ -71,7 +94,7 @@ const Signup = (props) => {
                 placeholder="이메일을 입력해주세요"
               ></Input>
               <ValidWrapper isOpen={isOpenEmailValid}>
-                <InputValid isStart={isStartEmail} isValid={isValidEmail}>
+                <InputValid isStart={isStartEmailInput} isValid={isValidEmail}>
                   이메일 형식
                 </InputValid>
                 <InputValid
@@ -95,9 +118,18 @@ const Signup = (props) => {
             </th>
             <td>
               <Input
-                /* onChange={onChangeUsername} */
-                placeholder="3~20자리의 숫자 또는 문자만 가능합니다."
+                onClick={() => setIsOpenUsernameValid(true)}
+                onChange={onChangeUsername}
+                placeholder="3~20자리의 숫자 또는 영어, -, _만 가능합니다."
               ></Input>
+              <ValidWrapper isOpen={isOpenUsernameValid}>
+                <InputValid
+                  isStart={isStartUsernameInput}
+                  isValid={isValidUsername}
+                >
+                  3~20자리
+                </InputValid>
+              </ValidWrapper>
             </td>
           </tr>
 
@@ -107,10 +139,31 @@ const Signup = (props) => {
             </th>
             <td>
               <Input
+                onClick={() => setIsOpenPasswordValid(true)}
                 type="password"
-                /* onChange={onChangePassword} */
+                onChange={onChangePassword}
                 placeholder="비밀번호를 입력해주세요"
               ></Input>
+              <ValidWrapper isOpen={isOpenPasswordValid}>
+                <InputValid
+                  isStart={isStartPasswordInput}
+                  isValid={password.length >= 10}
+                >
+                  10자리 이상 입력
+                </InputValid>
+                <InputValid
+                  isStart={isStartPasswordInput}
+                  isValid={isValidUsername}
+                >
+                  영문/숫자/특수문자(공백 제외)만 허용하며, 2개 이상 조합
+                </InputValid>
+                <InputValid
+                  isStart={isStartPasswordInput}
+                  isValid={isValidUsername}
+                >
+                  동일한 숫자 3개 이상 연속 사용 불가
+                </InputValid>
+              </ValidWrapper>
             </td>
           </tr>
 
@@ -130,7 +183,9 @@ const Signup = (props) => {
       </Table>
       <Wrapper>
         <Button _onClick={() => props.history.push('/')}>취소</Button>
-        <Button _onClick={onClickSignup}>회원가입</Button>
+        <Button _onClick={onClickSignup} disabled={!isValidEmail}>
+          회원가입
+        </Button>
       </Wrapper>
     </Container>
   );
