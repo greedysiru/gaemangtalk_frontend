@@ -2,12 +2,16 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+// elements
+import Message from '../elements/Message';
 
-// 사용자 - 상대방의 메시지 내용을 출력할 말풍선 컴포넌트
-const Message = (props) => {
+
+// 메시지 리스트 컴포넌트
+const MessageList = (props) => {
   return (
     <Container>
-      메시지
+      메시지리스트
+      <Message />
     </Container>
 
   )
@@ -18,4 +22,4 @@ const Container = styled.div`
   color: ${(props) => props.theme.theme_yellow};
 `;
 
-export default Message;
+export default MessageList;

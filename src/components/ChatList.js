@@ -10,7 +10,7 @@ import styled from 'styled-components';
 const ChatList = (props) => {
   return (
     <Container>
-      가
+      채팅리스트
     </Container>
 
   )

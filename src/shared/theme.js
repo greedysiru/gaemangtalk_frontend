@@ -1,6 +1,7 @@
 const theme = {
   main_color: '#5D6E91',
   theme_yellow: '#F9964f',
+  theme_gray: '#EEEDED',
   mobile: `(max-width: 767px)`,
   tablet: `(max-width: 1024px)`,
   desktop: `(min-width: 1025px)`,

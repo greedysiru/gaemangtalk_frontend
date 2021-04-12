@@ -7,13 +7,14 @@ import styled from 'styled-components';
 const ChatName = (props) => {
   return (
     <Container>
-      가
+      채팅방 이름
     </Container>
 
   )
 }
 
 const Container = styled.div`
+  width: 70vw;
   background-color: ${(props) => props.theme.main_color};
   color: ${(props) => props.theme.theme_yellow};
 `;
