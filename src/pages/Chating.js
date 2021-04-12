@@ -10,10 +10,20 @@ import MessageWrite from '../components/MessageWrite';
 // Elements
 import ChatName from '../elements/ChatName';
 
+// 채팅 관련 함수들 가져오기
+import { chatActions } from '../redux/modules/chat';
+
+// 리덕스
+import { useDispatch, useSelector } from 'react-redux';
+
 
 // 채팅 페이지 컴포넌트
 const Chat = (props) => {
-
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    console.log('s')
+    dispatch(chatActions.getChatList());
+  }, [])
 
   return (
     <Container>

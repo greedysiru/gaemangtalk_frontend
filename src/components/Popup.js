@@ -5,14 +5,37 @@ import styled from 'styled-components';
 // elements
 import { Input, Button } from '../elements';
 
+// 방 생성 API
+import { chatActions } from '../redux/modules/chat';
+
+// 리덕스
+import { useDispatch, useSelector } from 'react-redux';
+
 // 채팅방 생성 창
 const Popup = (props) => {
-  const { closePopup } = props;
+  const { closePopup, visible } = props;
+  const dispatch = useDispatch();
+
+  // 채팅방 이름
+  const [chatRoomName, setRoomName] = React.useState();
+
+  // 방 이름 입력받기
+  const onChangeRoomName = (e) => {
+    console.log('입력')
+    setRoomName(e.target.value);
+  }
+
+  // 방 생성하기
+  const onClickCreateRoom = () => {
+    const data = {
+      chatRoomName
+    }
+    dispatch(chatActions.createRoom(data));
+  }
 
   const popupInside = React.useRef();
   //  바깥 클릭시 팝업 끄기
   const clickOutside = ({ target }) => {
-    console.log('함수')
     if (!popupInside.current.contains(target)) {
       closePopup()
     }
@@ -31,14 +54,20 @@ const Popup = (props) => {
     <PopupOverlay>
       <PopupInner ref={popupInside}>
         <Input
+          _onChange={onChangeRoomName}
         ></Input>
         <PopupButtons>
           <Button
             width="40%"
+            _onClick={onClickCreateRoom}
           >생성</Button>
           <Button
             width="40%"
-            _onClick={closePopup}
+            _onClick={(e) => {
+              closePopup();
+              e.stopPropagation();
+            }
+            }
           >취소</Button>
         </PopupButtons>
       </PopupInner>
