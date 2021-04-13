@@ -8,6 +8,15 @@ import { Input } from '../elements';
 // 아이콘
 import { IoArrowUp } from "react-icons/io5";
 
+// 소켓 통신
+import Stomp from 'stompjs';
+import SockJS from 'sockjs-client';
+
+// 쿠키
+import { getCookie } from '../shared/cookie';
+
+
+
 // 메시지 입력 컴포넌트
 const MessageWrite = (props) => {
 
@@ -21,7 +30,18 @@ const MessageWrite = (props) => {
 
   // 메세지 보내기 함수
   const sendMessage = () => {
-    console.log(messageText);
+    const token = getCookie('access-token');
+    console.log(token)
+    let sock = new SockJS("http://54.180.141.91:8080/chatting");
+    let ws = Stomp.over(sock);
+    ws.connect({
+      'token': token,
+      'Access-Control-Allow-Origin': '*://*',
+      'Access-Control-Allow-Methods': '*',
+    }, () => {
+      ws.send('/pub/api/chat/message', {}, JSON.stringify(messageText))
+    });
+    setMessageText('');
   }
   return (
     <Container>
