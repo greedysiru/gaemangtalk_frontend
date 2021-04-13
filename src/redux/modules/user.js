@@ -28,13 +28,21 @@ const signup = (data) => {
   return function (dispatch, getState, { history }) {
     console.log(data);
 
-    axios.post(`/api/user/signup`, data).then((res) => {
-      console.log('signup res', res);
-    });
+    axios
+      .post(`/api/user/signup`, data)
+      .then((res) => {
+        alert('회원가입이 완료되었습니다');
+        history.push('/login');
+      })
+      .catch((err) => {
+        console.log(err.response);
+        alert(err.response.errorMessage);
+      });
   };
 };
 
 const emailCheck = (email) => {
+  console.log('email check');
   return function (dispatch, getState, { history }) {
     axios
       .post(`/api/user/signup/emailCheck`, { email })
@@ -44,7 +52,6 @@ const emailCheck = (email) => {
       })
       .catch((err) => {
         alert('이미 사용중인 이메일입니다');
-        dispatch(setIsValidEmailMultiple(false));
       });
   };
 };
