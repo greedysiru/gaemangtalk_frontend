@@ -50,5 +50,6 @@ const IconWrap = styled.div`
   text-align: center;
   font-size: 2rem;
   color: ${(props) => props.theme.theme_gray};
+  cursor: pointer;
 `
 export default Header;

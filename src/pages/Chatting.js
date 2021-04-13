@@ -13,6 +13,9 @@ import ChatName from '../elements/ChatName';
 // 채팅 관련 함수들 가져오기
 import { chatActions } from '../redux/modules/chat';
 
+// 쿠키
+import { getCookie } from '../shared/cookie';
+
 // 리덕스
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -20,18 +23,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import Stomp from 'stompjs';
 import SockJS from 'sockjs-client';
 
-import axios from 'axios';
-
 // 채팅 페이지 컴포넌트
 const Chatting = (props) => {
   // 로컬 스토리지로부터 채팅방 정보 가져오기
   const roomId = localStorage.getItem('wschat.roomId');
   const roomName = localStorage.getItem('wschat.roomName');
+  const token = getCookie('access-token');
+  // let token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb29pZTM1QGdtYWlsLmNvbSIsImlhdCI6MTYxODMxODc2NCwiZXhwIjoxNjE4MzIwNTY0fQ.dAk_u4_SbP0PrR5fpJarL6UDYKLbU9gN0NVW2wp-AGA';
   // 웹소켓, 스톰프 초기화
   // http://54.180.141.91:8080
   let sock = new SockJS("http://54.180.141.91:8080/chatting");
   let ws = Stomp.over(sock);
-  let token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb29pZTM1QGdtYWlsLmNvbSIsImlhdCI6MTYxODMxNTQ5MSwiZXhwIjoxNjE4MzE3MjkxfQ.wOnO73Hg9LXqyZbGf7nQrhW5RgkaLTe_Zt6kMi9sizs';
   // ws.connect({ 'token': token }), function (frame) {
   //   ws.subscribe(`/sub/api/chat/rooms/${roomId}`, function (message) {
   //     let receive = JSON.parse(message);
@@ -39,12 +41,18 @@ const Chatting = (props) => {
   //   });
   // }
   React.useEffect(() => {
-    ws.connect({ 'token': token }, () => {
-      ws.subscribe(`/sub/api/chat/rooms/${roomId}`, (data) => {
-        const newMessage = JSON.parse(data.body);
-        console.log(newMessage)
-      });
-    });
+    ws.connect({
+      'token': token,
+      'Access-Control-Allow-Origin': '*://*',
+      'Access-Control-Allow-Methods': '*',
+    }
+      , () => {
+        ws.subscribe(`/sub/api/chat/rooms/${roomId}`, (data) => {
+          const newMessage = JSON.parse(data.body);
+          console.log(newMessage)
+        });
+      }
+    );
   }, []);
 
 
