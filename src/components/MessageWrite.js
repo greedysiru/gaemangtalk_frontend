@@ -13,7 +13,7 @@ const MessageWrite = (props) => {
   return (
     <Container>
       <Input
-        messageWrite
+        MessageWrite
       />
       <IconWrap>
         <IoArrowUp />
