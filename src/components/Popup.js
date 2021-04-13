@@ -30,7 +30,7 @@ const Popup = (props) => {
     const data = {
       chatRoomName
     }
-    dispatch(chatActions.createRoom(data));
+    dispatch(chatActions.createRoom(data, closePopup));
   }
 
   const popupInside = React.useRef();
@@ -59,7 +59,11 @@ const Popup = (props) => {
         <PopupButtons>
           <Button
             width="40%"
-            _onClick={onClickCreateRoom}
+            _onClick={(e) => {
+              onClickCreateRoom();
+              e.stopPropagation();
+            }
+            }
           >생성</Button>
           <Button
             width="40%"

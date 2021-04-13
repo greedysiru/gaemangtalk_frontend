@@ -6,6 +6,8 @@ const theme = {
   // 메시지 색상
   message_you: '#EEEDED',
   message_me: '#174090',
+  // 폰트 색상
+  font_color: '#222831',
 
   mobile: `(max-width: 767px)`,
   tablet: `(max-width: 1024px)`,

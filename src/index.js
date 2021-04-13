@@ -13,6 +13,9 @@ import store from './redux/configureStore';
 // CSS reset
 import './styles/reset.css';
 
+// 스크롤 css
+import './styles/scroll.css';
+
 ReactDOM.render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>

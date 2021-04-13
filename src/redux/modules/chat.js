@@ -4,37 +4,52 @@ import axios from 'axios';
 axios.defaults.baseURL = 'http://54.180.141.91:8080';
 
 export const initialState = {
+  // 채팅 리스트를 받는 배열
   chatInfo: []
 };
 
-
+// 채팅 리스트를 다루는 액션
 const getChat = createAction('chat/GETCHAT');
 
-const chat = createReducer(initialState, {
 
+const chat = createReducer(initialState, {
+  [getChat]: (state, action) => {
+    console.log(action.payload);
+    state.chatInfo = action.payload;
+  }
 });
 
 
 // thunk
 // 채팅방 생성
-const createRoom = (data) => {
+const createRoom = (data, closePopup) => {
   return function (dispatch, getState, { history }) {
     console.log(data);
-    axios.post(`/api/chat/rooms`, data).then((res) => {
-      console.log(res)
-      console.log('채팅방 생성')
-    });
+    axios.post(`/api/chat/rooms`, data)
+      .then((res) => {
+        // 채팅방 리스트 다시 가져오기
+        window.alert('채팅방이 생성되었습니다.')
+        dispatch(getChatList());
+        closePopup();
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+      ;
   };
 };
 
 // 채팅방 목록 조회
 const getChatList = () => {
   return function (dispatch, getState, { history }) {
-    console.log('들어옴')
-    axios.get(`/api/chat/rooms`).then((res) => {
-      console.log('채팅방 리스트 조회')
-      console.log(res)
-    });
+    axios.get(`/api/chat/rooms`)
+      .then((res) => {
+        dispatch(getChat(res.data));
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+      ;
   };
 };
 

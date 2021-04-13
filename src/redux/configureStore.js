@@ -6,12 +6,14 @@ import { connectRouter } from 'connected-react-router';
 
 // Modules
 import User from './modules/user';
+import Chat from './modules/chat';
 
 export const history = createBrowserHistory();
 
 // export한 Reducer를 모으기
 const rootReducer = combineReducers({
   user: User,
+  chat: Chat,
   router: connectRouter(history)
 });
 
@@ -27,8 +29,8 @@ const env = process.env.NODE_ENV;
 const composeEnhancers =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-        // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
-      })
+      // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
+    })
     : compose;
 
 // 미들웨어 묶기
