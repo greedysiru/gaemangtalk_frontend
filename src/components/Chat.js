@@ -24,6 +24,7 @@ const Container = styled.div`
   height: 8%;
   width: 100%;
   background-color: whitesmoke;
+  font-weight: 600;
   ${(props) => props.theme.border_box};
   margin: 0px 0px 5px 0px;
 `

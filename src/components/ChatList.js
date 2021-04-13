@@ -21,7 +21,6 @@ const ChatList = (props) => {
   // 채팅 리스트 리덕스로부터 가져오기
   const chat_list = useSelector((state) => state.chat.chatInfo)
 
-  console.log(chat_list)
   // 팝업창 키기/종료
   //  false가 기본 상태
   const [popupOpen, setPopupOpen] = React.useState(false);
@@ -39,24 +38,25 @@ const ChatList = (props) => {
       <Title>
         Chat
       </Title>
-      {/* 받아온 채팅 리스트 구현하기 */}
-      {chat_list.map((info, idx) => {
-        return (< Chat
-          key={idx}
-          roomId={info.id}
-          roomName={info.chatRoomName}
-          createdAt={info.createdAt}
-          modifiedAt={info.modifiedAt}
-        />)
-      })}
-
-
+      <ChatListWrap>
+        {/* 받아온 채팅 리스트 구현하기 */}
+        {chat_list.map((info, idx) => {
+          return (< Chat
+            key={idx}
+            roomId={info.id}
+            roomName={info.chatRoomName}
+            createdAt={info.createdAt}
+            modifiedAt={info.modifiedAt}
+          />)
+        })}
+      </ChatListWrap>
       <Button
         is_float
         _onClick={openPopup}
       >
         +
   </Button>
+
       {/* 채팅 생성 팝업 창 */}
       {popupOpen && <Popup
         visible={popupOpen}
@@ -70,13 +70,12 @@ const ChatList = (props) => {
 
 const Container = styled.div`
   ${(props) => props.theme.border_box};
-  background-color: ${(props) => props.theme.theme_gray};
-  color: ${(props) => props.theme.theme_yellow};
+  background-color: ${(props) => props.theme.main_color_blur};
   width: 20%;
   height: 100%;
-  position: relative;
   padding: 10px;
-  overflow: auto;
+  position: relative;
+
 `;
 
 const Title = styled.div`
@@ -84,8 +83,15 @@ const Title = styled.div`
   height: 10%;
   color: ${(props) => props.theme.font_color};
   padding: 10px;
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 26px;
+  font-weight: 700;
+`
+
+const ChatListWrap = styled.div`
+${(props) => props.theme.border_box};
+width: 100%;
+height: 90%;
+overflow: auto;
 `
 
 export default ChatList;

@@ -3,6 +3,9 @@ const theme = {
   main_color: '#5D6E91',
   theme_yellow: '#F9964f',
   theme_gray: '#EEEDED',
+
+  // 흐린 메인 컬러
+  main_color_blur: '#E7F0F9',
   // 메시지 색상
   message_you: '#EEEDED',
   message_me: '#174090',

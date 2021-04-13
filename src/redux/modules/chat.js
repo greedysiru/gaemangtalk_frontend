@@ -24,7 +24,6 @@ const chat = createReducer(initialState, {
 // 채팅방 생성
 const createRoom = (data, closePopup) => {
   return function (dispatch, getState, { history }) {
-    console.log(data);
     axios.post(`/api/chat/rooms`, data)
       .then((res) => {
         // 채팅방 리스트 다시 가져오기
