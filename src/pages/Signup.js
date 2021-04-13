@@ -223,7 +223,7 @@ const Signup = (props) => {
         <Button _onClick={() => props.history.push('/')}>취소</Button>
         <Button
           _onClick={onClickSignup}
-          disabled={!email && !username && !password && !passwordCheck}
+          disabled={!email || !username || !password || !passwordCheck}
         >
           회원가입
         </Button>

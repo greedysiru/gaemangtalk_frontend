@@ -13,6 +13,7 @@ function AppLayout(props) {
 const Container = styled.div`
   height: 100vh;
   width: 100vw;
+  min-width: 481px;
   ${(props) => props.theme.flex_column};
 
   @media ${(props) => props.theme.desktop} {

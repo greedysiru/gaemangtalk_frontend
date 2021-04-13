@@ -1,25 +1,30 @@
 import { createReducer, createAction } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { setCookie } from '../../shared/cookie';
 
 axios.defaults.baseURL = 'http://54.180.141.91:8080';
-//axios.defaults.withCredentials = true;
 
 export const initialState = {
-  userInfo: [],
-  isValidEmailMultiple: false
+  username: null,
+  isValidEmailMultiple: false,
+  loginError: null
 };
 
-const login = createAction('user/LOGIN');
+const setUser = createAction('user/SET_USER');
+const setLoginError = createAction('user/SET_LOGIN_ERROR');
 const setIsValidEmailMultiple = createAction(
   'user/SET_IS_VALID_EMAIL_MULTIPLE'
 );
 
 const user = createReducer(initialState, {
-  [login]: (state, { payload }) => {
-    console.log('ㅎㅎㅎ');
+  [setUser]: (state, { payload }) => {
+    state.username = payload;
   },
   [setIsValidEmailMultiple]: (state, { payload }) => {
     state.isValidEmailMultiple = payload;
+  },
+  [setLoginError]: (state, { payload }) => {
+    state.loginError = payload;
   }
 });
 
@@ -36,7 +41,7 @@ const signup = (data) => {
       })
       .catch((err) => {
         console.log(err.response);
-        alert(err.response.errorMessage);
+        alert(err.response.data.errorMessage);
       });
   };
 };
@@ -56,10 +61,51 @@ const emailCheck = (email) => {
   };
 };
 
+const login = (data) => {
+  return function (dispatch, getState, { history }) {
+    axios
+      .post('/api/user/login', data)
+      .then((res) => {
+        const token = res.data.token;
+        const username = res.data.username;
+
+        setCookie('access-token', token);
+        setCookie('username', username);
+        axios.defaults.headers.common['token'] = `${token}`;
+
+        dispatch(setUser(username));
+        history.push('/');
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch(setLoginError(err.response.data.errorMessage));
+      });
+  };
+};
+
+const getUserInfo = () => {
+  return function (dispatch, getState, { history }) {
+    axios
+      .get('/api/users')
+      .then((res) => {
+        console.log('getUserInfo', res);
+        /* dispatch(
+        setUser({ username: res.data.username, nickname: res.data.nickname })
+      );
+      history.replace('/'); */
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+};
+
 export const userActions = {
   signup,
   emailCheck,
-  setIsValidEmailMultiple
+  setIsValidEmailMultiple,
+  login,
+  setLoginError
 };
 
 export default user;
