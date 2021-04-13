@@ -10,12 +10,28 @@ import { IoArrowUp } from "react-icons/io5";
 
 // 메시지 입력 컴포넌트
 const MessageWrite = (props) => {
+
+  // 메시지 텍스트 입력받기
+  const [messageText, setMessageText] = React.useState('');
+
+  // 텍스트 기록 함수
+  const handleMessageText = (e) => {
+    setMessageText(e.target.value)
+  }
+
+  // 메세지 보내기 함수
+  const sendMessage = () => {
+    console.log(messageText);
+  }
   return (
     <Container>
       <Input
         MessageWrite
+        _onChange={handleMessageText}
       />
-      <IconWrap>
+      <IconWrap
+        onClick={sendMessage}
+      >
         <IoArrowUp />
       </IconWrap>
     </Container>);
@@ -39,6 +55,7 @@ const IconWrap = styled.div`
   height:100%;
   width:5%;
   font-size: 25px;
+  cursor: pointer;
 `
 
 export default MessageWrite;

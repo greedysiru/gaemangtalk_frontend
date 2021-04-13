@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 // 현재 존재하는 채팅을 보여주는 컴포넌트
 const Chat = (props) => {
-  const { roomName } = props;
+  const { roomName, _onClick } = props;
 
   // key={idx}
   // roomId={info.id}
@@ -12,11 +12,20 @@ const Chat = (props) => {
   // createdAt={info.createdAt}
   // modifiedAt={info.modifiedAt}
   return (
-    <Container>
+    <Container
+      onClick={_onClick}
+    >
       {roomName}
     </Container>
   )
 }
+
+
+Chat.defaultProps = {
+  _onClick: () => { },
+  roomName: false,
+};
+
 
 const Container = styled.div`
   ${(props) => props.theme.flex_row};
@@ -27,6 +36,7 @@ const Container = styled.div`
   font-weight: 600;
   ${(props) => props.theme.border_box};
   margin: 0px 0px 5px 0px;
+  cursor: pointer;
 `
 
 

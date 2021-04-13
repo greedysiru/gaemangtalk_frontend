@@ -16,14 +16,45 @@ import { chatActions } from '../redux/modules/chat';
 // 리덕스
 import { useDispatch, useSelector } from 'react-redux';
 
+// 소켓 통신
+import Stomp from 'stompjs';
+import SockJS from 'sockjs-client';
+
+import axios from 'axios';
 
 // 채팅 페이지 컴포넌트
-const Chat = (props) => {
+const Chatting = (props) => {
+  // 로컬 스토리지로부터 채팅방 정보 가져오기
+  const roomId = localStorage.getItem('wschat.roomId');
+  const roomName = localStorage.getItem('wschat.roomName');
+  // 웹소켓, 스톰프 초기화
+  // http://54.180.141.91:8080
+  let sock = new SockJS("http://54.180.141.91:8080/chatting");
+  let ws = Stomp.over(sock);
+  let token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzb29pZTM1QGdtYWlsLmNvbSIsImlhdCI6MTYxODMxNTQ5MSwiZXhwIjoxNjE4MzE3MjkxfQ.wOnO73Hg9LXqyZbGf7nQrhW5RgkaLTe_Zt6kMi9sizs';
+  // ws.connect({ 'token': token }), function (frame) {
+  //   ws.subscribe(`/sub/api/chat/rooms/${roomId}`, function (message) {
+  //     let receive = JSON.parse(message);
+  //     console.log(message)
+  //   });
+  // }
+  React.useEffect(() => {
+    ws.connect({ 'token': token }, () => {
+      ws.subscribe(`/sub/api/chat/rooms/${roomId}`, (data) => {
+        const newMessage = JSON.parse(data.body);
+        console.log(newMessage)
+      });
+    });
+  }, []);
+
+
   const dispatch = useDispatch();
   React.useEffect(() => {
-    console.log('s')
     dispatch(chatActions.getChatList());
   }, [])
+
+
+
 
   return (
     <Container>
@@ -56,4 +87,4 @@ const ChatWrap = styled.div`
   position: relative;
 `
 
-export default Chat;
+export default Chatting;

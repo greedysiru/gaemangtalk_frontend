@@ -14,7 +14,6 @@ const getChat = createAction('chat/GETCHAT');
 
 const chat = createReducer(initialState, {
   [getChat]: (state, action) => {
-    console.log(action.payload);
     state.chatInfo = action.payload;
   }
 });

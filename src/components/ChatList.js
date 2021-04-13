@@ -33,6 +33,13 @@ const ChatList = (props) => {
     setPopupOpen(false);
   }
 
+  // 채팅방 들어가기
+  const enterRoom = (roomId, roomName) => {
+    // 클릭한 채팅방 정보 로컬 스토리지에 저장
+    localStorage.setItem('wschat.roomId', roomId);
+    localStorage.setItem('wschat.roomName', roomName);
+  }
+
   return (
     <Container className="scroll">
       <Title>
@@ -47,15 +54,14 @@ const ChatList = (props) => {
             roomName={info.chatRoomName}
             createdAt={info.createdAt}
             modifiedAt={info.modifiedAt}
+            _onClick={(e) => { enterRoom(info.id, info.chatRoomName) }}
           />)
         })}
       </ChatListWrap>
       <Button
         is_float
         _onClick={openPopup}
-      >
-        +
-  </Button>
+      >+</Button>
 
       {/* 채팅 생성 팝업 창 */}
       {popupOpen && <Popup

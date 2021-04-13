@@ -8,6 +8,10 @@ import Message from '../elements/Message';
 
 // 메시지 리스트 컴포넌트
 const MessageList = (props) => {
+
+  React.useEffect(() => {
+
+  })
   return (
     <Container className="scroll">
       <Message is_me={true} />
