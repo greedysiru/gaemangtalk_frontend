@@ -111,8 +111,8 @@ const ElMessage = styled.span`
   ${(props) => props.is_me ?
     'border-radius: 15px 15px 0px 15px;' : 'border-radius: 15px 15px 15px 0px;'}
   padding: 15px;
-width: auto;
-height: auto;
+  width: auto;
+  height: auto;
 `;
 
 export default Message;

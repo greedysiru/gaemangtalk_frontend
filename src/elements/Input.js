@@ -13,7 +13,7 @@ const Input = (props) => {
     value,
     is_submit,
     onSubmit,
-    messageWrite,
+    MessageWrite,
   } = props;
 
   if (multiLine) {
@@ -31,17 +31,20 @@ const Input = (props) => {
   }
 
   // 메시지 작성 폼
-  if (messageWrite) {
+  if (MessageWrite) {
     return (
-      <Grid>
-        {label && <Text margin="0px">{label}</Text>}
-        <ElmessageWrite
-          rows={13}
-          value={value}
+      <React.Fragment>
+        <ElMessageWrite
+          type={type}
           placeholder={placeholder}
           onChange={_onChange}
-        ></ElmessageWrite>
-      </Grid>
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              onSubmit(e);
+            }
+          }}
+        ></ElMessageWrite>
+      </React.Fragment>
     )
   }
 
@@ -70,7 +73,7 @@ const Input = (props) => {
 };
 
 Input.defaultProps = {
-  messageWrite: false,
+  MessageWrite: false,
   multiLine: false,
   label: false,
   placeholder: "텍스트를 입력해주세요.",
@@ -96,10 +99,14 @@ const ElInput = styled.input`
 `;
 
 // 메시지 입력 폼
-const ElmessageWrite = styled.input`
-  border: 1px solid #212121;
-  width: 100%;
+const ElMessageWrite = styled.input`
+  background-color: ${(props) => props.theme.main_color_thick};
+  border: none;
+  width: 85%;
   padding: 12px 4px;
   box-sizing: border-box;
+  color: whitesmoke;
+  font-size: 18px;
 `
+
 export default Input;

@@ -6,6 +6,8 @@ const theme = {
 
   // 흐린 메인 컬러
   main_color_blur: '#E7F0F9',
+  // 진한 메인 컬러
+  main_color_thick: '#121B46',
   // 메시지 색상
   message_you: '#EEEDED',
   message_me: '#174090',
