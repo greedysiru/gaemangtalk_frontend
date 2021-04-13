@@ -15,6 +15,7 @@ import Signup from '../pages/Signup';
 
 // component
 import AppLayout from '../components/AppLayout';
+import Home from '../pages/Home';
 
 function App() {
   return (
