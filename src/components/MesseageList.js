@@ -22,7 +22,7 @@ const Container = styled.div`
   ${(props) => props.theme.flex_column};
   width: 100%;
   height: 90%;
-  padding: 0px 60px;
+  padding: 30px 60px 60px 60px;
   overflow: auto;
 `;
 
