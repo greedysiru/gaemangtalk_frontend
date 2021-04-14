@@ -21,7 +21,6 @@ const Popup = (props) => {
 
   // 방 이름 입력받기
   const onChangeRoomName = (e) => {
-    console.log('입력')
     setRoomName(e.target.value);
   }
 
@@ -42,7 +41,6 @@ const Popup = (props) => {
   }
 
   React.useEffect(() => {
-    console.log('마운트')
     window.addEventListener("click", clickOutside);
     return () => {
       window.removeEventListener("click", clickOutside);
@@ -92,17 +90,6 @@ const PopupOverlay = styled.div`
   width: 100vw;
   height: 100vh;
   z-index: 2;
-`
-const PopupWrapper = styled.div`
-${(props) => props.theme.border_box}
-position: fixed;
-top: 0;
-right: 0;
-bottom: 0;
-left: 0;
-width: 50%;
-height: 50%;
-z-index: 3;
 `
 
 const PopupInner = styled.div`
