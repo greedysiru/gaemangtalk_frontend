@@ -4,7 +4,7 @@ import { Button, Input, Text, Wrapper } from '../elements';
 import ErrorMsg from '../elements/ErrorMsg';
 import useInput from '../shared/useInput';
 
-const PasswordSearch = ({ history }) => {
+const PasswordFind = ({ history }) => {
   // status : input(이메일입력) -> auth(인증) -> update(변경)
   const [status, setStatus] = useState('input');
 
@@ -103,26 +103,26 @@ const Title = styled.span`
 `;
 
 const OutterWrapper = styled.div`
-  width: 350px;
+  width: 400px;
   overflow: hidden;
 `;
 
 const InnerWrapper = styled.div`
   ${(props) => props.theme.flex_row};
   justify-content: flex-start;
-  width: calc(350 * 3px);
+  width: calc(400 * 3px);
   transition: 0.3s;
   transform: ${(props) =>
     props.status === 'input'
       ? `translateX(0px)`
       : props.status === 'auth'
-      ? `translateX(-350px)`
-      : `translateX(-700px)`};
+      ? `translateX(-400px)`
+      : `translateX(-800px)`};
 `;
 
 const Stage = styled.div`
-  width: 300px;
+  width: 350px;
   margin: 0 25px;
 `;
 
-export default PasswordSearch;
+export default PasswordFind;

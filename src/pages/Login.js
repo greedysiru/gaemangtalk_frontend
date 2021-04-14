@@ -47,7 +47,7 @@ const Login = ({ history }) => {
             placeholder="비밀번호를 입력해주세요"
           ></Input>
 
-          <SearchPassword onClick={() => history.push('/searchPassword')}>
+          <SearchPassword onClick={() => history.push('/findPassword')}>
             비밀번호 찾기
           </SearchPassword>
 
