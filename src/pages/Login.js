@@ -31,11 +31,13 @@ const Login = ({ history }) => {
       {username && <div>{username}님 환영합니다</div>}
       {!username && (
         <Wrapper is_column>
-          <Text>로그인</Text>
-          <Input
-            _onChange={onChangeEmail}
-            placeholder="이메일을 입력해주세요"
-          ></Input>
+          <Title>로그인</Title>
+          <Wrapper margin="0.5rem 0">
+            <Input
+              _onChange={onChangeEmail}
+              placeholder="이메일을 입력해주세요"
+            ></Input>
+          </Wrapper>
           <Input
             type="password"
             value={password}
@@ -44,15 +46,20 @@ const Login = ({ history }) => {
             _onChange={onChangePassword}
             placeholder="비밀번호를 입력해주세요"
           ></Input>
-          <SearchPassword onClick={() => history.push('/searchPassword')}>
+
+          <SearchPassword onClick={() => history.push('/findPassword')}>
             비밀번호 찾기
           </SearchPassword>
 
           <ErrorMsg valid={loginError}>{loginError}</ErrorMsg>
-          <Button disabled={!email || !password} _onClick={onLogin}>
-            로그인
-          </Button>
-          <Button _onClick={() => history.push('/signup')}>회원가입</Button>
+          <Wrapper margin="0.5rem 0">
+            <Button disabled={!email || !password} _onClick={onLogin}>
+              로그인
+            </Button>
+          </Wrapper>
+          <Wrapper>
+            <Button _onClick={() => history.push('/signup')}>회원가입</Button>
+          </Wrapper>
         </Wrapper>
       )}
     </Container>
@@ -60,18 +67,24 @@ const Login = ({ history }) => {
 };
 
 const Container = styled.div`
-  width: 100%;
+  width: 350px;
   height: 100%;
   ${(props) => props.theme.flex_column};
   justify-content: center;
-
-  border: 1px solid black;
 `;
-
+const Title = styled.span`
+  margin: 2rem;
+  font-weight: 800;
+  font-size: 1.5rem;
+`;
 const SearchPassword = styled.span`
   margin: 0.5rem 0;
-  border-bottom: 1px solid black;
   cursor: pointer;
+  width: 100%;
+  text-align: right;
+  padding-right: 0.5rem;
+  color: gray;
+  font-size: 0.75rem;
 `;
 
 export default Login;

@@ -107,7 +107,7 @@ const Signup = (props) => {
   };
   return (
     <Container>
-      <Text>회원가입</Text>
+      <Title>회원가입</Title>
       <Table>
         <tbody>
           <tr>
@@ -219,14 +219,18 @@ const Signup = (props) => {
           </tr>
         </tbody>
       </Table>
-      <Wrapper>
-        <Button _onClick={() => props.history.push('/')}>취소</Button>
-        <Button
-          _onClick={onClickSignup}
-          disabled={!email || !username || !password || !passwordCheck}
-        >
-          회원가입
-        </Button>
+      <Wrapper width="200px">
+        <Wrapper margin="0.5rem">
+          <Button _onClick={() => props.history.push('/')}>취소</Button>
+        </Wrapper>
+        <Wrapper margin="0.5rem">
+          <Button
+            _onClick={onClickSignup}
+            disabled={!email || !username || !password || !passwordCheck}
+          >
+            회원가입
+          </Button>
+        </Wrapper>
       </Wrapper>
     </Container>
   );
@@ -248,6 +252,12 @@ const Input = styled.input`
   box-sizing: border-box;
 `;
 const Table = styled.table`
+  & th {
+    text-align: left;
+  }
+  & td {
+    padding: 0.5rem;
+  }
   & td.input {
     min-width: 350px;
   }
@@ -255,5 +265,12 @@ const Table = styled.table`
 
 const ValidWrapper = styled.div`
   display: ${(props) => (props.isOpen ? 'block' : 'none')};
+  padding-top: 0.5em;
+`;
+
+const Title = styled.span`
+  margin: 2rem;
+  font-weight: 800;
+  font-size: 1.5rem;
 `;
 export default Signup;
