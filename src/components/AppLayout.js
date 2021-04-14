@@ -23,6 +23,9 @@ const Container = styled.div`
 const Main = styled.div`
   width: 100%;
   height: 100%;
+  ${(props) => props.theme.flex_row};
+  justify-content: center;
+  align-items: center;
 `;
 
 export default AppLayout;

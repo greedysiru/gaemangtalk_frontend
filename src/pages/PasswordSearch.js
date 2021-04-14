@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Button, Input, Text, Wrapper } from '../elements';
+import ErrorMsg from '../elements/ErrorMsg';
 import useInput from '../shared/useInput';
 
 const PasswordSearch = ({ history }) => {
@@ -13,7 +14,9 @@ const PasswordSearch = ({ history }) => {
   const [passwordChk, setPasswordChk, onChangePasswordChk] = useInput('');
 
   const sendEmail = () => {
+    console.log(email);
     setStatus('auth');
+    setEmail('');
   };
 
   const onAuth = () => {
@@ -35,18 +38,21 @@ const PasswordSearch = ({ history }) => {
   };
   return (
     <Container>
-      <Text>패스워드 찾기</Text>
+      <Title>패스워드 찾기</Title>
+
       <OutterWrapper>
         <InnerWrapper status={status}>
           <Stage>
             <Input
+              value={email}
               _onChange={onChangeEmail}
               placeholder="이메일을 입력해주세요"
             ></Input>
-            <ButtonWapper>
+
+            <Wrapper margin="1rem 0">
               <Button _onClick={goBack}>취소</Button>
               <Button _onClick={sendEmail}>찾기</Button>
-            </ButtonWapper>
+            </Wrapper>
           </Stage>
 
           <Stage>
@@ -54,25 +60,27 @@ const PasswordSearch = ({ history }) => {
               _onChange={onChangAuthNumber}
               placeholder="인증번호를 입력해주세요"
             ></Input>
-            <ButtonWapper>
+            <Wrapper margin="1rem 0">
               <Button _onClick={goBack}>이전단계</Button>
               <Button _onClick={onAuth}>인증</Button>
-            </ButtonWapper>
+            </Wrapper>
           </Stage>
 
           <Stage>
-            <Input
-              _onChange={onChangePassword}
-              placeholder="변경할 비밀번호를 입력해주세요"
-            ></Input>
+            <Wrapper margin="0.5rem 0">
+              <Input
+                _onChange={onChangePassword}
+                placeholder="변경할 비밀번호를 입력해주세요"
+              ></Input>
+            </Wrapper>
             <Input
               _onChange={onChangePasswordChk}
               placeholder="동일한 비밀번호를 입력해주세요"
             ></Input>
-            <ButtonWapper>
+            <Wrapper margin="1rem 0">
               <Button _onClick={goBack}>이전단계</Button>
               <Button _onClick={updatePassword}>변경하기</Button>
-            </ButtonWapper>
+            </Wrapper>
           </Stage>
         </InnerWrapper>
       </OutterWrapper>
@@ -81,41 +89,40 @@ const PasswordSearch = ({ history }) => {
 };
 
 const Container = styled.div`
-  width: 100%;
+  width: 350px;
   height: 100%;
   ${(props) => props.theme.flex_column};
   justify-content: center;
   align-items: center;
 `;
 
+const Title = styled.span`
+  margin: 2rem;
+  font-weight: 800;
+  font-size: 1.5rem;
+`;
+
 const OutterWrapper = styled.div`
-  width: 300px;
+  width: 350px;
   overflow: hidden;
 `;
 
 const InnerWrapper = styled.div`
   ${(props) => props.theme.flex_row};
   justify-content: flex-start;
-  width: 900px;
+  width: calc(350 * 3px);
   transition: 0.3s;
   transform: ${(props) =>
     props.status === 'input'
       ? `translateX(0px)`
       : props.status === 'auth'
-      ? `translateX(-300px)`
-      : `translateX(-600px)`};
+      ? `translateX(-350px)`
+      : `translateX(-700px)`};
 `;
 
 const Stage = styled.div`
   width: 300px;
-`;
-
-const ButtonWapper = styled.div`
-  width: 100%;
-  margin: 0.5rem 0;
-
-  display: flex;
-  justify-content: space-between;
+  margin: 0 25px;
 `;
 
 export default PasswordSearch;
