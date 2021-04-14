@@ -4,11 +4,9 @@ import styled from 'styled-components';
 
 // Components
 import ChatList from '../components/ChatList';
-import MessageList from '../components/MesseageList';
-import MessageWrite from '../components/MessageWrite';
 
-// Elements
-import ChatName from '../elements/ChatName';
+import ChattingRoom from '../components/ChattingRoom'
+
 
 // 채팅 관련 함수들 가져오기
 import { chatActions } from '../redux/modules/chat';
@@ -69,10 +67,7 @@ const Chatting = (props) => {
     <Container>
       <ChatList />
       <ChatWrap>
-        <ChatName />
-        <MessageList />
-        <MessageWrite />
-
+        <ChattingRoom />
       </ChatWrap>
     </Container>
 

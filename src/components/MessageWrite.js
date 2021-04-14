@@ -15,39 +15,57 @@ import SockJS from 'sockjs-client';
 // 쿠키
 import { getCookie } from '../shared/cookie';
 
+// 리덕스 접근
+import { useSelector, useDispatch } from 'react-redux';
 
+// 채팅 관련 함수들 가져오기
+import { chatActions } from '../redux/modules/chat';
 
 // 메시지 입력 컴포넌트
 const MessageWrite = (props) => {
-
+  const dispatch = useDispatch();
   // 메시지 텍스트 입력받기
   const [messageText, setMessageText] = React.useState('');
+
+  const { sendMessage } = props;
 
   // 텍스트 기록 함수
   const handleMessageText = (e) => {
     setMessageText(e.target.value)
+    dispatch(chatActions.writeMessage(e.target.value));
   }
 
   // 메세지 보내기 함수
-  const sendMessage = () => {
-    const token = getCookie('access-token');
-    const sender = getCookie('username');
-    const roomId = localStorage.getItem('wschat.roomId');
-    let sock = new SockJS("http://54.180.141.91:8080/chatting");
-    let ws = Stomp.over(sock);
-    // 보낼 데이터
-    const messageData = {
-      'type': 'TALK',
-      'roomId': roomId,
-      'sender': sender,
-      'message': messageText,
-      'senderEmail': null,
-    }
+  // const sendMessage = () => {
+  //   // dispatch(chatActions.sendMessage());
+  //   // setMessageText('');
+  //   // return
+  //   const token = getCookie('access-token');
+  //   const sender = getCookie('username');
+  //   const roomId = localStorage.getItem('wschat.roomId');
+  //   let sock = new SockJS("http://54.180.141.91:8080/chatting");
+  //   let ws = Stomp.over(sock);
+  //   // 보낼 데이터
+  //   const messageData = {
+  //     'type': 'TALK',
+  //     'roomId': roomId,
+  //     'sender': sender,
+  //     'message': messageText,
+  //     'senderEmail': null,
+  //   }
 
-    ws.send('/pub/api/chat/message', {}, JSON.stringify(messageData))
+  //   ws.connect({
+  //     'token': token,
+  //     // 'Access-Control-Allow-Origin': '*://*',
+  //     // 'Access-Control-Allow-Methods': '*',
+  //   }
+  //     , () => {
+  //       ws.send('/pub/api/chat/message', { 'token': token }, JSON.stringify(messageData))
+  //     }
+  //   );
+  // }
 
-    setMessageText('');
-  }
+
   return (
     <Container>
       <Input
@@ -56,7 +74,11 @@ const MessageWrite = (props) => {
         _onChange={handleMessageText}
       />
       <IconWrap
-        onClick={sendMessage}
+        onClick={() => {
+          sendMessage();
+          setMessageText('');
+        }
+        }
       >
         <IoArrowUp />
       </IconWrap>

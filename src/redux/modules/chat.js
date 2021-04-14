@@ -20,7 +20,8 @@ export const initialState = {
     roomName: null,
   },
   // 현재 접속 채팅 메시지
-  messages: []
+  messages: [],
+  messageText: null,
 };
 
 // 채팅 리스트를 다루는 액션
@@ -29,6 +30,8 @@ const getChat = createAction('chat/GETCHAT');
 const moveChat = createAction('chat/MOVECHAT');
 // 채팅방의 대화 내용을 가져오기
 const getMessages = createAction('chat/GETMESSAGES');
+// 사용자가 입력한 메시지의 텍스트를 기록
+const writeMessage = createAction('chat/WRITEMESSAGE');
 
 
 const chat = createReducer(initialState, {
@@ -40,6 +43,9 @@ const chat = createReducer(initialState, {
   },
   [getMessages]: (state, action) => {
     state.messages.unshift(action.payload);
+  },
+  [writeMessage]: (state, action) => {
+    state.messageText = action.payload;
   }
 });
 
@@ -78,11 +84,14 @@ const getChatList = () => {
 };
 
 // web socket
-const enterChatRoom = (roomId) => {
+// 채팅방 입장
+// connect, subscribe
+const enterChatRoom = () => {
   return function (dispatch, getState, { history }) {
     const token = getCookie('access-token');
     let sock = new SockJS("http://54.180.141.91:8080/chatting");
     let ws = Stomp.over(sock);
+    const roomId = getState().chat.currentChat.roomId
     ws.connect({
       'token': token,
       // 'Access-Control-Allow-Origin': '*://*',
@@ -99,6 +108,33 @@ const enterChatRoom = (roomId) => {
   }
 }
 
+// send
+const sendMessage = () => {
+  return function (dispatch, getState, { history }) {
+    let sock = new SockJS("http://54.180.141.91:8080/chatting");
+    let ws = Stomp.over(sock);
+    const token = getCookie('access-token');
+    const sender = getCookie('username');
+    const roomId = localStorage.getItem('wschat.roomId');
+
+    const messageText = getState().chat.messageText;
+    console.log(messageText)
+    // 보낼 데이터
+    const messageData = {
+      'type': 'TALK',
+      'roomId': roomId,
+      'sender': sender,
+      'message': messageText,
+      'senderEmail': null,
+    }
+    console.log(messageData)
+
+    ws.send('/pub/api/chat/message', { 'token': token, }, JSON.stringify(messageData))
+
+  }
+
+}
+
 
 export const chatActions = {
   createRoom,
@@ -106,6 +142,8 @@ export const chatActions = {
   moveChat,
   getMessages,
   enterChatRoom,
+  writeMessage,
+  sendMessage,
 };
 
 export default chat;

@@ -23,7 +23,6 @@ import SockJS from 'sockjs-client';
 import { getCookie } from '../shared/cookie';
 
 
-
 // 채팅 리스트 컴포넌트
 // 모바일, 데스크탑에 따라 위치가 달리지도록 한다
 //  모바일 : 채팅 리스트를 상단의 원으로 표시
@@ -51,7 +50,8 @@ const ChatList = (props) => {
     localStorage.setItem('wschat.roomId', roomId);
     localStorage.setItem('wschat.roomName', roomName);
     dispatch(chatActions.moveChat({ roomId: roomId, roomName: roomName }))
-    dispatch(chatActions.enterChatRoom(roomId));
+
+
     return
     const token = getCookie('access-token');
     let sock = new SockJS("http://54.180.141.91:8080/chatting");
@@ -66,14 +66,14 @@ const ChatList = (props) => {
         ws.subscribe(`/sub/api/chat/rooms/${roomId}`, (data) => {
           const newMessage = JSON.parse(data.body);
           messages.unshift(newMessage);
-        });
+        }, { 'token': token });
       }
     );
 
   }
 
   React.useEffect(() => {
-
+    // dispatch(chatActions.enterChatRoom());
   }, [])
 
   return (
