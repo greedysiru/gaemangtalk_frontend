@@ -7,10 +7,12 @@ const PasswordSearch = ({ history }) => {
   // status : input(이메일입력) -> auth(인증) -> update(변경)
   const [status, setStatus] = useState('input');
 
-  const [searchId, setSearchId, onChangeSearchId] = useInput('');
+  const [email, setEmail, onChangeEmail] = useInput('');
+  const [authNumber, setAuthNumber, onChangAuthNumber] = useInput('');
+  const [password, setPassword, onChangePassword] = useInput('');
+  const [passwordChk, setPasswordChk, onChangePasswordChk] = useInput('');
 
   const sendEmail = () => {
-    console.log(searchId);
     setStatus('auth');
   };
 
@@ -34,48 +36,46 @@ const PasswordSearch = ({ history }) => {
   return (
     <Container>
       <Text>패스워드 찾기</Text>
-      <InnerWrapper>
-        {status === 'input' && (
-          <Wrapper is_column>
+      <OutterWrapper>
+        <InnerWrapper status={status}>
+          <Stage>
             <Input
-              _onChange={onChangeSearchId}
+              _onChange={onChangeEmail}
               placeholder="이메일을 입력해주세요"
             ></Input>
             <ButtonWapper>
               <Button _onClick={goBack}>취소</Button>
               <Button _onClick={sendEmail}>찾기</Button>
             </ButtonWapper>
-          </Wrapper>
-        )}
-        {status === 'auth' && (
-          <Wrapper is_column>
+          </Stage>
+
+          <Stage>
             <Input
-              _onChange={onChangeSearchId}
+              _onChange={onChangAuthNumber}
               placeholder="인증번호를 입력해주세요"
             ></Input>
             <ButtonWapper>
               <Button _onClick={goBack}>이전단계</Button>
               <Button _onClick={onAuth}>인증</Button>
             </ButtonWapper>
-          </Wrapper>
-        )}
-        {status === 'update' && (
-          <Wrapper is_column>
+          </Stage>
+
+          <Stage>
             <Input
-              _onChange={onChangeSearchId}
+              _onChange={onChangePassword}
               placeholder="변경할 비밀번호를 입력해주세요"
             ></Input>
             <Input
-              _onChange={onChangeSearchId}
+              _onChange={onChangePasswordChk}
               placeholder="동일한 비밀번호를 입력해주세요"
             ></Input>
             <ButtonWapper>
               <Button _onClick={goBack}>이전단계</Button>
               <Button _onClick={updatePassword}>변경하기</Button>
             </ButtonWapper>
-          </Wrapper>
-        )}
-      </InnerWrapper>
+          </Stage>
+        </InnerWrapper>
+      </OutterWrapper>
     </Container>
   );
 };
@@ -88,9 +88,26 @@ const Container = styled.div`
   align-items: center;
 `;
 
+const OutterWrapper = styled.div`
+  width: 300px;
+  overflow: hidden;
+`;
+
 const InnerWrapper = styled.div`
-  background-color: yellow;
   ${(props) => props.theme.flex_row};
+  justify-content: flex-start;
+  width: 900px;
+  transition: 0.3s;
+  transform: ${(props) =>
+    props.status === 'input'
+      ? `translateX(0px)`
+      : props.status === 'auth'
+      ? `translateX(-300px)`
+      : `translateX(-600px)`};
+`;
+
+const Stage = styled.div`
+  width: 300px;
 `;
 
 const ButtonWapper = styled.div`
@@ -100,4 +117,5 @@ const ButtonWapper = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
 export default PasswordSearch;
