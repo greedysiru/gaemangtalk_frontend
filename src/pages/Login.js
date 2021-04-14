@@ -15,6 +15,11 @@ const Login = (props) => {
   const loginError = useSelector((state) => state.user.loginError);
   const username = useSelector((state) => state.user.username);
 
+  const [searchId, setSearchId, onChangeSearchId] = useInput('');
+
+  const searchPassword = () => {
+    console.log(searchId);
+  };
   useEffect(() => {
     return () => {
       dispatch(userActions.setLoginError(null));
@@ -43,6 +48,7 @@ const Login = (props) => {
             _onChange={onChangePassword}
             placeholder="비밀번호를 입력해주세요"
           ></Input>
+
           <ErrorMsg valid={loginError}>{loginError}</ErrorMsg>
           <Button disabled={!email || !password} _onClick={onLogin}>
             로그인
@@ -50,6 +56,12 @@ const Login = (props) => {
           <Button _onClick={() => props.history.push('/signup')}>
             회원가입
           </Button>
+
+          <PasswordSearch>
+            <Input _onChange={onChangeSearchId}></Input>
+            비밀번호 찾기
+            <Button _onClick={searchPassword}>찾기</Button>
+          </PasswordSearch>
         </Wrapper>
       )}
     </Container>
@@ -63,6 +75,13 @@ const Container = styled.div`
   justify-content: center;
 
   border: 1px solid black;
+`;
+
+const PasswordSearch = styled.div`
+  border-bottom: 1px solid black;
+  margin: 0.5rem 0;
+
+  cursor: pointer;
 `;
 
 export default Login;
