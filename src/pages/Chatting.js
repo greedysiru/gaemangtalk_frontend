@@ -41,20 +41,20 @@ const Chatting = (props) => {
   //   });
   // }
   // 웹 소켓 연결
-  React.useEffect(() => {
-    // ws.connect({
-    //   'token': token,
-    //   'Access-Control-Allow-Origin': '*://*',
-    //   'Access-Control-Allow-Methods': '*',
-    // }
-    //   , () => {
-    //     ws.subscribe(`/sub/api/chat/rooms/${roomId}`, (data) => {
-    //       const newMessage = JSON.parse(data.body);
-    //       console.log(newMessage)
-    //     });
-    //   }
-    // );
-  }, []);
+  // React.useEffect(() => {
+  // ws.connect({
+  //   'token': token,
+  //   'Access-Control-Allow-Origin': '*://*',
+  //   'Access-Control-Allow-Methods': '*',
+  // }
+  //   , () => {
+  //     ws.subscribe(`/sub/api/chat/rooms/${roomId}`, (data) => {
+  //       const newMessage = JSON.parse(data.body);
+  //       console.log(newMessage)
+  //     });
+  //   }
+  // );
+  // }, []);
 
 
   const dispatch = useDispatch();

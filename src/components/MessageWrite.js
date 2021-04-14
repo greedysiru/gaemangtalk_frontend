@@ -43,11 +43,9 @@ const MessageWrite = (props) => {
       'message': messageText,
       'senderEmail': null,
     }
-    ws.connect({
-      'token': token,
-    }, () => {
-      ws.send('/pub/api/chat/message', {}, JSON.stringify(messageData))
-    });
+
+    ws.send('/pub/api/chat/message', {}, JSON.stringify(messageData))
+
     setMessageText('');
   }
   return (

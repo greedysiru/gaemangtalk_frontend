@@ -12,6 +12,9 @@ import Popup from '../components/Popup';
 // 리덕스 접근
 import { useSelector, useDispatch } from 'react-redux';
 
+// 채팅 관련 함수들 가져오기
+import { chatActions } from '../redux/modules/chat';
+
 // 소켓 통신
 import Stomp from 'stompjs';
 import SockJS from 'sockjs-client';
@@ -20,12 +23,13 @@ import SockJS from 'sockjs-client';
 import { getCookie } from '../shared/cookie';
 
 
+
 // 채팅 리스트 컴포넌트
 // 모바일, 데스크탑에 따라 위치가 달리지도록 한다
 //  모바일 : 채팅 리스트를 상단의 원으로 표시
 //  데스크탑 : 채팅 리스트를 좌측에 리스트로 표시
 const ChatList = (props) => {
-
+  const dispatch = useDispatch();
   // 채팅 리스트 리덕스로부터 가져오기
   const chat_list = useSelector((state) => state.chat.chatInfo)
 
@@ -46,6 +50,9 @@ const ChatList = (props) => {
     // 클릭한 채팅방 정보 로컬 스토리지에 저장
     localStorage.setItem('wschat.roomId', roomId);
     localStorage.setItem('wschat.roomName', roomName);
+    dispatch(chatActions.moveChat({ roomId: roomId, roomName: roomName }))
+    dispatch(chatActions.enterChatRoom(roomId));
+    return
     const token = getCookie('access-token');
     let sock = new SockJS("http://54.180.141.91:8080/chatting");
     let ws = Stomp.over(sock);
@@ -66,7 +73,6 @@ const ChatList = (props) => {
   }
 
   React.useEffect(() => {
-
 
   }, [])
 
