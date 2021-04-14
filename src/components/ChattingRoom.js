@@ -5,6 +5,7 @@ import styled from 'styled-components';
 // Components
 import MessageList from './MesseageList';
 import MessageWrite from './MessageWrite';
+import ChatList from './ChatList';
 
 // elements
 import { ChatName } from '../elements'
@@ -35,6 +36,11 @@ const ChattingRoom = (props) => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
+    // roomId가 없으면 실행하지 않기
+    if (roomId === null) {
+      return
+    }
+
     const token = getCookie('access-token');
     let sock = new SockJS("http://54.180.141.91:8080/chatting");
     let ws = Stomp.over(sock);
@@ -50,8 +56,13 @@ const ChattingRoom = (props) => {
       }
     );
 
-    return
+
   }, [roomId])
+
+  // 구독 해제
+  const roomUnsubscribe = (roomId) => {
+    ws.unsubscribe(`/sub/api/chat/rooms/${roomId}`);
+  }
 
   const messageText = useSelector((state) => state.chat.messageText)
   const sendMessage = () => {
@@ -78,15 +89,21 @@ const ChattingRoom = (props) => {
 
 
   return (
-    <React.Fragment>
-      <ChatName
-        roomName={roomName}
-      />
-      <MessageList />
-      <MessageWrite
-        sendMessage={sendMessage}
-      />
-    </React.Fragment>
+    <Container>
+      <ChatList />
+      <ChatWrap>
+        <ChatName
+          roomName={roomName}
+        />
+        <MessageList
+          prevRoomId={roomId}
+          roomUnsubscribe={roomUnsubscribe}
+        />
+        <MessageWrite
+          sendMessage={sendMessage}
+        />
+      </ChatWrap>
+    </Container>
   )
 }
 
@@ -95,10 +112,16 @@ const ChattingRoom = (props) => {
 
 const Container = styled.div`
 ${(props) => props.theme.border_box};
+${(props) => props.theme.flex_row}
   width: 100%;
-  height: 10%;
+  height: 100%;
   background-color: ${(props) => props.theme.main_color_blur};
   color: ${(props) => props.theme.theme_yellow};
 `;
 
+const ChatWrap = styled.div`
+${(props) => props.theme.flex_column}
+width: 80%;
+height: 100%;
+`
 export default ChattingRoom;

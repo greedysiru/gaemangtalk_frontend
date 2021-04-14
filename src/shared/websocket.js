@@ -14,9 +14,8 @@ const messages = [];
 
 // connect 및 subscribe
 
-const wsConnectSubscribe = () => {
+const wsConnectSubscribe = (roomId) => {
   const token = getCookie('access-token');
-  const roomId = localStorage.getItem('wschat.roomId');
   ws.connect({
     'token': token,
   }

@@ -7,7 +7,7 @@ import styled from 'styled-components';
 const ChatName = (props) => {
 
   const { roomName } = props;
-
+  console.log(roomName)
   return (
     <Container>
       {roomName}
@@ -19,7 +19,6 @@ const ChatName = (props) => {
 const Container = styled.div`
 ${(props) => props.theme.border_box};
   width: 100%;
-  height: 10%;
   background-color: ${(props) => props.theme.main_color_blur};
   ${(props) => props.theme.border_box};
   color: ${(props) => props.theme.font_color};

@@ -30,7 +30,8 @@ import { getCookie } from '../shared/cookie';
 const ChatList = (props) => {
   const dispatch = useDispatch();
   // 채팅 리스트 리덕스로부터 가져오기
-  const chat_list = useSelector((state) => state.chat.chatInfo)
+  const chat_list = useSelector((state) => state.chat.chatInfo);
+
 
   // 팝업창 키기/종료
   //  false가 기본 상태
@@ -115,7 +116,7 @@ const Container = styled.div`
   background-color: ${(props) => props.theme.main_color_blur};
   width: 20%;
   height: 100%;
-  padding: 10px;
+
   position: relative;
 
 `;
@@ -124,7 +125,7 @@ const Title = styled.div`
   ${(props) => props.theme.border_box};
   height: 10%;
   color: ${(props) => props.theme.font_color};
-  padding: 10px;
+  padding: 20px;
   font-size: 26px;
   font-weight: 700;
 `

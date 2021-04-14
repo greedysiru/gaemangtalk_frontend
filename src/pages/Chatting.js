@@ -65,7 +65,7 @@ const Chatting = (props) => {
 
   return (
     <Container>
-      <ChatList />
+      {/* <ChatList /> */}
       <ChatWrap>
         <ChattingRoom />
       </ChatWrap>
@@ -86,7 +86,7 @@ const ChatWrap = styled.div`
   ${(props) => props.theme.flex_column};
   justify-content: flex-start;
   ${(props) => props.theme.border_box};
-  width: 80%;
+  width: 100%;
   height: 100%;
   position: relative;
 `

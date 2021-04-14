@@ -67,28 +67,35 @@ const MessageWrite = (props) => {
 
 
   return (
-    <Container>
-      <Input
-        MessageWrite
-        value={messageText}
-        _onChange={handleMessageText}
-      />
-      <IconWrap
-        onClick={() => {
-          sendMessage();
-          setMessageText('');
-        }
-        }
-      >
-        <IoArrowUp />
-      </IconWrap>
-    </Container>);
+    <MessageWriteWrap>
+      <Container>
+        <Input
+          MessageWrite
+          value={messageText}
+          _onChange={handleMessageText}
+        />
+        <IconWrap
+          onClick={() => {
+            sendMessage();
+            setMessageText('');
+          }
+          }
+        >
+          <IoArrowUp />
+        </IconWrap>
+      </Container>
+    </MessageWriteWrap>
+  );
 };
+
+const MessageWriteWrap = styled.div`
+  width: 100%
+`
 
 const Container = styled.div`
   ${(props) => props.theme.flex_row};
   background-color: ${(props) => props.theme.main_color_thick};
-  justify-content: center; 
+  justify-content: flex-start; 
   position: absolute;
   width:100%;
   height: 8%;
