@@ -16,6 +16,7 @@ import Signup from '../pages/Signup';
 // component
 import AppLayout from '../components/AppLayout';
 import Home from '../pages/Home';
+import PasswordSearch from '../pages/PasswordSearch';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/" exact component={Login} />
           <Route path="/chat" exact component={Chatting} />
           <Route path="/signup" exact component={Signup} />
+          <Route path="/searchPassword" exact component={PasswordSearch} />
           <Route component={NotFound} />
         </Switch>
       </AppLayout>

@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components';
+
 import { Button, Input, Text, Wrapper } from '../elements';
 import ErrorMsg from '../elements/ErrorMsg';
 import { userActions } from '../redux/modules/user';
 import useInput from '../shared/useInput';
 
 // 로그인 페이지 컴포넌트
-const Login = (props) => {
+const Login = ({ history }) => {
   const dispatch = useDispatch();
   const [email, setEmail, onChangeEmail] = useInput('');
   const [password, setPassword, onChangePassword] = useInput('');
@@ -43,13 +44,15 @@ const Login = (props) => {
             _onChange={onChangePassword}
             placeholder="비밀번호를 입력해주세요"
           ></Input>
+          <SearchPassword onClick={() => history.push('/searchPassword')}>
+            비밀번호 찾기
+          </SearchPassword>
+
           <ErrorMsg valid={loginError}>{loginError}</ErrorMsg>
           <Button disabled={!email || !password} _onClick={onLogin}>
             로그인
           </Button>
-          <Button _onClick={() => props.history.push('/signup')}>
-            회원가입
-          </Button>
+          <Button _onClick={() => history.push('/signup')}>회원가입</Button>
         </Wrapper>
       )}
     </Container>
@@ -63,6 +66,12 @@ const Container = styled.div`
   justify-content: center;
 
   border: 1px solid black;
+`;
+
+const SearchPassword = styled.span`
+  margin: 0.5rem 0;
+  border-bottom: 1px solid black;
+  cursor: pointer;
 `;
 
 export default Login;
