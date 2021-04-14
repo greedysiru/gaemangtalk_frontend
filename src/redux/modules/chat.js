@@ -26,6 +26,7 @@ const createRoom = (data, closePopup) => {
     axios.post(`/api/chat/rooms`, data)
       .then((res) => {
         // 채팅방 리스트 다시 가져오기
+        console.log(res)
         window.alert('채팅방이 생성되었습니다.')
         dispatch(getChatList());
         closePopup();

@@ -35,6 +35,7 @@ const Input = (props) => {
     return (
       <React.Fragment>
         <ElMessageWrite
+          value={value}
           type={type}
           placeholder={placeholder}
           onChange={_onChange}

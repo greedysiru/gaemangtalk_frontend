@@ -47,18 +47,18 @@ const ChatList = (props) => {
     localStorage.setItem('wschat.roomId', roomId);
     localStorage.setItem('wschat.roomName', roomName);
     const token = getCookie('access-token');
-    console.log(token)
     let sock = new SockJS("http://54.180.141.91:8080/chatting");
     let ws = Stomp.over(sock);
+    const messages = [];
     ws.connect({
       'token': token,
-      'Access-Control-Allow-Origin': '*://*',
-      'Access-Control-Allow-Methods': '*',
+      // 'Access-Control-Allow-Origin': '*://*',
+      // 'Access-Control-Allow-Methods': '*',
     }
       , () => {
         ws.subscribe(`/sub/api/chat/rooms/${roomId}`, (data) => {
           const newMessage = JSON.parse(data.body);
-          console.log(newMessage)
+          messages.unshift(newMessage);
         });
       }
     );
