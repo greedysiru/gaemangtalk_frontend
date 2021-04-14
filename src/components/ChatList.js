@@ -47,6 +47,7 @@ const ChatList = (props) => {
     localStorage.setItem('wschat.roomId', roomId);
     localStorage.setItem('wschat.roomName', roomName);
     const token = getCookie('access-token');
+    console.log(token)
     let sock = new SockJS("http://54.180.141.91:8080/chatting");
     let ws = Stomp.over(sock);
     ws.connect({
