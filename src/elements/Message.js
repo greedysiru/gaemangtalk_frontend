@@ -11,7 +11,11 @@ const Message = (props) => {
   const email = getCookie('email')
   const { messageInfo } = props;
   // 타임 스탬프
-  const time = messageInfo.createdAt;
+  let time = ''
+  if (!(messageInfo.createdAt === null)) {
+    time = messageInfo.createdAt.split(' ')[1];
+  }
+
   // 사용자 본인 메시지
   if (messageInfo.senderEmail === email) {
     return (
@@ -23,6 +27,9 @@ const Message = (props) => {
           <ElMessage is_me={true}>
             {messageInfo.message}
           </ElMessage>
+          <SenderSpan is_me={true}>
+            {time}
+          </SenderSpan>
         </SenderWrap>
       </MessageWrap>
 
@@ -56,6 +63,9 @@ const Message = (props) => {
           <ElMessage >
             {messageInfo.message}
           </ElMessage>
+          <SenderSpan>
+            {time}
+          </SenderSpan>
         </SenderWrap>
       </MessageWrap>
     )
@@ -125,6 +135,6 @@ color: ${(props) => props.theme.main_color};
 const SenderSpan = styled.span`
 width: 90%;
 ${(props) => props.is_me ? 'text-align: right' : 'text-align: left'};
-margin-bottom: 5px;
+margin: 5px 0px;
 `
 export default Message;

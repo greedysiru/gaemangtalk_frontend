@@ -73,11 +73,16 @@ const MessageWrite = (props) => {
           MessageWrite
           value={messageText}
           _onChange={handleMessageText}
+          onSubmit={() => {
+            sendMessage();
+            setMessageText('');
+          }}
         />
         <IconWrap
           onClick={() => {
             sendMessage();
             setMessageText('');
+
           }
           }
         >
