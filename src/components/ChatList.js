@@ -53,10 +53,7 @@ const ChatList = (props) => {
     if (prevRoomId === roomId) {
       return
     }
-    // 이전 채팅방 id가 없으면 리턴
-    if (prevRoomId === null) {
-      return
-    }
+
     roomDisconnect();
     // 클릭한 채팅방 정보 로컬 스토리지에 저장
     localStorage.setItem('wschat.roomId', roomId);
@@ -74,11 +71,11 @@ const ChatList = (props) => {
   }, [])
 
   return (
-    <Container className="scroll">
+    <Container >
       <Title>
         Chat
       </Title>
-      <ChatListWrap>
+      <ChatListWrap className="scroll">
         {/* 받아온 채팅 리스트 구현하기 */}
         {chat_list.map((info, idx) => {
           return (< Chat

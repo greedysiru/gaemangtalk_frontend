@@ -90,27 +90,27 @@ const getChatList = () => {
 // web socket
 // 채팅방 입장
 // connect, subscribe
-const enterChatRoom = () => {
-  return function (dispatch, getState, { history }) {
-    const token = getCookie('access-token');
-    let sock = new SockJS("http://54.180.141.91:8080/chatting");
-    let ws = Stomp.over(sock);
-    const roomId = getState().chat.currentChat.roomId
-    ws.connect({
-      'token': token,
-      // 'Access-Control-Allow-Origin': '*://*',
-      // 'Access-Control-Allow-Methods': '*',
-    }
-      , () => {
-        ws.subscribe(`/sub/api/chat/rooms/${roomId}`, (data) => {
-          const newMessage = JSON.parse(data.body);
-          dispatch(getMessages(newMessage))
-        });
-      }
-    );
+// const enterChatRoom = () => {
+//   return function (dispatch, getState, { history }) {
+//     const token = getCookie('access-token');
+//     let sock = new SockJS("http://54.180.141.91:8080/chatting");
+//     let ws = Stomp.over(sock);
+//     const roomId = getState().chat.currentChat.roomId
+//     ws.connect({
+//       'token': token,
+//       // 'Access-Control-Allow-Origin': '*://*',
+//       // 'Access-Control-Allow-Methods': '*',
+//     }
+//       , () => {
+//         ws.subscribe(`/sub/api/chat/rooms/${roomId}`, (data) => {
+//           const newMessage = JSON.parse(data.body);
+//           dispatch(getMessages(newMessage))
+//         });
+//       }
+//     );
 
-  }
-}
+//   }
+// }
 
 // send
 const sendMessage = () => {
@@ -143,7 +143,6 @@ export const chatActions = {
   getChatList,
   moveChat,
   getMessages,
-  enterChatRoom,
   writeMessage,
   sendMessage,
   clearMessages,

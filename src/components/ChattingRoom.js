@@ -76,6 +76,10 @@ const ChattingRoom = (props) => {
   const sendMessage = () => {
     const token = getCookie('access-token');
     const sender = getCookie('username');
+    // 빈문자열이면 리턴
+    if (messageText === '') {
+      return
+    }
     // 보낼 데이터
     // const messageData = {
     //   'type': 'TALK',
@@ -93,6 +97,8 @@ const ChattingRoom = (props) => {
         'senderEmail': null,
       })
     )
+    dispatch(chatActions.writeMessage(''));
+
   }
 
 
@@ -124,7 +130,7 @@ ${(props) => props.theme.border_box};
 ${(props) => props.theme.flex_row}
   width: 100%;
   height: 100%;
-  background-color: ${(props) => props.theme.main_color_blur};
+  background-color: white;
   color: ${(props) => props.theme.theme_yellow};
 `;
 

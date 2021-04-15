@@ -1,3 +1,4 @@
+import { stripLeadingSlash } from 'history/PathUtils';
 import React from 'react';
 
 import styled from 'styled-components';
@@ -11,12 +12,18 @@ const Message = (props) => {
 
   const email = getCookie('email')
   const { messageInfo } = props;
+  // 사용자 본인 메시지
   if (messageInfo.senderEmail === email) {
     return (
       <MessageWrap is_me={true}>
-        <ElMessage is_me={true}>
-          {messageInfo.message}
-        </ElMessage>
+        <SenderWrap >
+          <SenderSpan is_me={true}>
+            {messageInfo.sender}
+          </SenderSpan>
+          <ElMessage is_me={true}>
+            {messageInfo.message}
+          </ElMessage>
+        </SenderWrap>
       </MessageWrap>
 
     )
@@ -30,12 +37,26 @@ const Message = (props) => {
       </EnterWrap>
 
     )
+  }
+  else if (messageInfo.type === "QUIT") {
+    return (
+
+      <QuitWrap >
+        {messageInfo.message}
+      </QuitWrap>
+
+    )
   } else {
     return (
       <MessageWrap >
-        <ElMessage >
-          {messageInfo.message}
-        </ElMessage>
+        <SenderWrap>
+          <SenderSpan>
+            {messageInfo.sender}
+          </SenderSpan>
+          <ElMessage >
+            {messageInfo.message}
+          </ElMessage>
+        </SenderWrap>
       </MessageWrap>
     )
   }
@@ -72,7 +93,7 @@ const EnterWrap = styled.div`
   ${(props) => props.theme.border_box};
   ${(props) => props.theme.flex_row};
   justify-content: center;
-  width: 80%;
+  width: 40%;
   height: auto;
   padding: 5px;
   margin: 0px 0px 60px 0px;
@@ -80,5 +101,30 @@ const EnterWrap = styled.div`
   color: whitesmoke;
   border-radius: 40px;
   opacity: 0.6;
+`
+
+const QuitWrap = styled.div`
+${(props) => props.theme.border_box};
+${(props) => props.theme.flex_row};
+justify-content: center;
+width: 40%;
+height: auto;
+padding: 5px;
+margin: 0px 0px 60px 0px;
+background-color:${(props) => props.theme.main_color_thick};
+color: whitesmoke;
+border-radius: 40px;
+opacity: 0.6;
+`
+
+const SenderWrap = styled.div`
+${(props) => props.theme.flex_column};
+color: ${(props) => props.theme.main_color};
+`
+
+const SenderSpan = styled.span`
+width: 90%;
+${(props) => props.is_me ? 'text-align: right' : 'text-align: left'};
+margin-bottom: 5px;
 `
 export default Message;
