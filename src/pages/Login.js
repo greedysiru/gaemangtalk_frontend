@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { Button, Input, Text, Wrapper } from '../elements';
 import ErrorMsg from '../elements/ErrorMsg';
 import { userActions } from '../redux/modules/user';
+import { deleteCookie } from '../shared/cookie';
 import useInput from '../shared/useInput';
 
 // 로그인 페이지 컴포넌트
@@ -26,9 +27,20 @@ const Login = ({ history }) => {
 
     dispatch(userActions.login({ email, password }));
   };
+
+  const logout = () => {
+    deleteCookie('access-token');
+    deleteCookie('username');
+    deleteCookie('email');
+    dispatch(userActions.logout());
+  };
   return (
     <Container>
-      {username && <div>{username}님 환영합니다</div>}
+      {username && (
+        <Wrapper>
+          {username}님 환영합니다 <Button _onClick={logout}>로그아웃</Button>
+        </Wrapper>
+      )}
       {!username && (
         <Wrapper is_column>
           <Title>로그인</Title>

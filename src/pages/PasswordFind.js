@@ -11,7 +11,7 @@ const PasswordSearch = ({ history }) => {
   const dispatch = useDispatch();
   const authNumber = useSelector((state) => state.user.authNumber);
 
-  // status : input(이메일입력) -> auth(인증) -> update(변경)
+  // status : input(이메일입력) -> update(변경)
   const [status, setStatus] = useState('input');
   const [isError, setIsError] = useState(null);
 
