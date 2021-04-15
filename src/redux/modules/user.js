@@ -17,9 +17,14 @@ const setIsValidEmailMultiple = createAction(
   'user/SET_IS_VALID_EMAIL_MULTIPLE'
 );
 const setAuthNumber = createAction('user/SET_AUTH_NUMBER');
+const logout = createAction('user/LOGOUT');
+
 const user = createReducer(initialState, {
   [setUser]: (state, { payload }) => {
     state.username = payload;
+  },
+  [logout]: (state, { payload }) => {
+    state.username = null;
   },
   [setIsValidEmailMultiple]: (state, { payload }) => {
     state.isValidEmailMultiple = payload;
@@ -75,6 +80,7 @@ const login = (data) => {
 
         setCookie('access-token', token);
         setCookie('username', username);
+        setCookie('email', data.email);
         axios.defaults.headers.common['token'] = `${token}`;
 
         dispatch(setUser(username));
@@ -83,23 +89,6 @@ const login = (data) => {
       .catch((err) => {
         console.error(err);
         dispatch(setLoginError(err.response.data.errorMessage));
-      });
-  };
-};
-
-const getUserInfo = () => {
-  return function (dispatch, getState, { history }) {
-    axios
-      .get('/api/users')
-      .then((res) => {
-        console.log('getUserInfo', res);
-        /* dispatch(
-        setUser({ username: res.data.username, nickname: res.data.nickname })
-      );
-      history.replace('/'); */
-      })
-      .catch((err) => {
-        console.error(err);
       });
   };
 };
@@ -136,10 +125,12 @@ export const userActions = {
   emailCheck,
   setIsValidEmailMultiple,
   login,
+  logout,
   setLoginError,
   findPassword,
   setAuthNumber,
-  updatePassword
+  updatePassword,
+  setUser
 };
 
 export default user;

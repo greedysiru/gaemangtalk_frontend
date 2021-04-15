@@ -1,28 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 // 아이콘
 import {
-  IoChatboxOutline, IoChatbox,
+  IoChatboxOutline,
+  IoChatbox,
   IoLogOutOutline,
-  IoPersonOutline, IoPerson
-
-} from "react-icons/io5";
-
+  IoPersonOutline,
+  IoPerson
+} from 'react-icons/io5';
+import { getCookie } from '../shared/cookie';
+import { useDispatch } from 'react-redux';
+import { userActions } from '../redux/modules/user';
 
 const Header = (props) => {
-  return (<Container>
-    <IconWrap>
-      <IoChatboxOutline />
-    </IconWrap>
-    <IconWrap>
-      <IoPersonOutline />
-    </IconWrap>
-    <IconWrap>
-      <IoLogOutOutline />
-    </IconWrap>
-
-  </Container>);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const username = getCookie('username');
+    if (username) {
+      dispatch(userActions.setUser(username));
+    }
+  }, []);
+  return (
+    <Container>
+      <IconWrap>
+        <IoChatboxOutline />
+      </IconWrap>
+      <IconWrap>
+        <IoPersonOutline />
+      </IconWrap>
+      <IconWrap>
+        <IoLogOutOutline />
+      </IconWrap>
+    </Container>
+  );
 };
 
 const Container = styled.div`
@@ -51,5 +62,5 @@ const IconWrap = styled.div`
   font-size: 2rem;
   color: ${(props) => props.theme.theme_gray};
   cursor: pointer;
-`
+`;
 export default Header;
