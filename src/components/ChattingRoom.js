@@ -67,10 +67,10 @@ const ChattingRoom = (props) => {
 
   // 연결 해제
   const roomDisconnect = () => {
-    const token = getCookie('access-token');
-    ws.disconnect(() => {
-      ws.unsubscribe('sub-0');
-    }, { 'token': token })
+    // const token = getCookie('access-token');
+    // ws.disconnect(() => {
+    //   ws.unsubscribe('sub-0');
+    // }, { 'token': token })
   }
 
   const messageText = useSelector((state) => state.chat.messageText)
