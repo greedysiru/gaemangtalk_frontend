@@ -22,6 +22,10 @@ export const initialState = {
   // 현재 접속 채팅 메시지
   messages: [],
   messageText: null,
+  // 메시지 현재 페이지
+  messageCurPage: null,
+  // 메시지 총 페이지
+  messageTotalPage: null,
 };
 
 // 채팅 리스트를 다루는 액션
@@ -34,6 +38,8 @@ const getMessages = createAction('chat/GETMESSAGES');
 const writeMessage = createAction('chat/WRITEMESSAGE');
 // 저장한 대화 내용을 없애기
 const clearMessages = createAction('chat/CLEARMESSAGES');
+// DB의 채팅방의 대화 내용을 넣어놓기
+const setMessages = createAction('chat/SETMESSAGES');
 
 const chat = createReducer(initialState, {
   [getChat]: (state, action) => {
@@ -50,6 +56,9 @@ const chat = createReducer(initialState, {
   },
   [clearMessages]: (state, action) => {
     state.messages = [];
+  },
+  [setMessages]: (state, action) => {
+    state.messages = action.payload
   }
 });
 
@@ -113,29 +122,47 @@ const getChatList = () => {
 // }
 
 // send
-const sendMessage = () => {
+// const sendMessage = () => {
+//   return function (dispatch, getState, { history }) {
+//     let sock = new SockJS("http://54.180.141.91:8080/chatting");
+//     let ws = Stomp.over(sock);
+//     const token = getCookie('access-token');
+//     const sender = getCookie('username');
+//     const roomId = getState().chat.currentChat.roomId;
+
+//     const messageText = getState().chat.messageText;
+//     // 보낼 데이터
+//     const messageData = {
+//       'type': 'TALK',
+//       'roomId': roomId,
+//       'sender': sender,
+//       'message': messageText,
+//       'senderEmail': null,
+//     }
+
+//     ws.send('/pub/api/chat/message', { 'token': token, }, JSON.stringify(messageData))
+
+//   }
+
+// }
+
+// DB에 존재하는 채팅방 메시지들 가져오기
+const getChatMessages = () => {
   return function (dispatch, getState, { history }) {
-    let sock = new SockJS("http://54.180.141.91:8080/chatting");
-    let ws = Stomp.over(sock);
-    const token = getCookie('access-token');
-    const sender = getCookie('username');
     const roomId = getState().chat.currentChat.roomId;
+    axios.get(`/api/chat/rooms/${roomId}/messages`)
+      .then((res) => {
+        const chatMessagesArray = res.data.content;
+        dispatch(setMessages(chatMessagesArray));
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+      ;
 
-    const messageText = getState().chat.messageText;
-    // 보낼 데이터
-    const messageData = {
-      'type': 'TALK',
-      'roomId': roomId,
-      'sender': sender,
-      'message': messageText,
-      'senderEmail': null,
-    }
 
-    ws.send('/pub/api/chat/message', { 'token': token, }, JSON.stringify(messageData))
-
-  }
-
-}
+  };
+};
 
 
 export const chatActions = {
@@ -144,8 +171,8 @@ export const chatActions = {
   moveChat,
   getMessages,
   writeMessage,
-  sendMessage,
   clearMessages,
+  getChatMessages,
 };
 
 export default chat;

@@ -3,8 +3,6 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import { Text } from '../elements'
-
 import { getCookie } from '../shared/cookie';
 
 // 사용자 - 상대방의 메시지 내용을 출력할 말풍선 컴포넌트
@@ -12,6 +10,8 @@ const Message = (props) => {
 
   const email = getCookie('email')
   const { messageInfo } = props;
+  // 타임 스탬프
+  const time = messageInfo.createdAt;
   // 사용자 본인 메시지
   if (messageInfo.senderEmail === email) {
     return (

@@ -49,6 +49,7 @@ const ChatList = (props) => {
   // 채팅방 들어가기
   const enterRoom = (roomId, roomName) => {
     console.log(prevRoomId, roomId)
+
     // 입장한 채팅방을 다시 클릭하면 리턴
     if (prevRoomId === roomId) {
       return
@@ -60,7 +61,8 @@ const ChatList = (props) => {
     localStorage.setItem('wschat.roomName', roomName);
     dispatch(chatActions.clearMessages());
     dispatch(chatActions.moveChat({ roomId: roomId, roomName: roomName }))
-
+    // 해당 채팅방의 DB 가져오기
+    dispatch(chatActions.getChatMessages());
 
     return
 

@@ -44,6 +44,7 @@ const ChattingRoom = (props) => {
       return
     }
     const token = getCookie('access-token');
+    // DB에 채팅 목록 가져오기
 
     ws.connect({
       'token': token,
