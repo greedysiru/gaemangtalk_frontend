@@ -259,7 +259,7 @@ const Table = styled.table`
     padding: 0.5rem;
   }
   & td.input {
-    min-width: 350px;
+    width: 250px;
   }
 `;
 

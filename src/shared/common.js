@@ -14,3 +14,6 @@ export const testEmailValid = (email) => {
   let _reg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
   return _reg.test(email);
 };
+
+export const CLIENT_ID = 'cf46ee4d87cfa04079ea96538e2d4708';
+export const REDIRECT_URI = 'http://gaemangtalk.site/user/kakao/callback';

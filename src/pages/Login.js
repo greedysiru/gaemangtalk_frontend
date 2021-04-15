@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { Button, Input, Text, Wrapper } from '../elements';
 import ErrorMsg from '../elements/ErrorMsg';
 import { userActions } from '../redux/modules/user';
+import { CLIENT_ID, REDIRECT_URI } from '../shared/common';
 import { deleteCookie } from '../shared/cookie';
 import useInput from '../shared/useInput';
 
@@ -34,6 +35,10 @@ const Login = ({ history }) => {
     deleteCookie('email');
     dispatch(userActions.logout());
   };
+
+  const onKakaoLogin = () => {
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  };
   return (
     <Container>
       {username && (
@@ -58,12 +63,18 @@ const Login = ({ history }) => {
             _onChange={onChangePassword}
             placeholder="비밀번호를 입력해주세요"
           ></Input>
-
-          <SearchPassword onClick={() => history.push('/findPassword')}>
-            비밀번호 찾기
-          </SearchPassword>
-
-          <ErrorMsg valid={loginError}>{loginError}</ErrorMsg>
+          <Wrapper margin="0.5rem 0">
+            <SearchPassword onClick={() => history.push('/findPassword')}>
+              비밀번호 찾기
+            </SearchPassword>
+          </Wrapper>
+          <Wrapper margin="0.5rem 0">
+            <ErrorMsg valid={loginError}>{loginError}</ErrorMsg>
+          </Wrapper>
+          <KakaoButton
+            onClick={onKakaoLogin}
+            src="https://s3.ap-northeast-2.amazonaws.com/yoooook.xyz/kakao_login_medium_wide.png"
+          />
           <Wrapper margin="0.5rem 0">
             <Button disabled={!email || !password} _onClick={onLogin}>
               로그인
@@ -79,7 +90,7 @@ const Login = ({ history }) => {
 };
 
 const Container = styled.div`
-  width: 350px;
+  width: 300px;
   height: 100%;
   ${(props) => props.theme.flex_column};
   justify-content: center;
@@ -97,6 +108,10 @@ const SearchPassword = styled.span`
   padding-right: 0.5rem;
   color: gray;
   font-size: 0.75rem;
+`;
+
+const KakaoButton = styled.img`
+  cursor: pointer;
 `;
 
 export default Login;
