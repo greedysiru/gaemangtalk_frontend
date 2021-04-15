@@ -26,6 +26,8 @@ export const initialState = {
   messageCurPage: null,
   // 메시지 총 페이지
   messageTotalPage: null,
+  // 메시지 로딩
+  loading: false,
 };
 
 // 채팅 리스트를 다루는 액션
@@ -40,6 +42,10 @@ const writeMessage = createAction('chat/WRITEMESSAGE');
 const clearMessages = createAction('chat/CLEARMESSAGES');
 // DB의 채팅방의 대화 내용을 넣어놓기
 const setMessages = createAction('chat/SETMESSAGES');
+// 로딩을 다루는 액션
+const isLoading = createAction('chat/ISLOADING');
+// 로딩 완료 액션
+const isLoaded = createAction('chat/ISLOADED');
 
 const chat = createReducer(initialState, {
   [getChat]: (state, action) => {
@@ -50,6 +56,7 @@ const chat = createReducer(initialState, {
   },
   [getMessages]: (state, action) => {
     state.messages.push(action.payload);
+    state.loading = true;
   },
   [writeMessage]: (state, action) => {
     state.messageText = action.payload;
@@ -59,6 +66,12 @@ const chat = createReducer(initialState, {
   },
   [setMessages]: (state, action) => {
     state.messages = action.payload
+  },
+  [isLoading]: (state, action) => {
+    state.loading = false;
+  },
+  [isLoaded]: (state, action) => {
+    state.loading = true;
   }
 });
 
@@ -173,6 +186,8 @@ export const chatActions = {
   writeMessage,
   clearMessages,
   getChatMessages,
+  isLoading,
+  isLoaded,
 };
 
 export default chat;

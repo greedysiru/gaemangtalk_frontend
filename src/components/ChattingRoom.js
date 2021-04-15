@@ -81,6 +81,8 @@ const ChattingRoom = (props) => {
     if (messageText === '') {
       return
     }
+    // 로딩 중
+    dispatch(chatActions.isLoading());
     // 보낼 데이터
     // const messageData = {
     //   'type': 'TALK',

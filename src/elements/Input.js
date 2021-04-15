@@ -14,6 +14,7 @@ const Input = (props) => {
     is_submit,
     onSubmit,
     MessageWrite,
+    loading,
   } = props;
 
   if (multiLine) {
@@ -34,17 +35,35 @@ const Input = (props) => {
   if (MessageWrite) {
     return (
       <React.Fragment>
-        <ElMessageWrite
-          value={value}
-          type={type}
-          placeholder={placeholder}
-          onChange={_onChange}
-          onKeyPress={(e) => {
-            if (e.key === "Enter") {
-              onSubmit(e);
-            }
-          }}
-        ></ElMessageWrite>
+        {loading ? (
+          <ElMessageWrite
+            value={value}
+            type={type}
+            placeholder={placeholder}
+            onChange={_onChange}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                onSubmit(e);
+              }
+            }}
+          ></ElMessageWrite>
+        ) : (
+          <ElMessageWrite
+            value={value}
+            type={type}
+            placeholder={placeholder}
+            onChange={_onChange}
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                onSubmit(e);
+              }
+            }}
+            disabled
+          >
+
+          </ElMessageWrite>
+        )}
+
       </React.Fragment>
     )
   }
@@ -83,6 +102,7 @@ Input.defaultProps = {
   is_submit: false,
   onSubmit: () => { },
   _onChange: () => { },
+  autoFocus: false,
 };
 
 const ElTextarea = styled.textarea`

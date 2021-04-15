@@ -29,11 +29,14 @@ const MessageWrite = (props) => {
 
   const { sendMessage } = props;
 
+  const loading = useSelector((state) => state.chat.loading);
+
   // 텍스트 기록 함수
   const handleMessageText = (e) => {
     setMessageText(e.target.value)
     dispatch(chatActions.writeMessage(e.target.value));
   }
+
 
   // 메세지 보내기 함수
   // const sendMessage = () => {
@@ -77,6 +80,7 @@ const MessageWrite = (props) => {
             sendMessage();
             setMessageText('');
           }}
+          loading={loading}
         />
         <IconWrap
           onClick={() => {
@@ -86,7 +90,9 @@ const MessageWrite = (props) => {
           }
           }
         >
-          <IoArrowUp />
+          {/* 로딩중이면 보내기 막기 */}
+          {loading ? (<IoArrowUp />) : null}
+
         </IconWrap>
       </Container>
     </MessageWriteWrap>
