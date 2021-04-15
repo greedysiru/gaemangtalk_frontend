@@ -35,6 +35,7 @@ const MessageList = (props) => {
 const Container = styled.div`
   ${(props) => props.theme.border_box};
   ${(props) => props.theme.flex_column};
+  justify-content: flex-start;
   width: 100%;
   height: 90%;
   padding: 30px 60px 60px 60px;

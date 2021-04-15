@@ -9,22 +9,41 @@ import { getCookie } from '../shared/cookie';
 // 사용자 - 상대방의 메시지 내용을 출력할 말풍선 컴포넌트
 const Message = (props) => {
 
-  const username = getCookie('username')
+  const email = getCookie('email')
   const { messageInfo } = props;
-  return (
-    <MessageWrap>
-      <ElMessage>
-        {messageInfo.message}
-      </ElMessage>
-    </MessageWrap>
+  if (messageInfo.senderEmail === email) {
+    return (
+      <MessageWrap is_me={true}>
+        <ElMessage is_me={true}>
+          {messageInfo.message}
+        </ElMessage>
+      </MessageWrap>
 
-  )
+    )
+
+  }
+  else if (messageInfo.type === "ENTER") {
+    return (
+
+      <EnterWrap >
+        {messageInfo.message}
+      </EnterWrap>
+
+    )
+  } else {
+    return (
+      <MessageWrap >
+        <ElMessage >
+          {messageInfo.message}
+        </ElMessage>
+      </MessageWrap>
+    )
+  }
 
 }
 
 Message.defaultProps = {
 }
-
 
 const MessageWrap = styled.div`
   ${(props) => props.theme.border_box};
@@ -49,4 +68,17 @@ const ElMessage = styled.span`
   height: auto;
 `;
 
+const EnterWrap = styled.div`
+  ${(props) => props.theme.border_box};
+  ${(props) => props.theme.flex_row};
+  justify-content: center;
+  width: 80%;
+  height: auto;
+  padding: 5px;
+  margin: 0px 0px 60px 0px;
+  background-color:${(props) => props.theme.theme_yellow};
+  color: whitesmoke;
+  border-radius: 40px;
+  opacity: 0.6;
+`
 export default Message;
