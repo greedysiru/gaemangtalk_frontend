@@ -4,86 +4,20 @@ import styled from 'styled-components';
 
 import { Text } from '../elements'
 
+import { getCookie } from '../shared/cookie';
+
 // 사용자 - 상대방의 메시지 내용을 출력할 말풍선 컴포넌트
 const Message = (props) => {
 
-  const { is_me } = props;
+  const username = getCookie('username')
+  const { messageInfo } = props;
   return (
-    <div style={{
-      width: '100%'
-    }}>
-      <MessageWrap>
-        <ElMessage>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap is_me={is_me}>
-        <ElMessage is_me={is_me}>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap>
-        <ElMessage>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap is_me={is_me}>
-        <ElMessage is_me={is_me}>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap>
-        <ElMessage>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap is_me={is_me}>
-        <ElMessage is_me={is_me}>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap>
-        <ElMessage>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap is_me={is_me}>
-        <ElMessage is_me={is_me}>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap>
-        <ElMessage>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap is_me={is_me}>
-        <ElMessage is_me={is_me}>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap>
-        <ElMessage>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap is_me={is_me}>
-        <ElMessage is_me={is_me}>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap>
-        <ElMessage>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap is_me={is_me}>
-        <ElMessage is_me={is_me}>
-          메시지
-        </ElMessage>
-      </MessageWrap>
+    <MessageWrap>
+      <ElMessage>
+        {messageInfo.message}
+      </ElMessage>
+    </MessageWrap>
 
-    </div>
   )
 
 }

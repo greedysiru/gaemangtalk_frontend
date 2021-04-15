@@ -32,6 +32,7 @@ const ChatList = (props) => {
   // 채팅 리스트 리덕스로부터 가져오기
   const chat_list = useSelector((state) => state.chat.chatInfo);
 
+  const { prevRoomId, roomUnsubscribe } = props;
 
   // 팝업창 키기/종료
   //  false가 기본 상태
@@ -47,9 +48,18 @@ const ChatList = (props) => {
 
   // 채팅방 들어가기
   const enterRoom = (roomId, roomName) => {
+    // 이전 채팅방 id가 없으면 리턴
+    if (!(prevRoomId === null)) {
+      roomUnsubscribe(prevRoomId);
+    }
+    // 입장한 채팅방을 다시 클릭하면 리턴
+    if (prevRoomId === roomId) {
+      return
+    }
     // 클릭한 채팅방 정보 로컬 스토리지에 저장
     localStorage.setItem('wschat.roomId', roomId);
     localStorage.setItem('wschat.roomName', roomName);
+    dispatch(chatActions.clearMessages());
     dispatch(chatActions.moveChat({ roomId: roomId, roomName: roomName }))
 
 

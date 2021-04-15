@@ -61,7 +61,7 @@ const ChattingRoom = (props) => {
 
   // 구독 해제
   const roomUnsubscribe = (roomId) => {
-    ws.unsubscribe(`/sub/api/chat/rooms/${roomId}`);
+    ws.unsubscribe('sub-0');
   }
 
   const messageText = useSelector((state) => state.chat.messageText)
@@ -90,14 +90,15 @@ const ChattingRoom = (props) => {
 
   return (
     <Container>
-      <ChatList />
+      <ChatList
+        roomUnsubscribe={roomUnsubscribe}
+        prevRoomId={roomId}
+      />
       <ChatWrap>
         <ChatName
           roomName={roomName}
         />
         <MessageList
-          prevRoomId={roomId}
-          roomUnsubscribe={roomUnsubscribe}
         />
         <MessageWrite
           sendMessage={sendMessage}

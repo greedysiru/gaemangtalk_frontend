@@ -5,16 +5,27 @@ import styled from 'styled-components';
 // elements
 import Message from '../elements/Message';
 
+// 리덕스 접근
+import { useSelector, useDispatch } from 'react-redux';
 
 // 메시지 리스트 컴포넌트
 const MessageList = (props) => {
+  const messages = useSelector((state) => state.chat.messages);
 
   React.useEffect(() => {
 
   })
   return (
     <Container className="scroll">
-      <Message is_me={true} />
+      {messages.map((m, idx) => {
+
+        return (<Message
+          key={idx}
+          messageInfo={m}
+          is_me={true} />
+        )
+      })}
+
 
     </Container>
 

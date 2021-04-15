@@ -32,7 +32,8 @@ const moveChat = createAction('chat/MOVECHAT');
 const getMessages = createAction('chat/GETMESSAGES');
 // 사용자가 입력한 메시지의 텍스트를 기록
 const writeMessage = createAction('chat/WRITEMESSAGE');
-
+// 저장한 대화 내용을 없애기
+const clearMessages = createAction('chat/CLEARMESSAGES');
 
 const chat = createReducer(initialState, {
   [getChat]: (state, action) => {
@@ -42,10 +43,13 @@ const chat = createReducer(initialState, {
     state.currentChat = action.payload;
   },
   [getMessages]: (state, action) => {
-    state.messages.unshift(action.payload);
+    state.messages.push(action.payload);
   },
   [writeMessage]: (state, action) => {
     state.messageText = action.payload;
+  },
+  [clearMessages]: (state, action) => {
+    state.messages = [];
   }
 });
 
@@ -144,6 +148,7 @@ export const chatActions = {
   enterChatRoom,
   writeMessage,
   sendMessage,
+  clearMessages,
 };
 
 export default chat;
