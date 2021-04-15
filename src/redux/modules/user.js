@@ -97,6 +97,15 @@ const updatePassword = (data) => async (dispatch, getState, { history }) => {
   }
 };
 
+const kakaoLogin = () => async (dispatch, getState, { history }) => {
+  try {
+    const res = await userAPI.kakaoLogin();
+    console.log('카카오', res);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const userActions = {
   signup,
   emailCheck,
@@ -107,7 +116,8 @@ export const userActions = {
   findPassword,
   setAuthNumber,
   updatePassword,
-  setUser
+  setUser,
+  kakaoLogin
 };
 
 export default user;
