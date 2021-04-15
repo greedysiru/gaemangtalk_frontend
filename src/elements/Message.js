@@ -1,96 +1,70 @@
+import { stripLeadingSlash } from 'history/PathUtils';
 import React from 'react';
 
 import styled from 'styled-components';
 
 import { Text } from '../elements'
 
+import { getCookie } from '../shared/cookie';
+
 // 사용자 - 상대방의 메시지 내용을 출력할 말풍선 컴포넌트
 const Message = (props) => {
 
-  const { is_me } = props;
-  return (
-    <div style={{
-      width: '100%'
-    }}>
-      <MessageWrap>
-        <ElMessage>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap is_me={is_me}>
-        <ElMessage is_me={is_me}>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap>
-        <ElMessage>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap is_me={is_me}>
-        <ElMessage is_me={is_me}>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap>
-        <ElMessage>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap is_me={is_me}>
-        <ElMessage is_me={is_me}>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap>
-        <ElMessage>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap is_me={is_me}>
-        <ElMessage is_me={is_me}>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap>
-        <ElMessage>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap is_me={is_me}>
-        <ElMessage is_me={is_me}>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap>
-        <ElMessage>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap is_me={is_me}>
-        <ElMessage is_me={is_me}>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap>
-        <ElMessage>
-          메시지
-        </ElMessage>
-      </MessageWrap>
-      <MessageWrap is_me={is_me}>
-        <ElMessage is_me={is_me}>
-          메시지
-        </ElMessage>
+  const email = getCookie('email')
+  const { messageInfo } = props;
+  // 사용자 본인 메시지
+  if (messageInfo.senderEmail === email) {
+    return (
+      <MessageWrap is_me={true}>
+        <SenderWrap >
+          <SenderSpan is_me={true}>
+            {messageInfo.sender}
+          </SenderSpan>
+          <ElMessage is_me={true}>
+            {messageInfo.message}
+          </ElMessage>
+        </SenderWrap>
       </MessageWrap>
 
-    </div>
-  )
+    )
+
+  }
+  else if (messageInfo.type === "ENTER") {
+    return (
+
+      <EnterWrap >
+        {messageInfo.message}
+      </EnterWrap>
+
+    )
+  }
+  else if (messageInfo.type === "QUIT") {
+    return (
+
+      <QuitWrap >
+        {messageInfo.message}
+      </QuitWrap>
+
+    )
+  } else {
+    return (
+      <MessageWrap >
+        <SenderWrap>
+          <SenderSpan>
+            {messageInfo.sender}
+          </SenderSpan>
+          <ElMessage >
+            {messageInfo.message}
+          </ElMessage>
+        </SenderWrap>
+      </MessageWrap>
+    )
+  }
 
 }
 
 Message.defaultProps = {
 }
-
 
 const MessageWrap = styled.div`
   ${(props) => props.theme.border_box};
@@ -115,4 +89,42 @@ const ElMessage = styled.span`
   height: auto;
 `;
 
+const EnterWrap = styled.div`
+  ${(props) => props.theme.border_box};
+  ${(props) => props.theme.flex_row};
+  justify-content: center;
+  width: 40%;
+  height: auto;
+  padding: 5px;
+  margin: 0px 0px 60px 0px;
+  background-color:${(props) => props.theme.theme_yellow};
+  color: whitesmoke;
+  border-radius: 40px;
+  opacity: 0.6;
+`
+
+const QuitWrap = styled.div`
+${(props) => props.theme.border_box};
+${(props) => props.theme.flex_row};
+justify-content: center;
+width: 40%;
+height: auto;
+padding: 5px;
+margin: 0px 0px 60px 0px;
+background-color:${(props) => props.theme.main_color_thick};
+color: whitesmoke;
+border-radius: 40px;
+opacity: 0.6;
+`
+
+const SenderWrap = styled.div`
+${(props) => props.theme.flex_column};
+color: ${(props) => props.theme.main_color};
+`
+
+const SenderSpan = styled.span`
+width: 90%;
+${(props) => props.is_me ? 'text-align: right' : 'text-align: left'};
+margin-bottom: 5px;
+`
 export default Message;

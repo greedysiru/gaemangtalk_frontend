@@ -23,12 +23,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import Stomp from 'stompjs';
 import SockJS from 'sockjs-client';
 
+
 // 채팅 방 컴포넌트
 const ChattingRoom = (props) => {
 
   // 소켓 통신 객체
   const sock = new SockJS("http://54.180.141.91:8080/chatting");
   const ws = Stomp.over(sock);
+
 
   // 방 제목 가져오기
   const roomName = useSelector((state) => state.chat.currentChat.roomName);
@@ -37,14 +39,12 @@ const ChattingRoom = (props) => {
 
   React.useEffect(() => {
     // roomId가 없으면 실행하지 않기
+    console.log(roomId)
     if (roomId === null) {
       return
     }
-
     const token = getCookie('access-token');
-    let sock = new SockJS("http://54.180.141.91:8080/chatting");
-    let ws = Stomp.over(sock);
-    const messages = [];
+
     ws.connect({
       'token': token,
     }
@@ -56,18 +56,30 @@ const ChattingRoom = (props) => {
       }
     );
 
-
+    return () => {
+      const token = getCookie('access-token');
+      ws.disconnect(() => {
+        ws.unsubscribe('sub-0');
+      }, { 'token': token })
+    }
   }, [roomId])
 
-  // 구독 해제
-  const roomUnsubscribe = (roomId) => {
-    ws.unsubscribe(`/sub/api/chat/rooms/${roomId}`);
+  // 연결 해제
+  const roomDisconnect = () => {
+    const token = getCookie('access-token');
+    ws.disconnect(() => {
+      ws.unsubscribe('sub-0');
+    }, { 'token': token })
   }
 
   const messageText = useSelector((state) => state.chat.messageText)
   const sendMessage = () => {
     const token = getCookie('access-token');
     const sender = getCookie('username');
+    // 빈문자열이면 리턴
+    if (messageText === '') {
+      return
+    }
     // 보낼 데이터
     // const messageData = {
     //   'type': 'TALK',
@@ -85,19 +97,22 @@ const ChattingRoom = (props) => {
         'senderEmail': null,
       })
     )
+    dispatch(chatActions.writeMessage(''));
+
   }
 
 
   return (
     <Container>
-      <ChatList />
+      <ChatList
+        roomDisconnect={roomDisconnect}
+        prevRoomId={roomId}
+      />
       <ChatWrap>
         <ChatName
           roomName={roomName}
         />
         <MessageList
-          prevRoomId={roomId}
-          roomUnsubscribe={roomUnsubscribe}
         />
         <MessageWrite
           sendMessage={sendMessage}
@@ -115,7 +130,7 @@ ${(props) => props.theme.border_box};
 ${(props) => props.theme.flex_row}
   width: 100%;
   height: 100%;
-  background-color: ${(props) => props.theme.main_color_blur};
+  background-color: white;
   color: ${(props) => props.theme.theme_yellow};
 `;
 

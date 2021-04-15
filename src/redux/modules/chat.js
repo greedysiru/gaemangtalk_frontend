@@ -32,7 +32,8 @@ const moveChat = createAction('chat/MOVECHAT');
 const getMessages = createAction('chat/GETMESSAGES');
 // 사용자가 입력한 메시지의 텍스트를 기록
 const writeMessage = createAction('chat/WRITEMESSAGE');
-
+// 저장한 대화 내용을 없애기
+const clearMessages = createAction('chat/CLEARMESSAGES');
 
 const chat = createReducer(initialState, {
   [getChat]: (state, action) => {
@@ -42,10 +43,13 @@ const chat = createReducer(initialState, {
     state.currentChat = action.payload;
   },
   [getMessages]: (state, action) => {
-    state.messages.unshift(action.payload);
+    state.messages.push(action.payload);
   },
   [writeMessage]: (state, action) => {
     state.messageText = action.payload;
+  },
+  [clearMessages]: (state, action) => {
+    state.messages = [];
   }
 });
 
@@ -86,27 +90,27 @@ const getChatList = () => {
 // web socket
 // 채팅방 입장
 // connect, subscribe
-const enterChatRoom = () => {
-  return function (dispatch, getState, { history }) {
-    const token = getCookie('access-token');
-    let sock = new SockJS("http://54.180.141.91:8080/chatting");
-    let ws = Stomp.over(sock);
-    const roomId = getState().chat.currentChat.roomId
-    ws.connect({
-      'token': token,
-      // 'Access-Control-Allow-Origin': '*://*',
-      // 'Access-Control-Allow-Methods': '*',
-    }
-      , () => {
-        ws.subscribe(`/sub/api/chat/rooms/${roomId}`, (data) => {
-          const newMessage = JSON.parse(data.body);
-          dispatch(getMessages(newMessage))
-        });
-      }
-    );
+// const enterChatRoom = () => {
+//   return function (dispatch, getState, { history }) {
+//     const token = getCookie('access-token');
+//     let sock = new SockJS("http://54.180.141.91:8080/chatting");
+//     let ws = Stomp.over(sock);
+//     const roomId = getState().chat.currentChat.roomId
+//     ws.connect({
+//       'token': token,
+//       // 'Access-Control-Allow-Origin': '*://*',
+//       // 'Access-Control-Allow-Methods': '*',
+//     }
+//       , () => {
+//         ws.subscribe(`/sub/api/chat/rooms/${roomId}`, (data) => {
+//           const newMessage = JSON.parse(data.body);
+//           dispatch(getMessages(newMessage))
+//         });
+//       }
+//     );
 
-  }
-}
+//   }
+// }
 
 // send
 const sendMessage = () => {
@@ -115,10 +119,9 @@ const sendMessage = () => {
     let ws = Stomp.over(sock);
     const token = getCookie('access-token');
     const sender = getCookie('username');
-    const roomId = localStorage.getItem('wschat.roomId');
+    const roomId = getState().chat.currentChat.roomId;
 
     const messageText = getState().chat.messageText;
-    console.log(messageText)
     // 보낼 데이터
     const messageData = {
       'type': 'TALK',
@@ -127,7 +130,6 @@ const sendMessage = () => {
       'message': messageText,
       'senderEmail': null,
     }
-    console.log(messageData)
 
     ws.send('/pub/api/chat/message', { 'token': token, }, JSON.stringify(messageData))
 
@@ -141,9 +143,9 @@ export const chatActions = {
   getChatList,
   moveChat,
   getMessages,
-  enterChatRoom,
   writeMessage,
   sendMessage,
+  clearMessages,
 };
 
 export default chat;

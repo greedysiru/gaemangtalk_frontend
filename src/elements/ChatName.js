@@ -7,7 +7,6 @@ import styled from 'styled-components';
 const ChatName = (props) => {
 
   const { roomName } = props;
-  console.log(roomName)
   return (
     <Container>
       {roomName}

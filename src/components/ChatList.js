@@ -32,6 +32,7 @@ const ChatList = (props) => {
   // 채팅 리스트 리덕스로부터 가져오기
   const chat_list = useSelector((state) => state.chat.chatInfo);
 
+  const { prevRoomId, roomDisconnect } = props;
 
   // 팝업창 키기/종료
   //  false가 기본 상태
@@ -47,29 +48,21 @@ const ChatList = (props) => {
 
   // 채팅방 들어가기
   const enterRoom = (roomId, roomName) => {
+    console.log(prevRoomId, roomId)
+    // 입장한 채팅방을 다시 클릭하면 리턴
+    if (prevRoomId === roomId) {
+      return
+    }
+
+    roomDisconnect();
     // 클릭한 채팅방 정보 로컬 스토리지에 저장
     localStorage.setItem('wschat.roomId', roomId);
     localStorage.setItem('wschat.roomName', roomName);
+    dispatch(chatActions.clearMessages());
     dispatch(chatActions.moveChat({ roomId: roomId, roomName: roomName }))
 
 
     return
-    const token = getCookie('access-token');
-    let sock = new SockJS("http://54.180.141.91:8080/chatting");
-    let ws = Stomp.over(sock);
-    const messages = [];
-    ws.connect({
-      'token': token,
-      // 'Access-Control-Allow-Origin': '*://*',
-      // 'Access-Control-Allow-Methods': '*',
-    }
-      , () => {
-        ws.subscribe(`/sub/api/chat/rooms/${roomId}`, (data) => {
-          const newMessage = JSON.parse(data.body);
-          messages.unshift(newMessage);
-        }, { 'token': token });
-      }
-    );
 
   }
 
@@ -78,11 +71,11 @@ const ChatList = (props) => {
   }, [])
 
   return (
-    <Container className="scroll">
+    <Container >
       <Title>
         Chat
       </Title>
-      <ChatListWrap>
+      <ChatListWrap className="scroll">
         {/* 받아온 채팅 리스트 구현하기 */}
         {chat_list.map((info, idx) => {
           return (< Chat
