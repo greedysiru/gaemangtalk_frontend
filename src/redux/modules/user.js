@@ -1,8 +1,7 @@
 import { createReducer, createAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { setCookie } from '../../shared/cookie';
-
-axios.defaults.baseURL = 'http://54.180.141.91:8080';
+import { userAPI } from '../../shared/api';
 
 export const initialState = {
   username: null,
@@ -38,86 +37,64 @@ const user = createReducer(initialState, {
 });
 
 // thunk
-const signup = (data) => {
-  return function (dispatch, getState, { history }) {
-    console.log(data);
-
-    axios
-      .post(`/api/user/signup`, data)
-      .then((res) => {
-        alert('회원가입이 완료되었습니다');
-        history.push('/');
-      })
-      .catch((err) => {
-        console.log(err.response);
-        alert(err.response.data.errorMessage);
-      });
-  };
+const signup = (data) => async (dispatch, getState, { history }) => {
+  try {
+    const res = await userAPI.signup;
+    alert('회원가입이 완료되었습니다');
+    history.push('/');
+  } catch (error) {
+    console.log(error.response);
+    alert(error.response.data.errorMessage);
+  }
 };
 
-const emailCheck = (email) => {
-  console.log('email check');
-  return function (dispatch, getState, { history }) {
-    axios
-      .post(`/api/user/signup/emailCheck`, { email })
-      .then((res) => {
-        alert('사용 가능한 이메일입니다');
-        dispatch(setIsValidEmailMultiple(true));
-      })
-      .catch((err) => {
-        alert('이미 사용중인 이메일입니다');
-      });
-  };
+const emailCheck = (email) => async (dispatch, getState, { history }) => {
+  try {
+    const res = await userAPI.emailCheck({ email });
+    alert('사용 가능한 이메일입니다');
+    dispatch(setIsValidEmailMultiple(true));
+  } catch (error) {
+    alert('이미 사용중인 이메일입니다');
+  }
 };
 
-const login = (data) => {
-  return function (dispatch, getState, { history }) {
-    axios
-      .post('/api/user/login', data)
-      .then((res) => {
-        const token = res.data.token;
-        const username = res.data.username;
+const login = (data) => async (dispatch, getState, { history }) => {
+  try {
+    const res = await userAPI.login(data);
 
-        setCookie('access-token', token);
-        setCookie('username', username);
-        setCookie('email', data.email);
-        axios.defaults.headers.common['token'] = `${token}`;
+    const token = res.data.token;
+    const username = res.data.username;
 
-        dispatch(setUser(username));
-        history.push('/');
-      })
-      .catch((err) => {
-        console.error(err);
-        dispatch(setLoginError(err.response.data.errorMessage));
-      });
-  };
+    setCookie('access-token', token);
+    setCookie('username', username);
+    setCookie('email', data.email);
+    axios.defaults.headers.common['token'] = `${token}`;
+
+    dispatch(setUser(username));
+    history.push('/');
+  } catch (error) {
+    console.error(error);
+    dispatch(setLoginError(error.response.data.errorMessage));
+  }
 };
 
-const findPassword = (email) => {
-  return function (dispatch, getState, { history }) {
-    axios
-      .post('/api/user/findPassword', { email })
-      .then((res) => {
-        dispatch(setAuthNumber(res.data.CertificationNumber));
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
+const findPassword = (email) => async (dispatch, getState, { history }) => {
+  try {
+    const res = await userAPI.findPassword({ email });
+    dispatch(setAuthNumber(res.data.CertificationNumber));
+  } catch (error) {
+    console.error(error);
+  }
 };
 
-const updatePassword = (data) => {
-  return function (dispatch, getState, { history }) {
-    axios
-      .put('/api/user/changePassword', data)
-      .then((res) => {
-        alert('비밀번호를 변경했습니다');
-        history.push('/');
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
+const updatePassword = (data) => async (dispatch, getState, { history }) => {
+  try {
+    const res = await userAPI.updatePassword(data);
+    alert('비밀번호를 변경했습니다');
+    history.push('/');
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const userActions = {
