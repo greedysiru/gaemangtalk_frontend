@@ -23,12 +23,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import Stomp from 'stompjs';
 import SockJS from 'sockjs-client';
 
+
 // 채팅 방 컴포넌트
 const ChattingRoom = (props) => {
 
   // 소켓 통신 객체
   const sock = new SockJS("http://54.180.141.91:8080/chatting");
   const ws = Stomp.over(sock);
+
 
   // 방 제목 가져오기
   const roomName = useSelector((state) => state.chat.currentChat.roomName);
@@ -37,14 +39,12 @@ const ChattingRoom = (props) => {
 
   React.useEffect(() => {
     // roomId가 없으면 실행하지 않기
+    console.log(roomId)
     if (roomId === null) {
       return
     }
-
     const token = getCookie('access-token');
-    let sock = new SockJS("http://54.180.141.91:8080/chatting");
-    let ws = Stomp.over(sock);
-    const messages = [];
+
     ws.connect({
       'token': token,
     }
@@ -56,12 +56,20 @@ const ChattingRoom = (props) => {
       }
     );
 
-
+    return () => {
+      const token = getCookie('access-token');
+      ws.disconnect(() => {
+        ws.unsubscribe('sub-0');
+      }, { 'token': token })
+    }
   }, [roomId])
 
-  // 구독 해제
-  const roomUnsubscribe = (roomId) => {
-    ws.unsubscribe('sub-0');
+  // 연결 해제
+  const roomDisconnect = () => {
+    const token = getCookie('access-token');
+    ws.disconnect(() => {
+      ws.unsubscribe('sub-0');
+    }, { 'token': token })
   }
 
   const messageText = useSelector((state) => state.chat.messageText)
@@ -91,7 +99,7 @@ const ChattingRoom = (props) => {
   return (
     <Container>
       <ChatList
-        roomUnsubscribe={roomUnsubscribe}
+        roomDisconnect={roomDisconnect}
         prevRoomId={roomId}
       />
       <ChatWrap>

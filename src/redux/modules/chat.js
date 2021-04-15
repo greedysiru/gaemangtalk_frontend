@@ -119,10 +119,9 @@ const sendMessage = () => {
     let ws = Stomp.over(sock);
     const token = getCookie('access-token');
     const sender = getCookie('username');
-    const roomId = localStorage.getItem('wschat.roomId');
+    const roomId = getState().chat.currentChat.roomId;
 
     const messageText = getState().chat.messageText;
-    console.log(messageText)
     // 보낼 데이터
     const messageData = {
       'type': 'TALK',
@@ -131,7 +130,6 @@ const sendMessage = () => {
       'message': messageText,
       'senderEmail': null,
     }
-    console.log(messageData)
 
     ws.send('/pub/api/chat/message', { 'token': token, }, JSON.stringify(messageData))
 
