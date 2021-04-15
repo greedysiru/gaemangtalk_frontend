@@ -12,6 +12,9 @@ import Popup from '../components/Popup';
 // 리덕스 접근
 import { useSelector, useDispatch } from 'react-redux';
 
+// 채팅 관련 함수들 가져오기
+import { chatActions } from '../redux/modules/chat';
+
 // 소켓 통신
 import Stomp from 'stompjs';
 import SockJS from 'sockjs-client';
@@ -25,9 +28,10 @@ import { getCookie } from '../shared/cookie';
 //  모바일 : 채팅 리스트를 상단의 원으로 표시
 //  데스크탑 : 채팅 리스트를 좌측에 리스트로 표시
 const ChatList = (props) => {
-
+  const dispatch = useDispatch();
   // 채팅 리스트 리덕스로부터 가져오기
-  const chat_list = useSelector((state) => state.chat.chatInfo)
+  const chat_list = useSelector((state) => state.chat.chatInfo);
+
 
   // 팝업창 키기/종료
   //  false가 기본 상태
@@ -46,6 +50,10 @@ const ChatList = (props) => {
     // 클릭한 채팅방 정보 로컬 스토리지에 저장
     localStorage.setItem('wschat.roomId', roomId);
     localStorage.setItem('wschat.roomName', roomName);
+    dispatch(chatActions.moveChat({ roomId: roomId, roomName: roomName }))
+
+
+    return
     const token = getCookie('access-token');
     let sock = new SockJS("http://54.180.141.91:8080/chatting");
     let ws = Stomp.over(sock);
@@ -59,15 +67,14 @@ const ChatList = (props) => {
         ws.subscribe(`/sub/api/chat/rooms/${roomId}`, (data) => {
           const newMessage = JSON.parse(data.body);
           messages.unshift(newMessage);
-        });
+        }, { 'token': token });
       }
     );
 
   }
 
   React.useEffect(() => {
-
-
+    // dispatch(chatActions.enterChatRoom());
   }, [])
 
   return (
@@ -109,7 +116,7 @@ const Container = styled.div`
   background-color: ${(props) => props.theme.main_color_blur};
   width: 20%;
   height: 100%;
-  padding: 10px;
+
   position: relative;
 
 `;
@@ -118,7 +125,7 @@ const Title = styled.div`
   ${(props) => props.theme.border_box};
   height: 10%;
   color: ${(props) => props.theme.font_color};
-  padding: 10px;
+  padding: 20px;
   font-size: 26px;
   font-weight: 700;
 `

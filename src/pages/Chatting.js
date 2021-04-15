@@ -4,11 +4,9 @@ import styled from 'styled-components';
 
 // Components
 import ChatList from '../components/ChatList';
-import MessageList from '../components/MesseageList';
-import MessageWrite from '../components/MessageWrite';
 
-// Elements
-import ChatName from '../elements/ChatName';
+import ChattingRoom from '../components/ChattingRoom'
+
 
 // 채팅 관련 함수들 가져오기
 import { chatActions } from '../redux/modules/chat';
@@ -41,20 +39,20 @@ const Chatting = (props) => {
   //   });
   // }
   // 웹 소켓 연결
-  React.useEffect(() => {
-    // ws.connect({
-    //   'token': token,
-    //   'Access-Control-Allow-Origin': '*://*',
-    //   'Access-Control-Allow-Methods': '*',
-    // }
-    //   , () => {
-    //     ws.subscribe(`/sub/api/chat/rooms/${roomId}`, (data) => {
-    //       const newMessage = JSON.parse(data.body);
-    //       console.log(newMessage)
-    //     });
-    //   }
-    // );
-  }, []);
+  // React.useEffect(() => {
+  // ws.connect({
+  //   'token': token,
+  //   'Access-Control-Allow-Origin': '*://*',
+  //   'Access-Control-Allow-Methods': '*',
+  // }
+  //   , () => {
+  //     ws.subscribe(`/sub/api/chat/rooms/${roomId}`, (data) => {
+  //       const newMessage = JSON.parse(data.body);
+  //       console.log(newMessage)
+  //     });
+  //   }
+  // );
+  // }, []);
 
 
   const dispatch = useDispatch();
@@ -67,12 +65,9 @@ const Chatting = (props) => {
 
   return (
     <Container>
-      <ChatList />
+      {/* <ChatList /> */}
       <ChatWrap>
-        <ChatName />
-        <MessageList />
-        <MessageWrite />
-
+        <ChattingRoom />
       </ChatWrap>
     </Container>
 
@@ -91,7 +86,7 @@ const ChatWrap = styled.div`
   ${(props) => props.theme.flex_column};
   justify-content: flex-start;
   ${(props) => props.theme.border_box};
-  width: 80%;
+  width: 100%;
   height: 100%;
   position: relative;
 `
