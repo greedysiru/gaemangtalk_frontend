@@ -28,7 +28,11 @@ const Login = ({ history }) => {
   };
   return (
     <Container>
-      {username && <div>{username}님 환영합니다</div>}
+      {username && (
+        <div>
+          {username}님 환영합니다 <Button>로그아웃</Button>
+        </div>
+      )}
       {!username && (
         <Wrapper is_column>
           <Title>로그인</Title>
