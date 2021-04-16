@@ -1,6 +1,6 @@
 import { createReducer, createAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { setCookie } from '../../shared/cookie';
+import { deleteCookie, setCookie } from '../../shared/cookie';
 import { userAPI } from '../../shared/api';
 
 export const initialState = {
@@ -16,15 +16,12 @@ const setIsValidEmailMultiple = createAction(
   'user/SET_IS_VALID_EMAIL_MULTIPLE'
 );
 const setAuthNumber = createAction('user/SET_AUTH_NUMBER');
-const logout = createAction('user/LOGOUT');
 
 const user = createReducer(initialState, {
   [setUser]: (state, { payload }) => {
     state.userInfo = payload;
   },
-  [logout]: (state, { payload }) => {
-    state.userInfo = null;
-  },
+
   [setIsValidEmailMultiple]: (state, { payload }) => {
     state.isValidEmailMultiple = payload;
   },
@@ -80,10 +77,27 @@ const login = (data) => async (dispatch, getState, { history }) => {
   }
 };
 
+const logout = (data) => async (dispatch, getState, { history }) => {
+  try {
+    deleteCookie('access-token');
+    deleteCookie('username');
+    deleteCookie('email');
+    deleteCookie('userId');
+    axios.defaults.headers.common['token'] = ``;
+
+    dispatch(setUser(null));
+
+    history.push('/');
+  } catch (error) {
+    console.error(error);
+    dispatch(setLoginError(error.response.data.errorMessage));
+  }
+};
+
 const loginByKakao = (data) => async (dispatch, getState, { history }) => {
   try {
     const res = await userAPI.loginByKakao(data);
-    console.log('카카오로그인', res);
+
     const token = res.data.token;
     const username = res.data.username;
     const userId = res.data.userid;
@@ -91,10 +105,10 @@ const loginByKakao = (data) => async (dispatch, getState, { history }) => {
     setCookie('access-token', token);
     setCookie('username', username);
     setCookie('userId', userId);
-    setCookie('email', data.email);
+
     axios.defaults.headers.common['token'] = `${token}`;
 
-    dispatch(setUser(res.data));
+    dispatch(setUser({ username, userId }));
     history.push('/chat');
   } catch (error) {
     console.error(error);
