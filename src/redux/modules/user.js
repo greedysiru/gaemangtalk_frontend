@@ -23,7 +23,7 @@ const user = createReducer(initialState, {
     state.userInfo = payload;
   },
   [logout]: (state, { payload }) => {
-    state.username = null;
+    state.userInfo = null;
   },
   [setIsValidEmailMultiple]: (state, { payload }) => {
     state.isValidEmailMultiple = payload;
@@ -73,7 +73,7 @@ const login = (data) => async (dispatch, getState, { history }) => {
     axios.defaults.headers.common['token'] = `${token}`;
 
     dispatch(setUser(res.data));
-    history.push('/chat');
+    history.push('/');
   } catch (error) {
     console.error(error);
     dispatch(setLoginError(error.response.data.errorMessage));
@@ -110,6 +110,7 @@ const getUserByToken = () => async (dispatch, getState, { history }) => {
     setCookie('username', username);
     setCookie('userIid', userId);
     dispatch(setUser(res.data));
+    history.push('/');
   } catch (error) {
     console.error(error);
   }
