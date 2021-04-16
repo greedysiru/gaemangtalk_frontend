@@ -68,7 +68,8 @@ const login = (data) => async (dispatch, getState, { history }) => {
 
     setCookie('access-token', token);
     setCookie('username', username);
-    setCookie('userIid', userId);
+    setCookie('userId', userId);
+    setCookie('email', data.email);
     axios.defaults.headers.common['token'] = `${token}`;
 
     dispatch(setUser(res.data));
@@ -109,7 +110,6 @@ const getUserByToken = () => async (dispatch, getState, { history }) => {
     setCookie('username', username);
     setCookie('userIid', userId);
     dispatch(setUser(res.data));
-    history.push('/chat');
   } catch (error) {
     console.error(error);
   }
