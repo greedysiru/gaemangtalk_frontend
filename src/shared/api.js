@@ -27,6 +27,9 @@ export const userAPI = {
     return axios.put('/api/user/changePassword', data);
   },
   getUserByToken: function () {
+    /*  axios.defaults.headers.common[
+      'token'
+    ] = `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNSIsImlhdCI6MTYxODU1MTQzMSwiZXhwIjoxNjE4NTUzMjMxfQ.3g-mQ3MVy1xcTKkts0lYLaWN4bfjorEtzCLwmqb-sJY`; */
     return axios.get('/api/user/getUserInfo');
   }
 };

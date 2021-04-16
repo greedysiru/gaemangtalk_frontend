@@ -22,7 +22,6 @@ import SockJS from 'sockjs-client';
 // 쿠키
 import { getCookie } from '../shared/cookie';
 
-
 // 채팅 리스트 컴포넌트
 // 모바일, 데스크탑에 따라 위치가 달리지도록 한다
 //  모바일 : 채팅 리스트를 상단의 원으로 표시
@@ -41,18 +40,18 @@ const ChatList = (props) => {
   // 팝업창 키기/끄기 함수
   const openPopup = () => {
     setPopupOpen(true);
-  }
+  };
   const closePopup = () => {
     setPopupOpen(false);
-  }
+  };
 
   // 채팅방 들어가기
   const enterRoom = (roomId, roomName) => {
-    console.log(prevRoomId, roomId)
+    console.log(prevRoomId, roomId);
 
     // 입장한 채팅방을 다시 클릭하면 리턴
     if (prevRoomId === roomId) {
-      return
+      return;
     }
 
     roomDisconnect();
@@ -60,52 +59,46 @@ const ChatList = (props) => {
     localStorage.setItem('wschat.roomId', roomId);
     localStorage.setItem('wschat.roomName', roomName);
     dispatch(chatActions.clearMessages());
-    dispatch(chatActions.moveChat({ roomId: roomId, roomName: roomName }))
+    dispatch(chatActions.moveChat({ roomId: roomId, roomName: roomName }));
     // 해당 채팅방의 DB 가져오기
     dispatch(chatActions.getChatMessages());
 
-    return
-
-  }
+    return;
+  };
 
   React.useEffect(() => {
     // dispatch(chatActions.enterChatRoom());
-
-  }, [])
+  }, []);
 
   return (
-    <Container >
-      <Title>
-        Chat
-      </Title>
+    <Container>
+      <Title>Chat</Title>
       <ChatListWrap className="scroll">
         {/* 받아온 채팅 리스트 구현하기 */}
         {chat_list.map((info, idx) => {
-          return (< Chat
-            key={idx}
-            roomId={info.id}
-            roomName={info.chatRoomName}
-            createdAt={info.createdAt}
-            modifiedAt={info.modifiedAt}
-            _onClick={(e) => { enterRoom(info.id, info.chatRoomName) }}
-          />)
+          return (
+            <Chat
+              key={idx}
+              roomId={info.id}
+              roomName={info.chatRoomName}
+              createdAt={info.createdAt}
+              modifiedAt={info.modifiedAt}
+              _onClick={(e) => {
+                enterRoom(info.id, info.chatRoomName);
+              }}
+            />
+          );
         })}
       </ChatListWrap>
-      <Button
-        is_float
-        _onClick={openPopup}
-      >+</Button>
+      <Button is_float _onClick={openPopup}>
+        +
+      </Button>
 
       {/* 채팅 생성 팝업 창 */}
-      {popupOpen && <Popup
-        visible={popupOpen}
-        closePopup={closePopup}
-      />}
-
-    </Container >
-
-  )
-}
+      {popupOpen && <Popup visible={popupOpen} closePopup={closePopup} />}
+    </Container>
+  );
+};
 
 const Container = styled.div`
   ${(props) => props.theme.border_box};
@@ -114,7 +107,6 @@ const Container = styled.div`
   height: 100%;
 
   position: relative;
-
 `;
 
 const Title = styled.div`
@@ -124,13 +116,13 @@ const Title = styled.div`
   padding: 20px;
   font-size: 26px;
   font-weight: 700;
-`
+`;
 
 const ChatListWrap = styled.div`
-${(props) => props.theme.border_box};
-width: 100%;
-height: 90%;
-overflow: auto;
-`
+  ${(props) => props.theme.border_box};
+  width: 100%;
+  height: 90%;
+  overflow: auto;
+`;
 
 export default ChatList;
