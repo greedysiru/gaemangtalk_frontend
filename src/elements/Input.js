@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 import { Text, Grid } from "./index";
 
+
+
 const Input = (props) => {
   const {
     label,
@@ -46,18 +48,12 @@ const Input = (props) => {
                 onSubmit(e);
               }
             }}
+            autoFocus={true}
           ></ElMessageWrite>
         ) : (
           <ElMessageWrite
-            value={value}
-            type={type}
-            placeholder={placeholder}
-            onChange={_onChange}
-            onKeyPress={(e) => {
-              if (e.key === "Enter") {
-                onSubmit(e);
-              }
-            }}
+            value="연결중입니다. 지체되는 경우, 채팅방을 다시 클릭해주세요! 🙏"
+
             disabled
           >
 
@@ -102,7 +98,7 @@ Input.defaultProps = {
   is_submit: false,
   onSubmit: () => { },
   _onChange: () => { },
-  autoFocus: false,
+  autoFocus: true
 };
 
 const ElTextarea = styled.textarea`
