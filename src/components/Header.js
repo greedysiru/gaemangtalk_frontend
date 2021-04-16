@@ -9,7 +9,7 @@ import {
   IoPersonOutline,
   IoPerson
 } from 'react-icons/io5';
-import { getCookie } from '../shared/cookie';
+import { deleteCookie, getCookie } from '../shared/cookie';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../redux/modules/user';
 
@@ -17,10 +17,15 @@ const Header = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
     const username = getCookie('username');
+    const userId = getCookie('userId');
     if (username) {
-      dispatch(userActions.setUser(username));
+      dispatch(userActions.setUser({ username, userId }));
     }
   }, []);
+
+  const logout = () => {
+    dispatch(userActions.logout());
+  };
   return (
     <Container>
       <IconWrap>
@@ -29,7 +34,7 @@ const Header = (props) => {
       <IconWrap>
         <IoPersonOutline />
       </IconWrap>
-      <IconWrap>
+      <IconWrap onClick={logout}>
         <IoLogOutOutline />
       </IconWrap>
     </Container>

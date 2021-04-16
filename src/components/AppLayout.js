@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Header from './Header';
 function AppLayout(props) {
+  console.log(props);
   return (
     <Container>
       <Header />

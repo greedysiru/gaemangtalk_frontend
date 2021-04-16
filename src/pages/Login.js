@@ -20,10 +20,6 @@ const Login = ({ history, match }) => {
   const username = useSelector((state) => state.user.userInfo?.username);
 
   useEffect(() => {
-    /* if (match.path === '/login/kakao') {
-      console.log(document.cookie, '쿠키!');
-      dispatch(userActions.getUserByToken());
-    } */
     return () => {
       dispatch(userActions.setLoginError(null));
     };
@@ -35,19 +31,10 @@ const Login = ({ history, match }) => {
   };
 
   const logout = () => {
-    deleteCookie('access-token');
-    deleteCookie('username');
-    deleteCookie('email');
-    deleteCookie('userId');
     dispatch(userActions.logout());
   };
 
-  const onKakaoLogin = () => {
-    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-  };
-
   const kakaoLoginSuccessHandler = (res) => {
-    console.log('성공', res.response.access_token);
     const data = res.response;
     dispatch(
       userActions.loginByKakao({
@@ -57,10 +44,6 @@ const Login = ({ history, match }) => {
         refresh_token_expires_in: data.refresh_token_expires_in */
       })
     );
-    /* access_token: "aJlr-ZUfPs6KT5yESuMKss7mROQdzLuuu04cOAo9c-wAAAF42fxFMA"
-expires_in: 7199
-refresh_token: "7Kz3gmneRD2muviI2ju-0ecmlEKd_DO7GdXVtgo9c-wAAAF42fxFMA"
-refresh_token_expires_in: 5183999 */
   };
 
   return (
@@ -146,6 +129,7 @@ const SearchPassword = styled.span`
 const KakaoButton = styled.img`
   cursor: pointer;
   width: 100%;
+  height: 50px;
 `;
 
 export default Login;
