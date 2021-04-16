@@ -6,12 +6,12 @@ import styled from 'styled-components';
 import { Button, Input, Text, Wrapper } from '../elements';
 import ErrorMsg from '../elements/ErrorMsg';
 import { userActions } from '../redux/modules/user';
-import { CLIENT_ID, REDIRECT_URI } from '../shared/common';
+import { CLIENT_ID, REDIRECT_URI, KAKAO_JS_ID } from '../shared/common';
 import { deleteCookie } from '../shared/cookie';
 import useInput from '../shared/useInput';
 
 // 로그인 페이지 컴포넌트
-const Login = ({ history }) => {
+const Login = ({ history, match }) => {
   const dispatch = useDispatch();
   const [email, setEmail, onChangeEmail] = useInput('');
   const [password, setPassword, onChangePassword] = useInput('');
@@ -19,6 +19,10 @@ const Login = ({ history }) => {
   const username = useSelector((state) => state.user.username);
 
   useEffect(() => {
+    if (match.path === '/login/kakao') {
+      console.log('카카오 로그인');
+      dispatch(userActions.getUserByToken());
+    }
     return () => {
       dispatch(userActions.setLoginError(null));
     };
@@ -39,6 +43,11 @@ const Login = ({ history }) => {
   const onKakaoLogin = () => {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
   };
+
+  const kakaoLoginSuccessHandler = (res) => {
+    console.log('성공', res);
+  };
+
   return (
     <Container>
       {username && (

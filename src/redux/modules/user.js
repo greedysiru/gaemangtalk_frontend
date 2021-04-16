@@ -4,7 +4,7 @@ import { setCookie } from '../../shared/cookie';
 import { userAPI } from '../../shared/api';
 
 export const initialState = {
-  username: null,
+  userInfo: null,
   isValidEmailMultiple: false,
   loginError: null,
   authNumber: ''
@@ -20,7 +20,7 @@ const logout = createAction('user/LOGOUT');
 
 const user = createReducer(initialState, {
   [setUser]: (state, { payload }) => {
-    state.username = payload;
+    state.userInfo = payload;
   },
   [logout]: (state, { payload }) => {
     state.username = null;
@@ -64,14 +64,15 @@ const login = (data) => async (dispatch, getState, { history }) => {
 
     const token = res.data.token;
     const username = res.data.username;
+    const userId = res.data.userid;
 
     setCookie('access-token', token);
     setCookie('username', username);
-    setCookie('email', data.email);
+    setCookie('userIid', userId);
     axios.defaults.headers.common['token'] = `${token}`;
 
-    dispatch(setUser(username));
-    history.push('/');
+    dispatch(setUser(res.data));
+    history.push('/chat');
   } catch (error) {
     console.error(error);
     dispatch(setLoginError(error.response.data.errorMessage));
@@ -97,10 +98,18 @@ const updatePassword = (data) => async (dispatch, getState, { history }) => {
   }
 };
 
-const kakaoLogin = () => async (dispatch, getState, { history }) => {
+const getUserByToken = () => async (dispatch, getState, { history }) => {
   try {
-    const res = await userAPI.kakaoLogin();
-    console.log('카카오', res);
+    const res = await userAPI.getUserByToken();
+    const token = res.data.token;
+    const username = res.data.username;
+    const userId = res.data.userid;
+
+    setCookie('access-token', token);
+    setCookie('username', username);
+    setCookie('userIid', userId);
+    dispatch(setUser(res.data));
+    history.push('/chat');
   } catch (error) {
     console.error(error);
   }
@@ -117,7 +126,7 @@ export const userActions = {
   setAuthNumber,
   updatePassword,
   setUser,
-  kakaoLogin
+  getUserByToken
 };
 
 export default user;

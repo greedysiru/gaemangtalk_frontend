@@ -24,6 +24,7 @@ function App() {
       <AppLayout>
         <Switch>
           <Route path="/" exact component={Login} />
+          <Route path="/login/kakao" exact component={Login} />
           <Route path="/chat" exact component={Chatting} />
           <Route path="/signup" exact component={Signup} />
           <Route path="/findPassword" exact component={PasswordFind} />
