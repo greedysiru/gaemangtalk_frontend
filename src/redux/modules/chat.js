@@ -1,15 +1,7 @@
 import { createReducer, createAction } from '@reduxjs/toolkit';
-import axios from 'axios';
 
-// 소켓 통신
-import Stomp from 'stompjs';
-import SockJS from 'sockjs-client';
-
-// 쿠키
-import { getCookie } from '../../shared/cookie';
-
-
-axios.defaults.baseURL = 'http://54.180.141.91:8080';
+// api 가져오기
+import { chatAPI } from '../../shared/api';
 
 export const initialState = {
   // 채팅 리스트를 받는 배열
@@ -78,35 +70,58 @@ const chat = createReducer(initialState, {
 
 // thunk
 // 채팅방 생성
-const createRoom = (data, closePopup) => {
-  return function (dispatch, getState, { history }) {
-    axios.post(`/api/chat/rooms`, data)
-      .then((res) => {
-        // 채팅방 리스트 다시 가져오기
-        console.log(res)
-        window.alert('채팅방이 생성되었습니다.')
-        dispatch(getChatList());
-        closePopup();
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-      ;
-  };
+// const createRoom = (data, closePopup) => {
+//   return function (dispatch, getState, { history }) {
+//     axios.post(`/api/chat/rooms`, data)
+//       .then((res) => {
+//         // 채팅방 리스트 다시 가져오기
+//         console.log(res)
+//         window.alert('채팅방이 생성되었습니다.')
+//         dispatch(getChatList());
+//         closePopup();
+//       })
+//       .catch((err) => {
+//         console.log(err)
+//       })
+//       ;
+//   };
+// };
+
+const createRoom = (data, closePopup) => async (dispatch, getState, { history }) => {
+  try {
+    const res = await chatAPI.createRoom(data);
+    window.alert('채팅방이 생성되었습니다.')
+    dispatch(getChatList());
+    closePopup();
+  }
+  catch (error) {
+    console.log(error);
+  }
 };
 
 // 채팅방 목록 조회
-const getChatList = () => {
-  return function (dispatch, getState, { history }) {
-    axios.get(`/api/chat/rooms`)
-      .then((res) => {
-        dispatch(getChat(res.data));
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-      ;
-  };
+// const getChatList = () => {
+//   return function (dispatch, getState, { history }) {
+//     axios.get(`/api/chat/rooms`)
+//       .then((res) => {
+//         dispatch(getChat(res.data));
+//       })
+//       .catch((err) => {
+//         console.log(err)
+//       })
+//       ;
+//   };
+// };
+
+// 채팅방 목록 조회
+const getChatList = () => async (dispatch, getState, { history }) => {
+  try {
+    const res = await chatAPI.getChatList();
+    dispatch(getChat(res.data));
+  }
+  catch (error) {
+    console.log(error);
+  }
 };
 
 // web socket
@@ -160,21 +175,31 @@ const getChatList = () => {
 // }
 
 // DB에 존재하는 채팅방 메시지들 가져오기
-const getChatMessages = () => {
-  return function (dispatch, getState, { history }) {
+// const getChatMessages = () => {
+//   return function (dispatch, getState, { history }) {
+//     const roomId = getState().chat.currentChat.roomId;
+//     axios.get(`/api/chat/rooms/${roomId}/messages`)
+//       .then((res) => {
+//         const chatMessagesArray = res.data.content;
+//         dispatch(setMessages(chatMessagesArray));
+//       })
+//       .catch((err) => {
+//         console.log(err)
+//       });
+//   };
+// };
+
+// DB에 존재하는 채팅방 메시지들 가져오기
+const getChatMessages = () => async (dispatch, getState, { history }) => {
+  try {
     const roomId = getState().chat.currentChat.roomId;
-    axios.get(`/api/chat/rooms/${roomId}/messages`)
-      .then((res) => {
-        const chatMessagesArray = res.data.content;
-        dispatch(setMessages(chatMessagesArray));
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-      ;
-
-
-  };
+    const res = await chatAPI.getChatMessages(roomId);
+    const chatMessagesArray = res.data.content;
+    dispatch(setMessages(chatMessagesArray));
+  }
+  catch (error) {
+    console.log(error);
+  }
 };
 
 // // 스크롤 아래 이동
