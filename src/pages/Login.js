@@ -16,11 +16,11 @@ const Login = ({ history, match }) => {
   const [email, setEmail, onChangeEmail] = useInput('');
   const [password, setPassword, onChangePassword] = useInput('');
   const loginError = useSelector((state) => state.user.loginError);
-  const username = useSelector((state) => state.user.username);
+  const username = useSelector((state) => state.user.userInfo?.username);
 
   useEffect(() => {
     if (match.path === '/login/kakao') {
-      console.log('카카오 로그인');
+      console.log(document.cookie, '쿠키!');
       dispatch(userActions.getUserByToken());
     }
     return () => {
@@ -37,6 +37,7 @@ const Login = ({ history, match }) => {
     deleteCookie('access-token');
     deleteCookie('username');
     deleteCookie('email');
+    deleteCookie('userId');
     dispatch(userActions.logout());
   };
 
