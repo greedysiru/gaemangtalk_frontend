@@ -5,10 +5,13 @@ import styled from 'styled-components';
 
 import { getCookie } from '../shared/cookie';
 
+// 리덕스 접근
+import { useSelector, useDispatch } from 'react-redux';
 
 // 사용자 - 상대방의 메시지 내용을 출력할 말풍선 컴포넌트
 const Message = (props) => {
-  const email = getCookie('email')
+  const email = getCookie('email');
+  const userId = useSelector((state) => state.user.userId);
   const { messageInfo } = props;
 
   // 타임 스탬프
@@ -18,6 +21,9 @@ const Message = (props) => {
   }
 
   // 사용자 본인 메시지
+  // 일반로그인 유저(이전)
+
+  // 이메일과 비교
   if (messageInfo.senderEmail === email) {
     return (
       <MessageWrap is_me={true}>
@@ -33,9 +39,25 @@ const Message = (props) => {
           </SenderSpan>
         </SenderWrap>
       </MessageWrap>
-
     )
+    // 유저 아이디와 비교(최신 버전)
 
+  } else if (messageInfo.userId === userId) {
+    return (
+      <MessageWrap is_me={true}>
+        <SenderWrap >
+          <SenderSpan is_me={true}>
+            {messageInfo.sender}
+          </SenderSpan>
+          <ElMessage is_me={true}>
+            {messageInfo.message}
+          </ElMessage>
+          <SenderSpan is_me={true}>
+            {time}
+          </SenderSpan>
+        </SenderWrap>
+      </MessageWrap>
+    )
   }
   else if (messageInfo.type === "ENTER") {
     return (
