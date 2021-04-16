@@ -74,8 +74,8 @@ const Signup = (props) => {
   const onChangeUsername = (e) => {
     // validation 색깔 바꾸기 용
     if (!isStartUsernameInput) setIsStartUsernameInput(true);
-    // 영어 숫자만 입력가능
-    e.target.value = e.target.value.replace(/[^A-Za-z0-9]/gi, '');
+    // 영어 숫자 한글 - _ 만 입력가능
+    e.target.value = e.target.value.replace(/[^가-힣A-Za-z0-9-_]/gi, '');
 
     setUsername(e.target.value);
 
@@ -147,7 +147,7 @@ const Signup = (props) => {
               <Input
                 onFocus={() => setIsOpenUsernameValid(true)}
                 onChange={onChangeUsername}
-                placeholder="3~20자리의 숫자, 영어만 가능합니다."
+                placeholder="3~20자리의 숫자, 영어, 한글, -,_만 가능합니다."
               ></Input>
               <ValidWrapper isOpen={isOpenUsernameValid}>
                 <InputValid
