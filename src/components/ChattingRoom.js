@@ -80,44 +80,76 @@ const ChattingRoom = (props) => {
   };
 
   const messageText = useSelector((state) => state.chat.messageText);
-  const sendMessage = () => {
-    const token = getCookie('access-token');
-    const sender = getCookie('username');
-    // 빈문자열이면 리턴
-    if (messageText === '') {
-      return;
+  let sender = useSelector((state) => state.user.userInfo.username);
+  if (!sender) {
+    sender = getCookie('username');
+  }
+  async function sendMessage() {
+    try {
+      // 빈문자열이면 리턴
+      if (messageText === '') {
+        return;
+      }
+      // 로딩 중
+      dispatch(chatActions.isLoading());
+      // 토큰과 유저이름 접근
+      const token = getCookie('access-token');
+      // 웹소켓 send 메소드
+      await ws.send(
+        '/pub/api/chat/message',
+        { token: token },
+        JSON.stringify({
+          type: 'TALK',
+          roomId: roomId,
+          sender: sender,
+          message: messageText,
+          senderEmail: null
+        })
+      );
+      dispatch(chatActions.writeMessage(''));
+      dispatch(chatActions.isLoaded());
+    } catch (error) {
+      console.log(error)
     }
-    // 로딩 중
-    dispatch(chatActions.isLoading());
-    // 보낼 데이터
-    // const messageData = {
-    //   'type': 'TALK',
-    //   'roomId': roomId,
-    //   'sender': sender,
-    //   'message': messageText,
-    //   'senderEmail': null,
-    // }
-    ws.send(
-      '/pub/api/chat/message',
-      { token: token },
-      JSON.stringify({
-        type: 'TALK',
-        roomId: roomId,
-        sender: sender,
-        message: messageText,
-        senderEmail: null
-      })
-    );
-    dispatch(chatActions.writeMessage(''));
-    // dispatch(chatActions.moveScrollBottom());
+  }
+  // const sendMessage = () => {
+  //   const token = getCookie('access-token');
+  //   const sender = getCookie('username');
+  //   // 빈문자열이면 리턴
+  //   if (messageText === '') {
+  //     return;
+  //   }
+  //   // 로딩 중
+  //   dispatch(chatActions.isLoading());
+  //   // 보낼 데이터
+  //   // const messageData = {
+  //   //   'type': 'TALK',
+  //   //   'roomId': roomId,
+  //   //   'sender': sender,
+  //   //   'message': messageText,
+  //   //   'senderEmail': null,
+  //   // }
+  //   ws.send(
+  //     '/pub/api/chat/message',
+  //     { token: token },
+  //     JSON.stringify({
+  //       type: 'TALK',
+  //       roomId: roomId,
+  //       sender: sender,
+  //       message: messageText,
+  //       senderEmail: null
+  //     })
+  //   );
+  //   dispatch(chatActions.writeMessage(''));
+  //   // dispatch(chatActions.moveScrollBottom());
 
-    // // 메세지리스트 요소 가져오기
-    // const MessageListElement = document.getElementById('messagelist');
-    // // 메세지리스트 길이
-    // const MessageListElementHeight = MessageListElement.scrollHeight;
-    // // 아래로 이동
-    // MessageListElement.scroll({ top: MessageListElementHeight, left: 0, behavior: 'smooth' });
-  };
+  //   // // 메세지리스트 요소 가져오기
+  //   // const MessageListElement = document.getElementById('messagelist');
+  //   // // 메세지리스트 길이
+  //   // const MessageListElementHeight = MessageListElement.scrollHeight;
+  //   // // 아래로 이동
+  //   // MessageListElement.scroll({ top: MessageListElementHeight, left: 0, behavior: 'smooth' });
+  // };
 
   return (
     <Container>

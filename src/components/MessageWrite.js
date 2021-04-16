@@ -80,6 +80,7 @@ const MessageWrite = (props) => {
             sendMessage();
             setMessageText('');
           }}
+
           loading={loading}
         />
 

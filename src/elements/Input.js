@@ -49,15 +49,8 @@ const Input = (props) => {
           ></ElMessageWrite>
         ) : (
           <ElMessageWrite
-            value={value}
-            type={type}
-            placeholder={placeholder}
-            onChange={_onChange}
-            onKeyPress={(e) => {
-              if (e.key === "Enter") {
-                onSubmit(e);
-              }
-            }}
+            value="연결중입니다. 지체되는 경우, 채팅방을 다시 클릭해주세요! 🙏"
+
             disabled
           >
 
