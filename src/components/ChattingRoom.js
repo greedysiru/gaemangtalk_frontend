@@ -80,7 +80,7 @@ const ChattingRoom = (props) => {
   };
 
   const messageText = useSelector((state) => state.chat.messageText);
-  let sender = useSelector((state) => state.user.userInfo.username);
+  let sender = useSelector((state) => state.user.userInfo?.username);
   if (!sender) {
     sender = getCookie('username');
   }

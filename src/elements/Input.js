@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 import { Text, Grid } from "./index";
 
+
+
 const Input = (props) => {
   const {
     label,
@@ -46,6 +48,7 @@ const Input = (props) => {
                 onSubmit(e);
               }
             }}
+            autoFocus={true}
           ></ElMessageWrite>
         ) : (
           <ElMessageWrite
@@ -95,7 +98,7 @@ Input.defaultProps = {
   is_submit: false,
   onSubmit: () => { },
   _onChange: () => { },
-  autoFocus: false,
+  autoFocus: true
 };
 
 const ElTextarea = styled.textarea`

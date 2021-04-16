@@ -25,7 +25,7 @@ import { chatActions } from '../redux/modules/chat';
 const MessageWrite = (props) => {
   const dispatch = useDispatch();
   // 메시지 텍스트 입력받기
-  const [messageText, setMessageText] = React.useState('');
+  const [messageText, setMessageText] = React.useState();
 
   const { sendMessage } = props;
 
@@ -37,6 +37,11 @@ const MessageWrite = (props) => {
     dispatch(chatActions.writeMessage(e.target.value));
   }
 
+  // 오토 포커스 대상
+  const autoFocusRef = React.useRef(null);
+  React.useEffect(() => {
+    autoFocusRef.current?.focus();
+  }, [])
 
   // 메세지 보내기 함수
   // const sendMessage = () => {
@@ -80,7 +85,7 @@ const MessageWrite = (props) => {
             sendMessage();
             setMessageText('');
           }}
-
+          ref={autoFocusRef}
           loading={loading}
         />
 
