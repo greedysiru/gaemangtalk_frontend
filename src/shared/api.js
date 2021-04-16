@@ -33,3 +33,16 @@ export const userAPI = {
     return axios.get('/api/user/getUserInfo');
   }
 };
+
+export const chatAPI = {
+  createRoom: function (data) {
+    return axios.post(`/api/chat/rooms`, data);
+  },
+  getChatList: function () {
+    return axios.get(`/api/chat/rooms`);
+  },
+  getChatMessages: function (roomId) {
+    return axios.get(`/api/chat/rooms/${roomId}/messages`);
+  }
+
+}
