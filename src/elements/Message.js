@@ -8,6 +8,9 @@ import { getCookie } from '../shared/cookie';
 // 리덕스 접근
 import { useSelector, useDispatch } from 'react-redux';
 
+// noroom
+import NoRoom from '../components/NoRoom';
+
 // 사용자 - 상대방의 메시지 내용을 출력할 말풍선 컴포넌트
 const Message = (props) => {
   const email = getCookie('email');
@@ -19,7 +22,7 @@ const Message = (props) => {
 
   // 스피너 넣기
   if (!messageInfo) {
-    return null;
+    return <NoRoom />
   }
 
   // 타임 스탬프
@@ -49,9 +52,10 @@ const Message = (props) => {
       </MessageWrap>
     )
 
-    // 유저 아이디와 비교(최신 버전)
-  } if (messageInfo.userId === userId) {
-    console.log('가')
+  }
+  // 유저 아이디와 비교(최신 버전)
+
+  if (userId == messageInfo.userId) {
     return (
       <MessageWrap is_me={true}>
         <SenderWrap >
@@ -85,8 +89,9 @@ const Message = (props) => {
       </QuitWrap>
 
     )
-  } else {
-    console.log('나')
+  }
+  // 상대방 메시지
+  else {
     return (
       < MessageWrap >
         <SenderWrap>
