@@ -16,4 +16,4 @@ export const testEmailValid = (email) => {
 };
 
 export const CLIENT_ID = 'cf46ee4d87cfa04079ea96538e2d4708';
-export const REDIRECT_URI = 'http://gaemangtalk.site/user/kakao/callback';
+export const REDIRECT_URI = 'http://54.180.141.91:8080/user/kakao/callback';
