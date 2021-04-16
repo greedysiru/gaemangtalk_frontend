@@ -11,8 +11,16 @@ import { useSelector, useDispatch } from 'react-redux';
 // 사용자 - 상대방의 메시지 내용을 출력할 말풍선 컴포넌트
 const Message = (props) => {
   const email = getCookie('email');
-  const userId = useSelector((state) => state.user.userId);
+  let userId = useSelector((state) => state.user.userId);
+  if (!userId) {
+    userId = getCookie('userId');
+  }
   const { messageInfo } = props;
+
+  // 스피너 넣기
+  if (!messageInfo) {
+    return null;
+  }
 
   // 타임 스탬프
   let time = ''
@@ -40,9 +48,10 @@ const Message = (props) => {
         </SenderWrap>
       </MessageWrap>
     )
-    // 유저 아이디와 비교(최신 버전)
 
-  } else if (messageInfo.userId === userId) {
+    // 유저 아이디와 비교(최신 버전)
+  } if (messageInfo.userId === userId) {
+    console.log('가')
     return (
       <MessageWrap is_me={true}>
         <SenderWrap >
@@ -59,7 +68,7 @@ const Message = (props) => {
       </MessageWrap>
     )
   }
-  else if (messageInfo.type === "ENTER") {
+  if (messageInfo.type === "ENTER") {
     return (
 
       <EnterWrap >
@@ -68,7 +77,7 @@ const Message = (props) => {
 
     )
   }
-  else if (messageInfo.type === "QUIT") {
+  if (messageInfo.type === "QUIT") {
     return (
 
       <QuitWrap >
@@ -77,8 +86,9 @@ const Message = (props) => {
 
     )
   } else {
+    console.log('나')
     return (
-      <MessageWrap >
+      < MessageWrap >
         <SenderWrap>
           <SenderSpan>
             {messageInfo.sender}
@@ -90,7 +100,7 @@ const Message = (props) => {
             {time}
           </SenderSpan>
         </SenderWrap>
-      </MessageWrap>
+      </MessageWrap >
     )
   }
 
