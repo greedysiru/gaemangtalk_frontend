@@ -177,6 +177,22 @@ const getChatMessages = () => {
   };
 };
 
+// // 스크롤 아래 이동
+// const moveScrollBottom = () => {
+//   return function (dispatch, getState, { history }) {
+//     // 메세지리스트 요소 가져오기
+//     const MessageListElement = document.getElementById('messagelist');
+//     // 요소가 없으면 바로 리턴
+//     if (!MessageListElement) {
+//       return
+//     }
+//     // 메세지리스트 길이
+//     const MessageListElementHeight = MessageListElement.scrollHeight;
+//     // 아래로 이동
+//     MessageListElement.scroll({ top: MessageListElementHeight, left: 0, behavior: 'smooth' });
+
+//   }
+// }
 
 export const chatActions = {
   createRoom,

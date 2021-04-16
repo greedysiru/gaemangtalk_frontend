@@ -82,18 +82,22 @@ const MessageWrite = (props) => {
           }}
           loading={loading}
         />
-        <IconWrap
-          onClick={() => {
-            sendMessage();
-            setMessageText('');
 
-          }
-          }
-        >
-          {/* 로딩중이면 보내기 막기 */}
-          {loading ? (<IoArrowUp />) : null}
+        {/* 로딩중이면 보내기 막기 */}
+        {loading ? (
+          <IconWrap
+            onClick={() => {
+              sendMessage();
+              setMessageText('');
 
-        </IconWrap>
+            }
+            }
+          >
+            <IoArrowUp />
+          </IconWrap>
+
+        ) : null}
+
       </Container>
     </MessageWriteWrap>
   );

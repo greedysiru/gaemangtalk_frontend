@@ -101,7 +101,14 @@ const ChattingRoom = (props) => {
       })
     )
     dispatch(chatActions.writeMessage(''));
+    // dispatch(chatActions.moveScrollBottom());
 
+    // // 메세지리스트 요소 가져오기
+    // const MessageListElement = document.getElementById('messagelist');
+    // // 메세지리스트 길이
+    // const MessageListElementHeight = MessageListElement.scrollHeight;
+    // // 아래로 이동
+    // MessageListElement.scroll({ top: MessageListElementHeight, left: 0, behavior: 'smooth' });
   }
 
 

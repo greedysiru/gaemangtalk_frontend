@@ -70,6 +70,7 @@ const ChatList = (props) => {
 
   React.useEffect(() => {
     // dispatch(chatActions.enterChatRoom());
+
   }, [])
 
   return (
