@@ -48,13 +48,11 @@ const Input = (props) => {
                 onSubmit(e);
               }
             }}
-            autoFocus={true}
           ></ElMessageWrite>
         ) : (
           <ElMessageWrite
             value="연결중입니다. 지체되는 경우, 채팅방을 다시 클릭해주세요! 🙏"
 
-            disabled
           >
 
           </ElMessageWrite>
@@ -98,7 +96,6 @@ Input.defaultProps = {
   is_submit: false,
   onSubmit: () => { },
   _onChange: () => { },
-  autoFocus: true
 };
 
 const ElTextarea = styled.textarea`

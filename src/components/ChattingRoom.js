@@ -30,46 +30,89 @@ const ChattingRoom = (props) => {
   const sock = new SockJS('http://54.180.141.91:8080/chatting');
   const ws = Stomp.over(sock);
 
-  // 방 제목 가져오기
-  const roomName = useSelector((state) => state.chat.currentChat.roomName);
-  const roomId = useSelector((state) => state.chat.currentChat.roomId);
-  const dispatch = useDispatch();
-
-  React.useEffect(() => {
-    // roomId가 없으면 실행하지 않기
-    console.log(roomId);
-    if (roomId === null) {
-      return;
-    }
-    const token = getCookie('access-token');
-    // DB에 채팅 목록 가져오기
-
-    ws.connect(
-      {
-        token: token
-      },
-      () => {
-        ws.subscribe(
-          `/sub/api/chat/rooms/${roomId}`,
-          (data) => {
-            const newMessage = JSON.parse(data.body);
-            dispatch(chatActions.getMessages(newMessage));
-          },
-          { token: token }
-        );
-      }
-    );
-
-    return () => {
+  // 웹소켓 연결, 구독
+  async function wsConnectSubscribe() {
+    try {
       const token = getCookie('access-token');
-      ws.disconnect(
+      await ws.connect(
+        {
+          token: token
+        },
+        () => {
+          ws.subscribe(
+            `/sub/api/chat/rooms/${roomId}`,
+            (data) => {
+              const newMessage = JSON.parse(data.body);
+              dispatch(chatActions.getMessages(newMessage));
+            },
+            { token: token }
+          );
+        }
+      );
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function wsDisConnectUnsubscribe() {
+    try {
+      const token = getCookie('access-token');
+      await ws.disconnect(
         () => {
           ws.unsubscribe('sub-0');
         },
         { token: token }
       );
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  // 방 제목 가져오기
+  const roomName = useSelector((state) => state.chat.currentChat.roomName);
+  const roomId = useSelector((state) => state.chat.currentChat.roomId);
+  // 로딩 상테 가져오기
+  const loading = useSelector((state) => state.chat.loading);
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    // // roomId가 없으면 실행하지 않기
+    // console.log(roomId);
+    // if (roomId === null) {
+    //   return;
+    // }
+    // const token = getCookie('access-token');
+    // // DB에 채팅 목록 가져오기
+
+    // ws.connect(
+    //   {
+    //     token: token
+    //   },
+    //   () => {
+    //     ws.subscribe(
+    //       `/sub/api/chat/rooms/${roomId}`,
+    //       (data) => {
+    //         const newMessage = JSON.parse(data.body);
+    //         dispatch(chatActions.getMessages(newMessage));
+    //       },
+    //       { token: token }
+    //     );
+    //   }
+    // );
+    wsConnectSubscribe();
+    return () => {
+      // const token = getCookie('access-token');
+      // ws.disconnect(
+      //   () => {
+      //     ws.unsubscribe('sub-0');
+      //   },
+      //   { token: token }
+      // );
+      wsDisConnectUnsubscribe();
     };
   }, [roomId]);
+
+
 
   // 연결 해제
   const roomDisconnect = () => {
@@ -95,6 +138,12 @@ const ChattingRoom = (props) => {
       // 토큰과 유저이름 접근
       const token = getCookie('access-token');
       // 웹소켓 send 메소드
+      // 연결 전일 때
+      if (ws.ws.readyState === 0) {
+        dispatch(chatActions.isLoaded());
+        window.alert('도배는 자제해주세요. 😵')
+        return
+      }
       await ws.send(
         '/pub/api/chat/message',
         { token: token },
@@ -103,13 +152,15 @@ const ChattingRoom = (props) => {
           roomId: roomId,
           sender: sender,
           message: messageText,
-          senderEmail: null
+          senderEmail: null,
         })
       );
+      console.log(ws.ws.readyState);
       dispatch(chatActions.writeMessage(''));
-      dispatch(chatActions.isLoaded());
     } catch (error) {
       console.log(error)
+      console.log(ws.ws.readyState);
+
     }
   }
   // const sendMessage = () => {
