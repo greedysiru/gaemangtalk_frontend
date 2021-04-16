@@ -11,6 +11,9 @@ export const userAPI = {
   login: function (data) {
     return axios.post('/api/user/login', data);
   },
+  loginByKakao: function (data) {
+    return axios.post('/api/user/kakaoLogin', data);
+  },
   logout: function () {
     return axios.post('/user/logout');
   },
@@ -25,12 +28,6 @@ export const userAPI = {
   },
   updatePassword: function (data) {
     return axios.put('/api/user/changePassword', data);
-  },
-  getUserByToken: function () {
-    /*  axios.defaults.headers.common[
-      'token'
-    ] = `eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxNSIsImlhdCI6MTYxODU1MTQzMSwiZXhwIjoxNjE4NTUzMjMxfQ.3g-mQ3MVy1xcTKkts0lYLaWN4bfjorEtzCLwmqb-sJY`; */
-    return axios.get('/api/user/getUserInfo');
   }
 };
 
@@ -44,5 +41,4 @@ export const chatAPI = {
   getChatMessages: function (roomId) {
     return axios.get(`/api/chat/rooms/${roomId}/messages`);
   }
-
-}
+};

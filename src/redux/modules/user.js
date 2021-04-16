@@ -73,7 +73,29 @@ const login = (data) => async (dispatch, getState, { history }) => {
     axios.defaults.headers.common['token'] = `${token}`;
 
     dispatch(setUser(res.data));
-    history.push('/');
+    history.push('/chat');
+  } catch (error) {
+    console.error(error);
+    dispatch(setLoginError(error.response.data.errorMessage));
+  }
+};
+
+const loginByKakao = (data) => async (dispatch, getState, { history }) => {
+  try {
+    const res = await userAPI.loginByKakao(data);
+    console.log('카카오로그인', res);
+    const token = res.data.token;
+    const username = res.data.username;
+    const userId = res.data.userid;
+
+    setCookie('access-token', token);
+    setCookie('username', username);
+    setCookie('userId', userId);
+    setCookie('email', data.email);
+    axios.defaults.headers.common['token'] = `${token}`;
+
+    dispatch(setUser(res.data));
+    history.push('/chat');
   } catch (error) {
     console.error(error);
     dispatch(setLoginError(error.response.data.errorMessage));
@@ -99,23 +121,6 @@ const updatePassword = (data) => async (dispatch, getState, { history }) => {
   }
 };
 
-const getUserByToken = () => async (dispatch, getState, { history }) => {
-  try {
-    const res = await userAPI.getUserByToken();
-    const token = res.data.token;
-    const username = res.data.username;
-    const userId = res.data.userid;
-
-    setCookie('access-token', token);
-    setCookie('username', username);
-    setCookie('userIid', userId);
-    dispatch(setUser(res.data));
-    history.push('/');
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 export const userActions = {
   signup,
   emailCheck,
@@ -127,7 +132,7 @@ export const userActions = {
   setAuthNumber,
   updatePassword,
   setUser,
-  getUserByToken
+  loginByKakao
 };
 
 export default user;

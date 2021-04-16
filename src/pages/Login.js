@@ -9,6 +9,7 @@ import { userActions } from '../redux/modules/user';
 import { CLIENT_ID, REDIRECT_URI, KAKAO_JS_ID } from '../shared/common';
 import { deleteCookie } from '../shared/cookie';
 import useInput from '../shared/useInput';
+import KaKaoLogin from 'react-kakao-login';
 
 // 로그인 페이지 컴포넌트
 const Login = ({ history, match }) => {
@@ -19,10 +20,10 @@ const Login = ({ history, match }) => {
   const username = useSelector((state) => state.user.userInfo?.username);
 
   useEffect(() => {
-    if (match.path === '/login/kakao') {
+    /* if (match.path === '/login/kakao') {
       console.log(document.cookie, '쿠키!');
       dispatch(userActions.getUserByToken());
-    }
+    } */
     return () => {
       dispatch(userActions.setLoginError(null));
     };
@@ -46,7 +47,20 @@ const Login = ({ history, match }) => {
   };
 
   const kakaoLoginSuccessHandler = (res) => {
-    console.log('성공', res);
+    console.log('성공', res.response.access_token);
+    const data = res.response;
+    dispatch(
+      userActions.loginByKakao({
+        kakaoToken: data.access_token
+        /*  expires_in: data.expires_in,
+        refresh_token: data.refresh_token,
+        refresh_token_expires_in: data.refresh_token_expires_in */
+      })
+    );
+    /* access_token: "aJlr-ZUfPs6KT5yESuMKss7mROQdzLuuu04cOAo9c-wAAAF42fxFMA"
+expires_in: 7199
+refresh_token: "7Kz3gmneRD2muviI2ju-0ecmlEKd_DO7GdXVtgo9c-wAAAF42fxFMA"
+refresh_token_expires_in: 5183999 */
   };
 
   return (
@@ -81,10 +95,19 @@ const Login = ({ history, match }) => {
           <Wrapper margin="0.5rem 0">
             <ErrorMsg valid={loginError}>{loginError}</ErrorMsg>
           </Wrapper>
-          <KakaoButton
-            onClick={onKakaoLogin}
-            src="https://s3.ap-northeast-2.amazonaws.com/yoooook.xyz/kakao_login_medium_wide.png"
-          />
+          <KaKaoLogin
+            //styled component 통해 style을 입혀 줄 예정
+            token={KAKAO_JS_ID}
+            //카카오에서 할당받은 jsKey를 입력
+            buttonText="카카오 계정으로 로그인"
+            //로그인 버튼의 text를 입력
+            onSuccess={kakaoLoginSuccessHandler}
+            //성공했을때 불러올 함수로서 fetch해서 localStorage에 저장할 함수를 여기로 저장
+            getProfile={true}
+          >
+            <KakaoButton src="https://s3.ap-northeast-2.amazonaws.com/yoooook.xyz/kakao_login_medium_wide.png" />
+          </KaKaoLogin>
+
           <Wrapper margin="0.5rem 0">
             <Button disabled={!email || !password} _onClick={onLogin}>
               로그인
@@ -122,6 +145,7 @@ const SearchPassword = styled.span`
 
 const KakaoButton = styled.img`
   cursor: pointer;
+  width: 100%;
 `;
 
 export default Login;
