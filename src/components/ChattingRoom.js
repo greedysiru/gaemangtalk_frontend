@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 // Components
-import MessageList from './MesseageList';
+import MessageList from './MessageList';
 import MessageWrite from './MessageWrite';
 import ChatList from './ChatList';
 
@@ -145,6 +145,7 @@ const ChattingRoom = (props) => {
           <React.Fragment>
             <MessageList />
             <MessageWrite sendMessage={sendMessage} />
+
           </React.Fragment>
         )}
       </ChatWrap>
@@ -163,7 +164,9 @@ const Container = styled.div`
 
 const ChatWrap = styled.div`
   ${(props) => props.theme.flex_column}
-  width: 80%;
+  width: 70%;
   height: 100%;
 `;
+
+
 export default ChattingRoom;

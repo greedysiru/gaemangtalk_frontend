@@ -75,50 +75,44 @@ const MessageWrite = (props) => {
 
 
   return (
-    <MessageWriteWrap>
-      <Container>
-        <Input
-          MessageWrite
-          value={messageText}
-          _onChange={handleMessageText}
-          onSubmit={() => {
+    <Container>
+      <Input
+        MessageWrite
+        value={messageText}
+        _onChange={handleMessageText}
+        onSubmit={() => {
+          sendMessage();
+          setMessageText('');
+        }}
+        ref={autoFocusRef}
+        loading={loading}
+      />
+
+      {/* 로딩중이면 보내기 막기 */}
+      {loading ? (
+        <IconWrap
+          onClick={() => {
             sendMessage();
             setMessageText('');
-          }}
-          ref={autoFocusRef}
-          loading={loading}
-        />
 
-        {/* 로딩중이면 보내기 막기 */}
-        {loading ? (
-          <IconWrap
-            onClick={() => {
-              sendMessage();
-              setMessageText('');
+          }
+          }
+        >
+          <IoArrowUp />
+        </IconWrap>
 
-            }
-            }
-          >
-            <IoArrowUp />
-          </IconWrap>
+      ) : null}
 
-        ) : null}
-
-      </Container>
-    </MessageWriteWrap>
+    </Container>
   );
 };
-
-const MessageWriteWrap = styled.div`
-  width: 100%
-`
 
 const Container = styled.div`
   ${(props) => props.theme.flex_row};
   background-color: ${(props) => props.theme.main_color_thick};
   justify-content: flex-start; 
   position: absolute;
-  width:100%;
+  width:70%;
   height: 8%;
   top: 92%;
   opacity: 0.6;

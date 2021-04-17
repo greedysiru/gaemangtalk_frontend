@@ -22,7 +22,7 @@ const Container = styled.div`
   }
 `;
 const Main = styled.div`
-  width: 100%;
+  width: 90%;
   height: 100%;
   ${(props) => props.theme.flex_row};
   justify-content: center;

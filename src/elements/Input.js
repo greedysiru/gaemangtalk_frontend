@@ -116,7 +116,7 @@ const ElInput = styled.input`
 const ElMessageWrite = styled.input`
   background-color: ${(props) => props.theme.main_color_thick};
   border: none;
-  width: 70%;
+  width: 90%;
   margin-left: 10px;
   padding: 12px 4px;
   box-sizing: border-box;
