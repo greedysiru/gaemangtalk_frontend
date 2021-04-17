@@ -17,6 +17,7 @@ import Signup from '../pages/Signup';
 import AppLayout from '../components/AppLayout';
 import Home from '../pages/Home';
 import PasswordFind from '../pages/PasswordFind';
+import UserInfo from '../pages/UserInfo';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/login/kakao" exact component={Login} />
           <Route path="/chat" exact component={Chatting} />
           <Route path="/signup" exact component={Signup} />
+          <Route path="/userInfo" exact component={UserInfo} />
           <Route path="/findPassword" exact component={PasswordFind} />
           <Route component={NotFound} />
         </Switch>

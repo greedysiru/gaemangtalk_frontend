@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-
+import { history } from '../redux/configureStore';
 // 아이콘
 import {
   IoChatboxOutline,
@@ -31,7 +31,7 @@ const Header = (props) => {
       <IconWrap>
         <IoChatboxOutline />
       </IconWrap>
-      <IconWrap>
+      <IconWrap onClick={() => history.push('/userInfo')}>
         <IoPersonOutline />
       </IconWrap>
       <IconWrap onClick={logout}>
