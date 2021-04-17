@@ -32,10 +32,35 @@ const ChattingRoom = (props) => {
   const sock = new SockJS('http://54.180.141.91:8080/chatting');
   const ws = Stomp.over(sock);
 
+  // 방 제목 가져오기
+  const roomName = useSelector((state) => state.chat.currentChat.roomName);
+  const roomId = useSelector((state) => state.chat.currentChat.roomId);
+
+  // 토큰
+  const token = getCookie('access-token');
+  const dispatch = useDispatch();
+
+  // 보낼 메시지 텍스트
+  const messageText = useSelector((state) => state.chat.messageText);
+  // sedner 정보 가져오기
+  let sender = useSelector((state) => state.user.userInfo?.username);
+  if (!sender) {
+    sender = getCookie('username');
+  }
+
+  // 렌더링 될 때마다 연결,구독 다른 방으로 옮길 때 연결, 구독 해제
+  React.useEffect(() => {
+
+    wsConnectSubscribe();
+    return () => {
+
+      wsDisConnectUnsubscribe();
+    };
+  }, [roomId]);
+
   // 웹소켓 연결, 구독
   async function wsConnectSubscribe() {
     try {
-      const token = getCookie('access-token');
       await ws.connect(
         {
           token: token
@@ -56,9 +81,9 @@ const ChattingRoom = (props) => {
     }
   }
 
+  // 연결해제, 구독해제
   async function wsDisConnectUnsubscribe() {
     try {
-      const token = getCookie('access-token');
       await ws.disconnect(
         () => {
           ws.unsubscribe('sub-0');
@@ -70,37 +95,24 @@ const ChattingRoom = (props) => {
     }
   }
 
-  // 방 제목 가져오기
-  const roomName = useSelector((state) => state.chat.currentChat.roomName);
-  const roomId = useSelector((state) => state.chat.currentChat.roomId);
-  // 로딩 상테 가져오기
-  const loading = useSelector((state) => state.chat.loading);
-  const dispatch = useDispatch();
-
-  React.useEffect(() => {
-
-    wsConnectSubscribe();
-    return () => {
-
-      wsDisConnectUnsubscribe();
-    };
-  }, [roomId]);
-
-  const messageText = useSelector((state) => state.chat.messageText);
-  let sender = useSelector((state) => state.user.userInfo?.username);
-  if (!sender) {
-    sender = getCookie('username');
-  }
-  async function sendMessage() {
+  // 메시지 보내기
+  async function sendMessage(data) {
     try {
+      // send할 데이터
+      const data = {
+        type: 'TALK',
+        roomId: roomId,
+        sender: sender,
+        message: messageText,
+        senderEmail: null,
+      }
       // 빈문자열이면 리턴
       if (messageText === '') {
         return;
       }
       // 로딩 중
       dispatch(chatActions.isLoading());
-      // 토큰과 유저이름 접근
-      const token = getCookie('access-token');
+
       // 웹소켓 send 메소드
       // 연결 전일 때
       if (ws.ws.readyState === 0) {
@@ -111,13 +123,7 @@ const ChattingRoom = (props) => {
       await ws.send(
         '/pub/api/chat/message',
         { token: token },
-        JSON.stringify({
-          type: 'TALK',
-          roomId: roomId,
-          sender: sender,
-          message: messageText,
-          senderEmail: null,
-        })
+        JSON.stringify(data)
       );
       console.log(ws.ws.readyState);
       dispatch(chatActions.writeMessage(''));
