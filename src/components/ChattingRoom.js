@@ -22,6 +22,8 @@ import { useDispatch, useSelector } from 'react-redux';
 // 소켓 통신
 import Stomp from 'stompjs';
 import SockJS from 'sockjs-client';
+
+// components
 import NoRoom from './NoRoom';
 
 // 채팅 방 컴포넌트
@@ -76,51 +78,13 @@ const ChattingRoom = (props) => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    // // roomId가 없으면 실행하지 않기
-    // console.log(roomId);
-    // if (roomId === null) {
-    //   return;
-    // }
-    // const token = getCookie('access-token');
-    // // DB에 채팅 목록 가져오기
 
-    // ws.connect(
-    //   {
-    //     token: token
-    //   },
-    //   () => {
-    //     ws.subscribe(
-    //       `/sub/api/chat/rooms/${roomId}`,
-    //       (data) => {
-    //         const newMessage = JSON.parse(data.body);
-    //         dispatch(chatActions.getMessages(newMessage));
-    //       },
-    //       { token: token }
-    //     );
-    //   }
-    // );
     wsConnectSubscribe();
     return () => {
-      // const token = getCookie('access-token');
-      // ws.disconnect(
-      //   () => {
-      //     ws.unsubscribe('sub-0');
-      //   },
-      //   { token: token }
-      // );
+
       wsDisConnectUnsubscribe();
     };
   }, [roomId]);
-
-
-
-  // 연결 해제
-  const roomDisconnect = () => {
-    // const token = getCookie('access-token');
-    // ws.disconnect(() => {
-    //   ws.unsubscribe('sub-0');
-    // }, { 'token': token })
-  };
 
   const messageText = useSelector((state) => state.chat.messageText);
   let sender = useSelector((state) => state.user.userInfo?.username);
@@ -163,48 +127,11 @@ const ChattingRoom = (props) => {
 
     }
   }
-  // const sendMessage = () => {
-  //   const token = getCookie('access-token');
-  //   const sender = getCookie('username');
-  //   // 빈문자열이면 리턴
-  //   if (messageText === '') {
-  //     return;
-  //   }
-  //   // 로딩 중
-  //   dispatch(chatActions.isLoading());
-  //   // 보낼 데이터
-  //   // const messageData = {
-  //   //   'type': 'TALK',
-  //   //   'roomId': roomId,
-  //   //   'sender': sender,
-  //   //   'message': messageText,
-  //   //   'senderEmail': null,
-  //   // }
-  //   ws.send(
-  //     '/pub/api/chat/message',
-  //     { token: token },
-  //     JSON.stringify({
-  //       type: 'TALK',
-  //       roomId: roomId,
-  //       sender: sender,
-  //       message: messageText,
-  //       senderEmail: null
-  //     })
-  //   );
-  //   dispatch(chatActions.writeMessage(''));
-  //   // dispatch(chatActions.moveScrollBottom());
 
-  //   // // 메세지리스트 요소 가져오기
-  //   // const MessageListElement = document.getElementById('messagelist');
-  //   // // 메세지리스트 길이
-  //   // const MessageListElementHeight = MessageListElement.scrollHeight;
-  //   // // 아래로 이동
-  //   // MessageListElement.scroll({ top: MessageListElementHeight, left: 0, behavior: 'smooth' });
-  // };
 
   return (
     <Container>
-      <ChatList roomDisconnect={roomDisconnect} prevRoomId={roomId} />
+      <ChatList prevRoomId={roomId} />
       <ChatWrap>
         <ChatName roomName={roomName} />
         {!roomId && <NoRoom />}
