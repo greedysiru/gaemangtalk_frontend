@@ -93,8 +93,8 @@ const ChatList = (props) => {
 
 const Container = styled.div`
   ${(props) => props.theme.border_box};
-  background-color: ${(props) => props.theme.main_color_blur};
-  width: 20%;
+  background-color: ${(props) => props.theme.theme_gray};
+  width: 30%;
   height: 100%;
 
   position: relative;
@@ -104,7 +104,7 @@ const Title = styled.div`
   ${(props) => props.theme.border_box};
   height: 10%;
   color: ${(props) => props.theme.font_color};
-  padding: 20px;
+  padding: 20px 20px 20px 30px;
   font-size: 26px;
   font-weight: 700;
 `;
@@ -114,6 +114,7 @@ const ChatListWrap = styled.div`
   width: 100%;
   height: 90%;
   overflow: auto;
+  padding: 0px 10px 0px 30px;
 `;
 
 export default ChatList;
