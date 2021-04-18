@@ -61,7 +61,7 @@ const Container = styled.div`
   justify-content: flex-start;
   width: 100%;
   height: 90%;
-  padding: 30px 60px 60px 60px;
+  padding: 30px 30px 60px 30px;
   overflow: auto;
 `;
 

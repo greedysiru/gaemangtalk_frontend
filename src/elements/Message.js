@@ -11,6 +11,9 @@ import { useSelector, useDispatch } from 'react-redux';
 // noroom
 import NoRoom from '../components/NoRoom';
 
+// 프로필 사진
+import { Image } from '../elements';
+
 // 사용자 - 상대방의 메시지 내용을 출력할 말풍선 컴포넌트
 const Message = (props) => {
   const email = getCookie('email');
@@ -49,6 +52,9 @@ const Message = (props) => {
             {time}
           </SenderSpan>
         </SenderWrap>
+        <ImageWrap>
+          <Image size="40px" />
+        </ImageWrap>
       </MessageWrap>
     )
 
@@ -69,6 +75,9 @@ const Message = (props) => {
             {time}
           </SenderSpan>
         </SenderWrap>
+        <ImageWrap>
+          <Image size="40px" />
+        </ImageWrap>
       </MessageWrap>
     )
   }
@@ -94,6 +103,9 @@ const Message = (props) => {
   else {
     return (
       < MessageWrap >
+        <ImageWrap>
+          <Image size="40px" />
+        </ImageWrap>
         <SenderWrap>
           <SenderSpan>
             {messageInfo.sender}
@@ -105,6 +117,7 @@ const Message = (props) => {
             {time}
           </SenderSpan>
         </SenderWrap>
+
       </MessageWrap >
     )
   }
@@ -120,7 +133,7 @@ const MessageWrap = styled.div`
   justify-content: ${(props) => props.is_me ? 'flex-end' : 'flex-start'} ;
   width: 100%;
   height: auto;
-  margin: 0px 0px 30px 0px;
+  margin: 0px 0px 50px 0px;
 `
 
 const ElMessage = styled.span`
@@ -175,5 +188,13 @@ min-width: 50px;
 width: 90%;
 ${(props) => props.is_me ? 'text-align: right' : 'text-align: left'};
 margin: 5px 0px;
+`
+
+const ImageWrap = styled.div`
+${(props) => props.theme.flex_column};
+justify-content: flex-end;
+${(props) => props.theme.border_box};
+height: 130%;
+margin: 5px;
 `
 export default Message;
