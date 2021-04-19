@@ -4,7 +4,12 @@ import styled from 'styled-components';
 import { Button, Text, Wrapper } from '../elements';
 import InputValid from '../elements/InputValid';
 import { userActions } from '../redux/modules/user';
-import { testEmailValid, testPwValid, testRepatNumber } from '../shared/common';
+import {
+  testEmailValid,
+  testPwValid,
+  testRepatNumber,
+  testUsernameValid
+} from '../shared/common';
 
 const Signup = (props) => {
   const dispatch = useDispatch();
@@ -75,10 +80,12 @@ const Signup = (props) => {
   const onChangeUsername = (e) => {
     // validation 색깔 바꾸기 용
     if (!isStartUsernameInput) setIsStartUsernameInput(true);
-    // 영어 숫자 한글 - _ 만 입력가능
-    //e.target.value = e.target.value.replace(/[^가-힣A-Za-z0-9-_]/gi, '');
 
     setUsername(e.target.value);
+
+    // 영어 숫자 한글 - _ 만 입력가능
+    setIsValidUsername(testUsernameValid(e.target.value));
+    //e.target.value = e.target.value.replace(/[^가-힣A-Za-z0-9-_]/gi, '');
 
     // username 길이 체크
     setIsValidUsernameLength(
@@ -268,7 +275,7 @@ const Table = styled.table`
     padding: 0.5rem;
   }
   & td.input {
-    width: 250px;
+    width: 300px;
   }
 `;
 
