@@ -1,13 +1,40 @@
 import React from 'react';
 import styled from 'styled-components';
 import Header from './Header';
+
+import { useSelector } from 'react-redux';
+
 function AppLayout(props) {
-  return (
-    <Container>
-      <Header />
-      <Main>{props.children}</Main>
-    </Container>
-  );
+  const { is_login } = useSelector((state) => state.user)
+
+  // 로그인 하지 않은 경우
+  if (!is_login) {
+    return (
+      <Container>
+        <Main
+          style={{
+            width: '100%'
+          }}
+        >{props.children}</Main>
+      </Container>
+
+    )
+  }
+
+  if (is_login) {
+    return (
+      <Container>
+        <Header
+        />
+        <Main
+          style={{
+            width: '90%'
+          }}
+        >{props.children}</Main>
+      </Container>
+    );
+  }
+
 }
 
 const Container = styled.div`
@@ -21,7 +48,6 @@ const Container = styled.div`
   }
 `;
 const Main = styled.div`
-  width: 90%;
   height: 100%;
   ${(props) => props.theme.flex_row};
   justify-content: center;

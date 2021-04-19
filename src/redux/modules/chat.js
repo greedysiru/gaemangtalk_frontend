@@ -38,6 +38,8 @@ const setMessages = createAction('chat/SETMESSAGES');
 const isLoading = createAction('chat/ISLOADING');
 // 로딩 완료 액션
 const isLoaded = createAction('chat/ISLOADED');
+// 입장한 채팅방 정보를 없애기
+const clearCurrentChat = createAction('chat/CLEARCURRENTCHAT');
 
 const chat = createReducer(initialState, {
   [getChat]: (state, action) => {
@@ -64,6 +66,10 @@ const chat = createReducer(initialState, {
   },
   [isLoaded]: (state, action) => {
     state.loading = true;
+  },
+  [clearCurrentChat]: (state, action) => {
+    state.currentChat.roomId = null;
+    state.currentChat.roomName = null;
   }
 });
 
@@ -229,6 +235,7 @@ export const chatActions = {
   getChatMessages,
   isLoading,
   isLoaded,
+  clearCurrentChat,
 };
 
 export default chat;

@@ -7,13 +7,20 @@ import {
   IoChatbox,
   IoLogOutOutline,
   IoPersonOutline,
-  IoPerson
+  IoPerson,
+  IoConstructOutline
 } from 'react-icons/io5';
-import { deleteCookie, getCookie } from '../shared/cookie';
-import { useDispatch } from 'react-redux';
+import { getCookie } from '../shared/cookie';
+import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../redux/modules/user';
 
+import { headerActions } from '../redux/modules/header';
+
+import { chatActions } from '../redux/modules/chat';
+
 const Header = (props) => {
+  // 각 메뉴의 활성화 상태
+  const { headerChat, headerInfo } = useSelector((state) => state.header);
   const dispatch = useDispatch();
   useEffect(() => {
     const username = getCookie('username');
@@ -26,18 +33,58 @@ const Header = (props) => {
   const logout = () => {
     dispatch(userActions.logout());
   };
+
+
   return (
     <Container>
-      <IconWrap>
-        <IoChatboxOutline />
-      </IconWrap>
-      <IconWrap onClick={() => history.push('/userInfo')}>
-        <IoPersonOutline />
-      </IconWrap>
-      <IconWrap onClick={logout}>
+      {/* 메뉴 활성화 상태에 따른 렌더링 */}
+      {headerChat ? (
+        <IconWrap>
+          <IoChatbox />
+        </IconWrap>
+
+      )
+        :
+        (
+          <IconWrap
+            onClick={() => {
+              history.push('/chat')
+              dispatch(headerActions.activateChat())
+            }
+            }
+          >
+            <IoChatboxOutline />
+          </IconWrap>
+
+        )}
+
+
+      {headerInfo ? (
+        <IconWrap>
+          <IoPerson />
+        </IconWrap>
+      ) :
+        (
+          <IconWrap
+            onClick={() => {
+              history.push('/userInfo')
+              dispatch(headerActions.activateInfo())
+              dispatch(chatActions.clearMessages())
+              dispatch(chatActions.clearCurrentChat())
+            }}>
+            <IoPersonOutline />
+          </IconWrap>
+        )}
+
+      <IconWrap
+        onClick={() => {
+          dispatch(headerActions.deactivate())
+          logout()
+        }
+        }>
         <IoLogOutOutline />
       </IconWrap>
-    </Container>
+    </Container >
   );
 };
 
