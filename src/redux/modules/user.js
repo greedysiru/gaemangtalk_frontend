@@ -20,8 +20,6 @@ const setIsValidEmailMultiple = createAction(
 const setAuthNumber = createAction('user/SET_AUTH_NUMBER');
 // 로그인 / 로그아웃 시 is_login을 바꾸는 액션
 
-const setLogoutStatus = createAction('user/SETISLOGOUTSTATUS');
-
 const user = createReducer(initialState, {
   [login]: (state, { payload }) => {
     state.userInfo = payload;
@@ -46,9 +44,6 @@ const user = createReducer(initialState, {
   },
   [setAuthNumber]: (state, { payload }) => {
     state.authNumber = payload;
-  },
-  [setLogoutStatus]: (state, { payload }) => {
-    state.is_login = false;
   }
 });
 
