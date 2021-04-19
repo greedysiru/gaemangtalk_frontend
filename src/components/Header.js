@@ -65,10 +65,10 @@ const Header = (props) => {
 
       <IconWrap
         onClick={() => {
-          dispatch(headerActions.deactivate());
-          logout();
-        }}
-      >
+          dispatch(headerActions.activateChat())
+          logout()
+        }
+        }>
         <IoLogOutOutline />
       </IconWrap>
     </Container>
