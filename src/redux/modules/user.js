@@ -8,24 +8,36 @@ export const initialState = {
   isValidEmailMultiple: false,
   loginError: null,
   authNumber: '',
-  is_login: false,
+  is_login: false
 };
 
-const setUser = createAction('user/SET_USER');
+const login = createAction('user/LOGIN');
+const logout = createAction('user/LOGOUT');
 const setLoginError = createAction('user/SET_LOGIN_ERROR');
 const setIsValidEmailMultiple = createAction(
   'user/SET_IS_VALID_EMAIL_MULTIPLE'
 );
 const setAuthNumber = createAction('user/SET_AUTH_NUMBER');
 // 로그인 / 로그아웃 시 is_login을 바꾸는 액션
-const setLoginStatus = createAction('user/SETISLOGINSTATUS');
+
 const setLogoutStatus = createAction('user/SETISLOGOUTSTATUS');
 
 const user = createReducer(initialState, {
-  [setUser]: (state, { payload }) => {
+  [login]: (state, { payload }) => {
     state.userInfo = payload;
+    state.is_login = true;
   },
+  [logout]: (state, { payload }) => {
+    deleteCookie('access-token');
+    deleteCookie('username');
+    deleteCookie('email');
+    deleteCookie('userId');
 
+    axios.defaults.headers.common['token'] = ``;
+
+    state.userInfo = null;
+    state.is_login = false;
+  },
   [setIsValidEmailMultiple]: (state, { payload }) => {
     state.isValidEmailMultiple = payload;
   },
@@ -35,12 +47,9 @@ const user = createReducer(initialState, {
   [setAuthNumber]: (state, { payload }) => {
     state.authNumber = payload;
   },
-  [setLoginStatus]: (state, { payload }) => {
-    state.is_login = true;
-  },
   [setLogoutStatus]: (state, { payload }) => {
     state.is_login = false;
-  },
+  }
 });
 
 // thunk
@@ -66,7 +75,7 @@ const emailCheck = (email) => async (dispatch, getState, { history }) => {
   }
 };
 
-const login = (data) => async (dispatch, getState, { history }) => {
+const fetchLogin = (data) => async (dispatch, getState, { history }) => {
   try {
     const res = await userAPI.login(data);
 
@@ -79,27 +88,9 @@ const login = (data) => async (dispatch, getState, { history }) => {
     setCookie('userId', userId);
     setCookie('email', data.email);
     axios.defaults.headers.common['token'] = `${token}`;
+    dispatch(login(res.data));
 
-    dispatch(setUser(res.data));
-    dispatch(setLoginStatus());
     history.push('/chat');
-  } catch (error) {
-    console.error(error);
-    dispatch(setLoginError(error.response.data.errorMessage));
-  }
-};
-
-const logout = (data) => async (dispatch, getState, { history }) => {
-  try {
-    deleteCookie('access-token');
-    deleteCookie('username');
-    deleteCookie('email');
-    deleteCookie('userId');
-    axios.defaults.headers.common['token'] = ``;
-
-    dispatch(setUser(null));
-    dispatch(setLogoutStatus());
-    history.push('/');
   } catch (error) {
     console.error(error);
     dispatch(setLoginError(error.response.data.errorMessage));
@@ -120,8 +111,8 @@ const loginByKakao = (data) => async (dispatch, getState, { history }) => {
 
     axios.defaults.headers.common['token'] = `${token}`;
 
-    dispatch(setUser({ username, userId }));
-    dispatch(setLoginStatus());
+    dispatch(login({ username, userId }));
+
     history.push('/chat');
   } catch (error) {
     console.error(error);
@@ -148,10 +139,10 @@ const updatePassword = (data) => async (dispatch, getState, { history }) => {
   }
 };
 
-const getUserProfile = (data) => async (dispatch, getState, { history }) => {
+const fetchUserProfile = (data) => async (dispatch, getState, { history }) => {
   try {
     const res = await userAPI.getUserProfile();
-    console.log(res);
+    dispatch(login(res.data));
   } catch (error) {
     console.error(error);
   }
@@ -161,15 +152,15 @@ export const userActions = {
   signup,
   emailCheck,
   setIsValidEmailMultiple,
+  fetchLogin,
   login,
   logout,
   setLoginError,
   findPassword,
   setAuthNumber,
   updatePassword,
-  setUser,
   loginByKakao,
-  getUserProfile
+  fetchUserProfile
 };
 
 export default user;

@@ -4,8 +4,6 @@ import styled from 'styled-components';
 const NoRoom = (props) => {
   return (
     <Container>
-      <img
-        src="miniproject-7.png"></img>
     </Container>
   );
 };
@@ -17,6 +15,9 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  background-image: url('miniproject-7.png');
+  background-size: cover;
+  background-position: center center;
 `;
 
 export default NoRoom;

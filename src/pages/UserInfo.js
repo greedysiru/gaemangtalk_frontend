@@ -7,9 +7,6 @@ import { userActions } from '../redux/modules/user';
 const UserInfo = (props) => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(userActions.getUserProfile());
-  }, []);
   return (
     <Container>
       <Upload />

@@ -68,5 +68,10 @@ const Wrapper = styled.div`
 
 const Image = styled.img``;
 
-const Avatar = styled.div``;
+const Avatar = styled.div`
+  border: 1px solid black;
+  background-color: pink;
+  width: 100%;
+  height: 100%;
+`;
 export default Upload;

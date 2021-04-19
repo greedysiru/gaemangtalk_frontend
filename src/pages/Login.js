@@ -27,7 +27,7 @@ const Login = ({ history, match }) => {
   const onLogin = () => {
     if (!email || !password) return;
 
-    dispatch(userActions.login({ email, password }));
+    dispatch(userActions.fetchLogin({ email, password }));
   };
 
   const logout = () => {
