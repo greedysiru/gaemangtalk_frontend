@@ -28,6 +28,9 @@ export const userAPI = {
   },
   updatePassword: function (data) {
     return axios.put('/api/user/changePassword', data);
+  },
+  getUserProfile: function (data) {
+    return axios.get('/api/user/profile');
   }
 };
 

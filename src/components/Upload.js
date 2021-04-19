@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Grid } from '../elements';
+import { BiUser } from 'react-icons/bi';
 //import { actionCreators as imageActions } from '../redux/modules/image';
 //import { MdClose } from 'react-icons/md';
 import styled from 'styled-components';
@@ -34,19 +35,15 @@ const Upload = () => {
   };
   return (
     <Wrapper>
-      <Image
-        src={
-          preview
-            ? preview
-            : 'https://firebasestorage.googleapis.com/v0/b/my-taste-e6d3f.appspot.com/o/noImage.png?alt=media&token=fc22498a-b954-42db-9683-5a958795adb0'
-        }
-        onClick={onClickImageUpload}
-        /* _onDelete={deletePreview} */
-      >
-        {preview && (
-          <Btn>{/* <MdClose onClick={(e) => deletePreview(e)} /> */}</Btn>
-        )}
-      </Image>
+      <Avatar onClick={onClickImageUpload}>
+        {/* <Image
+          src={
+            'https://firebasestorage.googleapis.com/v0/b/my-taste-e6d3f.appspot.com/o/noImage.png?alt=media&token=fc22498a-b954-42db-9683-5a958795adb0'
+          }
+        /> */}
+        <BiUser />
+      </Avatar>
+
       <input
         type="file"
         name="image"
@@ -70,4 +67,6 @@ const Wrapper = styled.div`
 `;
 
 const Image = styled.img``;
+
+const Avatar = styled.div``;
 export default Upload;
