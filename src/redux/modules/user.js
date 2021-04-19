@@ -36,7 +36,8 @@ const user = createReducer(initialState, {
 // thunk
 const signup = (data) => async (dispatch, getState, { history }) => {
   try {
-    const res = await userAPI.signup;
+    const res = await userAPI.signup(data);
+    console.log(res);
     alert('회원가입이 완료되었습니다');
     history.push('/');
   } catch (error) {
