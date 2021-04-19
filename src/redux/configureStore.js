@@ -7,6 +7,7 @@ import { connectRouter } from 'connected-react-router';
 // Modules
 import User from './modules/user';
 import Chat from './modules/chat';
+import Menu from './modules/menu';
 
 export const history = createBrowserHistory();
 
@@ -14,6 +15,7 @@ export const history = createBrowserHistory();
 const rootReducer = combineReducers({
   user: User,
   chat: Chat,
+  menu: Menu,
   router: connectRouter(history)
 });
 

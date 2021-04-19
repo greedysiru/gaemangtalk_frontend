@@ -4,7 +4,8 @@ import styled from 'styled-components';
 const NoRoom = (props) => {
   return (
     <Container>
-      <img src="miniproject-7.png"></img>
+      <img
+        src="miniproject-7.png"></img>
     </Container>
   );
 };
