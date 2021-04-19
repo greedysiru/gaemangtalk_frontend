@@ -7,7 +7,8 @@ export const initialState = {
   userInfo: null,
   isValidEmailMultiple: false,
   loginError: null,
-  authNumber: ''
+  authNumber: '',
+  is_login: false,
 };
 
 const setUser = createAction('user/SET_USER');
@@ -16,6 +17,9 @@ const setIsValidEmailMultiple = createAction(
   'user/SET_IS_VALID_EMAIL_MULTIPLE'
 );
 const setAuthNumber = createAction('user/SET_AUTH_NUMBER');
+// 로그인 / 로그아웃 시 is_login을 바꾸는 액션
+const setLoginStatus = createAction('user/SETISLOGINSTATUS');
+const setLogoutStatus = createAction('user/SETISLOGOUTSTATUS');
 
 const user = createReducer(initialState, {
   [setUser]: (state, { payload }) => {
@@ -30,7 +34,13 @@ const user = createReducer(initialState, {
   },
   [setAuthNumber]: (state, { payload }) => {
     state.authNumber = payload;
-  }
+  },
+  [setLoginStatus]: (state, { payload }) => {
+    state.is_login = true;
+  },
+  [setLogoutStatus]: (state, { payload }) => {
+    state.is_login = false;
+  },
 });
 
 // thunk
@@ -71,6 +81,7 @@ const login = (data) => async (dispatch, getState, { history }) => {
     axios.defaults.headers.common['token'] = `${token}`;
 
     dispatch(setUser(res.data));
+    dispatch(setLoginStatus());
     history.push('/chat');
   } catch (error) {
     console.error(error);
@@ -87,7 +98,7 @@ const logout = (data) => async (dispatch, getState, { history }) => {
     axios.defaults.headers.common['token'] = ``;
 
     dispatch(setUser(null));
-
+    dispatch(setLogoutStatus());
     history.push('/');
   } catch (error) {
     console.error(error);
@@ -110,6 +121,7 @@ const loginByKakao = (data) => async (dispatch, getState, { history }) => {
     axios.defaults.headers.common['token'] = `${token}`;
 
     dispatch(setUser({ username, userId }));
+    dispatch(setLoginStatus());
     history.push('/chat');
   } catch (error) {
     console.error(error);

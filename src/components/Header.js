@@ -10,17 +10,17 @@ import {
   IoPerson,
   IoConstructOutline
 } from 'react-icons/io5';
-import { deleteCookie, getCookie } from '../shared/cookie';
+import { getCookie } from '../shared/cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../redux/modules/user';
 
-import { menuActions } from '../redux/modules/menu';
+import { headerActions } from '../redux/modules/header';
 
 import { chatActions } from '../redux/modules/chat';
 
 const Header = (props) => {
   // 각 메뉴의 활성화 상태
-  const { menuChat, menuInfo } = useSelector((state) => state.menu)
+  const { headerChat, headerInfo } = useSelector((state) => state.header);
   const dispatch = useDispatch();
   useEffect(() => {
     const username = getCookie('username');
@@ -34,10 +34,11 @@ const Header = (props) => {
     dispatch(userActions.logout());
   };
 
+
   return (
     <Container>
       {/* 메뉴 활성화 상태에 따른 렌더링 */}
-      {menuChat ? (
+      {headerChat ? (
         <IconWrap>
           <IoChatbox />
         </IconWrap>
@@ -48,8 +49,7 @@ const Header = (props) => {
           <IconWrap
             onClick={() => {
               history.push('/chat')
-              dispatch(menuActions.activateChat())
-              dispatch(chatActions.clearMessages())
+              dispatch(headerActions.activateChat())
             }
             }
           >
@@ -59,15 +59,29 @@ const Header = (props) => {
         )}
 
 
+      {headerInfo ? (
+        <IconWrap>
+          <IoPerson />
+        </IconWrap>
+      ) :
+        (
+          <IconWrap
+            onClick={() => {
+              history.push('/userInfo')
+              dispatch(headerActions.activateInfo())
+              dispatch(chatActions.clearMessages())
+              dispatch(chatActions.clearCurrentChat())
+            }}>
+            <IoPersonOutline />
+          </IconWrap>
+        )}
 
       <IconWrap
         onClick={() => {
-          history.push('/userInfo')
-          dispatch(menuActions.activateInfo())
-        }}>
-        <IoPersonOutline />
-      </IconWrap>
-      <IconWrap onClick={logout}>
+          dispatch(headerActions.deactivate())
+          logout()
+        }
+        }>
         <IoLogOutOutline />
       </IconWrap>
     </Container >
