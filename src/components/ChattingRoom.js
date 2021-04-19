@@ -95,6 +95,21 @@ const ChattingRoom = (props) => {
     }
   }
 
+  // 웹소켓이 연결될 때 까지 실행하는 함수
+  function waitForConnection(ws, callback) {
+    setTimeout(
+      function () {
+        // 연결되었을 때 콜백함수 실행
+        if (ws.ws.readyState === 1) {
+          callback();
+          // 연결이 안 되었으면 재호출
+        } else {
+          waitForConnection(ws, callback);
+        }
+      }, 1 // 밀리초 간격으로 실행
+    )
+  }
+
   // 메시지 보내기
   async function sendMessage(data) {
     try {
@@ -112,27 +127,24 @@ const ChattingRoom = (props) => {
       }
       // 로딩 중
       dispatch(chatActions.isLoading());
+      waitForConnection(ws, function () {
+        ws.send(
+          '/pub/api/chat/message',
+          { token: token },
+          JSON.stringify(data)
+        );
+        console.log(ws.ws.readyState);
+        dispatch(chatActions.writeMessage(''));
 
-      // 웹소켓 send 메소드
-      // 연결 전일 때
-      if (ws.ws.readyState === 0) {
-        dispatch(chatActions.isLoaded());
-        window.alert('도배는 자제해주세요. 😵')
-        return
-      }
-      await ws.send(
-        '/pub/api/chat/message',
-        { token: token },
-        JSON.stringify(data)
-      );
-      console.log(ws.ws.readyState);
-      dispatch(chatActions.writeMessage(''));
+      })
+
     } catch (error) {
       console.log(error)
       console.log(ws.ws.readyState);
 
     }
   }
+
 
 
   return (
