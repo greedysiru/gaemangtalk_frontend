@@ -7,13 +7,20 @@ import {
   IoChatbox,
   IoLogOutOutline,
   IoPersonOutline,
-  IoPerson
+  IoPerson,
+  IoConstructOutline
 } from 'react-icons/io5';
 import { deleteCookie, getCookie } from '../shared/cookie';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../redux/modules/user';
 
+import { menuActions } from '../redux/modules/menu';
+
+import { chatActions } from '../redux/modules/chat';
+
 const Header = (props) => {
+  // 각 메뉴의 활성화 상태
+  const { menuChat, menuInfo } = useSelector((state) => state.menu)
   const dispatch = useDispatch();
   useEffect(() => {
     const username = getCookie('username');
@@ -26,18 +33,44 @@ const Header = (props) => {
   const logout = () => {
     dispatch(userActions.logout());
   };
+
   return (
     <Container>
-      <IconWrap>
-        <IoChatboxOutline />
-      </IconWrap>
-      <IconWrap onClick={() => history.push('/userInfo')}>
+      {/* 메뉴 활성화 상태에 따른 렌더링 */}
+      {menuChat ? (
+        <IconWrap>
+          <IoChatbox />
+        </IconWrap>
+
+      )
+        :
+        (
+          <IconWrap
+            onClick={() => {
+              history.push('/chat')
+              dispatch(menuActions.activateChat())
+              dispatch(chatActions.clearMessages())
+            }
+            }
+          >
+            <IoChatboxOutline />
+          </IconWrap>
+
+        )}
+
+
+
+      <IconWrap
+        onClick={() => {
+          history.push('/userInfo')
+          dispatch(menuActions.activateInfo())
+        }}>
         <IoPersonOutline />
       </IconWrap>
       <IconWrap onClick={logout}>
         <IoLogOutOutline />
       </IconWrap>
-    </Container>
+    </Container >
   );
 };
 

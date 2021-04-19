@@ -8,18 +8,25 @@ export const initialState = {
   menuInfo: false,
 };
 
-// 메뉴를 활성화하는 액션
-const activateMenu = createAction('menu/ACTIVATEMENU');
+// 각 메뉴를 활성화하는 액션들
+const activateChat = createAction('menu/ACTIVATECHAT');
+const activateInfo = createAction('menu/ACTIVATEINFO');
 
 const menu = createReducer(initialState, {
-  [activateMenu]: (state, action) => {
-    state = action.payload;
+  [activateChat]: (state, action) => {
+    state.menuChat = true;
+    state.menuInfo = false;
+  },
+  [activateInfo]: (state, action) => {
+    state.menuChat = false;
+    state.menuInfo = true;
   },
 });
 
 
 export const menuActions = {
-  activateMenu,
+  activateChat,
+  activateInfo,
 };
 
 export default menu;
