@@ -45,3 +45,9 @@ export const chatAPI = {
     return axios.get(`/api/chat/rooms/${roomId}/messages`);
   }
 };
+
+export const utilAPI = {
+  uploadImage: function (userId, data) {
+    return axios.put(`/api/user/profile/${userId}/img`, data);
+  }
+};

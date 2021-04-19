@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Grid } from '../elements';
 import { BiUser } from 'react-icons/bi';
+import { utilActions } from '../redux/modules/util';
 //import { actionCreators as imageActions } from '../redux/modules/image';
 //import { MdClose } from 'react-icons/md';
 import styled from 'styled-components';
@@ -9,24 +10,27 @@ import styled from 'styled-components';
 const Upload = () => {
   const dispatch = useDispatch();
   //const { uploading, preview } = useSelector((state) => state.image);
+  const userId = useSelector((state) => state.user.userInfo?.id);
+  console.log('userId', userId);
+
   const uploading = null;
   const preview = null;
   const imageInput = useRef();
 
   const onClickImageUpload = () => {
-    console.log('힝');
     imageInput.current.click();
   };
 
   const onChangeImages = (e) => {
-    const reader = new FileReader();
-    const file = imageInput.current.files[0];
-    if (!file) return;
-    reader.readAsDataURL(file);
+    //const reader = new FileReader();
+    const imageFormData = new FormData();
 
-    reader.onloadend = () => {
-      //dispatch(imageActions.setPreview(reader.result));
-    };
+    const file = imageInput.current.files[0];
+    imageFormData.append('data', file);
+
+    if (!file) return;
+
+    dispatch(utilActions.uploadImage(userId, imageFormData));
   };
 
   const deletePreview = (e) => {
@@ -43,16 +47,17 @@ const Upload = () => {
         /> */}
         <BiUser />
       </Avatar>
-
-      <input
-        type="file"
-        name="image"
-        multiple
-        hidden
-        disabled={uploading}
-        ref={imageInput}
-        onChange={onChangeImages}
-      />
+      <form encType="multipart/form-data" onSubmit={(e) => e.preventDefault()}>
+        <input
+          type="file"
+          name="image"
+          multiple
+          hidden
+          disabled={uploading}
+          ref={imageInput}
+          onChange={onChangeImages}
+        />
+      </form>
     </Wrapper>
   );
 };

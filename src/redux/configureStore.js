@@ -8,6 +8,7 @@ import { connectRouter } from 'connected-react-router';
 import User from './modules/user';
 import Chat from './modules/chat';
 import Header from './modules/header';
+import Util from './modules/util';
 
 export const history = createBrowserHistory();
 
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   user: User,
   chat: Chat,
   header: Header,
+  utill: Util,
   router: connectRouter(history)
 });
 
@@ -31,8 +33,8 @@ const env = process.env.NODE_ENV;
 const composeEnhancers =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-      // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
-    })
+        // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
+      })
     : compose;
 
 // 미들웨어 묶기

@@ -10,11 +10,11 @@ function AppLayout(props) {
   const dispatch = useDispatch();
   const { is_login } = useSelector((state) => state.user);
   useEffect(() => {
-    const username = getCookie('username');
     const token = getCookie('access-token');
 
     if (token && !is_login) {
       axios.defaults.headers.common['token'] = `${token}`;
+      console.log(token);
       dispatch(userActions.fetchUserProfile());
     }
   }, []);

@@ -8,7 +8,6 @@ import { useSelector } from 'react-redux';
 // 이미지 컴포넌트
 import { Image } from '../elements';
 
-
 // 현재 존재하는 채팅을 보여주는 컴포넌트
 const Chat = (props) => {
   const { roomName, _onClick, roomId } = props;
@@ -22,7 +21,6 @@ const Chat = (props) => {
     is_same = true;
   }
 
-
   // key={idx}
   // roomId={info.id}
   // roomName={info.chatRommName}
@@ -30,32 +28,24 @@ const Chat = (props) => {
   // modifiedAt={info.modifiedAt}
 
   return (
-    <Container
-      onClick={_onClick}
-      selected={is_same}
-    >
+    <Container onClick={_onClick} selected={is_same}>
       <Image size="50px" />
       <ChatColumn>
-        <ChatTitle>
-          {roomName}
-        </ChatTitle>
+        <ChatTitle>{roomName}</ChatTitle>
         <ChatText>생성자 | 카테고리</ChatText>
       </ChatColumn>
     </Container>
-  )
-}
-
-
-Chat.defaultProps = {
-  _onClick: () => { },
-  roomName: false,
+  );
 };
 
+Chat.defaultProps = {
+  _onClick: () => {},
+  roomName: false
+};
 
 const Container = styled.div`
   ${(props) => props.theme.flex_row};
-  border-left: ${(props) => props.selected ? `5px solid #F99750;`
-    : 'none;'}
+  border-left: ${(props) => (props.selected ? `5px solid #F99750;` : 'none;')};
   padding: 5px;
   height: 15%;
   width: 100%;
@@ -63,25 +53,25 @@ const Container = styled.div`
   ${(props) => props.theme.border_box}
   margin: 0px 0px 20px 0px;
   cursor: pointer;
-  color: ${(props) => props.theme.font_color}
-`
+  color: ${(props) => props.theme.font_color};
+`;
 const ChatColumn = styled.div`
-width: 70%;
-height: 100%;
-${(props) => props.theme.flex_column}
-align-items: flex-start;
-justify-content: center;
-${(props) => props.theme.border_box}
-`
+  width: 70%;
+  height: 100%;
+  ${(props) => props.theme.flex_column}
+  align-items: flex-start;
+  justify-content: center;
+  ${(props) => props.theme.border_box}
+`;
 const ChatTitle = styled.span`
-${(props) => props.theme.border_box}
-font-weight: 600;
-font-size: 1.2rem;
-`
+  ${(props) => props.theme.border_box}
+  font-weight: 600;
+  font-size: 1.2rem;
+`;
 
 const ChatText = styled.span`
-${(props) => props.theme.border_box}
-margin-top: 10px;
-`
+  ${(props) => props.theme.border_box}
+  margin-top: 10px;
+`;
 
 export default Chat;
