@@ -12,8 +12,6 @@ export const initialState = {
 // 각 메뉴를 활성화하는 액션들
 const activateChat = createAction('header/ACTIVATECHAT');
 const activateInfo = createAction('header/ACTIVATEINFO');
-// 모든 메뉴를 비활성화
-const deactivate = createAction('header/DEACTIVATE');
 
 const header = createReducer(initialState, {
   [activateChat]: (state, action) => {
@@ -24,17 +22,14 @@ const header = createReducer(initialState, {
     state.headerChat = false;
     state.headerInfo = true;
   },
-  [deactivate]: (state, action) => {
-    state.headerChat = false;
-    state.headerInfo = false;
-  }
+
 });
 
 
 export const headerActions = {
   activateChat,
   activateInfo,
-  deactivate,
+
 };
 
 export default header;

@@ -79,7 +79,7 @@ const Header = (props) => {
 
       <IconWrap
         onClick={() => {
-          dispatch(headerActions.deactivate())
+          dispatch(headerActions.activateChat())
           logout()
         }
         }>
