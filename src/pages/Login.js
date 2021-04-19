@@ -27,7 +27,7 @@ const Login = ({ history, match }) => {
   const onLogin = () => {
     if (!email || !password) return;
 
-    dispatch(userActions.login({ email, password }));
+    dispatch(userActions.fetchLogin({ email, password }));
   };
 
   const logout = () => {
@@ -39,9 +39,6 @@ const Login = ({ history, match }) => {
     dispatch(
       userActions.loginByKakao({
         kakaoToken: data.access_token
-        /*  expires_in: data.expires_in,
-        refresh_token: data.refresh_token,
-        refresh_token_expires_in: data.refresh_token_expires_in */
       })
     );
   };
@@ -78,18 +75,20 @@ const Login = ({ history, match }) => {
           <Wrapper margin="0.5rem 0">
             <ErrorMsg valid={loginError}>{loginError}</ErrorMsg>
           </Wrapper>
-          <KaKaoLogin
-            //styled component 통해 style을 입혀 줄 예정
-            token={KAKAO_JS_ID}
-            //카카오에서 할당받은 jsKey를 입력
-            buttonText="카카오 계정으로 로그인"
-            //로그인 버튼의 text를 입력
-            onSuccess={kakaoLoginSuccessHandler}
-            //성공했을때 불러올 함수로서 fetch해서 localStorage에 저장할 함수를 여기로 저장
-            getProfile={true}
-          >
-            <KakaoButton src="https://s3.ap-northeast-2.amazonaws.com/yoooook.xyz/kakao_login_medium_wide.png" />
-          </KaKaoLogin>
+          <Wrapper>
+            <KaKaoLogin
+              //styled component 통해 style을 입혀 줄 예정
+              token={KAKAO_JS_ID}
+              //카카오에서 할당받은 jsKey를 입력
+              render={(props) => (
+                <KakaoButton onClick={props.onClick}></KakaoButton>
+              )}
+              //로그인 버튼의 text를 입력
+              onSuccess={kakaoLoginSuccessHandler}
+              //성공했을때 불러올 함수로서 fetch해서 localStorage에 저장할 함수를 여기로 저장
+              getProfile={true}
+            ></KaKaoLogin>
+          </Wrapper>
 
           <Wrapper margin="0.5rem 0">
             <Button disabled={!email || !password} _onClick={onLogin}>
@@ -126,10 +125,15 @@ const SearchPassword = styled.span`
   font-size: 0.75rem;
 `;
 
-const KakaoButton = styled.img`
+const KakaoButton = styled.div`
   cursor: pointer;
   width: 100%;
-  height: 50px;
+  height: 45px;
+  background-color: #ffeb00;
+  color: #000000;
+  border-radius: 12px;
+  background-image: url('kakao_login_large_wide.png');
+  background-size: cover;
 `;
 
 export default Login;

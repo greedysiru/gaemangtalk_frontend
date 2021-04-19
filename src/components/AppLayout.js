@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import Header from './Header';
-
-import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCookie } from '../shared/cookie';
+import { userActions } from '../redux/modules/user';
 
 function AppLayout(props) {
-  const { is_login } = useSelector((state) => state.user)
+  const dispatch = useDispatch();
+  const { is_login } = useSelector((state) => state.user);
+  useEffect(() => {
+    const username = getCookie('username');
+    const token = getCookie('access-token');
 
+    if (token && !is_login) {
+      axios.defaults.headers.common['token'] = `${token}`;
+      dispatch(userActions.fetchUserProfile());
+    }
+  }, []);
   // 로그인 하지 않은 경우
   if (!is_login) {
     return (
@@ -15,26 +26,27 @@ function AppLayout(props) {
           style={{
             width: '100%'
           }}
-        >{props.children}</Main>
+        >
+          {props.children}
+        </Main>
       </Container>
-
-    )
+    );
   }
 
   if (is_login) {
     return (
       <Container>
-        <Header
-        />
+        <Header />
         <Main
           style={{
             width: '90%'
           }}
-        >{props.children}</Main>
+        >
+          {props.children}
+        </Main>
       </Container>
     );
   }
-
 }
 
 const Container = styled.div`

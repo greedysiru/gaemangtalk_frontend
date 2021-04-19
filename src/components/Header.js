@@ -22,19 +22,11 @@ const Header = (props) => {
   // 각 메뉴의 활성화 상태
   const { headerChat, headerInfo } = useSelector((state) => state.header);
   const dispatch = useDispatch();
-  useEffect(() => {
-    const username = getCookie('username');
-    const userId = getCookie('userId');
-    if (username) {
-      dispatch(userActions.setUser({ username, userId }));
-
-    }
-  }, []);
 
   const logout = () => {
     dispatch(userActions.logout());
+    history.push('/');
   };
-
 
   return (
     <Container>
@@ -43,39 +35,33 @@ const Header = (props) => {
         <IconWrap>
           <IoChatbox />
         </IconWrap>
-
-      )
-        :
-        (
-          <IconWrap
-            onClick={() => {
-              history.push('/chat')
-              dispatch(headerActions.activateChat())
-            }
-            }
-          >
-            <IoChatboxOutline />
-          </IconWrap>
-
-        )}
-
+      ) : (
+        <IconWrap
+          onClick={() => {
+            history.push('/chat');
+            dispatch(headerActions.activateChat());
+          }}
+        >
+          <IoChatboxOutline />
+        </IconWrap>
+      )}
 
       {headerInfo ? (
         <IconWrap>
           <IoPerson />
         </IconWrap>
-      ) :
-        (
-          <IconWrap
-            onClick={() => {
-              history.push('/userInfo')
-              dispatch(headerActions.activateInfo())
-              dispatch(chatActions.clearMessages())
-              dispatch(chatActions.clearCurrentChat())
-            }}>
-            <IoPersonOutline />
-          </IconWrap>
-        )}
+      ) : (
+        <IconWrap
+          onClick={() => {
+            history.push('/userInfo');
+            dispatch(headerActions.activateInfo());
+            dispatch(chatActions.clearMessages());
+            dispatch(chatActions.clearCurrentChat());
+          }}
+        >
+          <IoPersonOutline />
+        </IconWrap>
+      )}
 
       <IconWrap
         onClick={() => {
@@ -85,7 +71,7 @@ const Header = (props) => {
         }>
         <IoLogOutOutline />
       </IconWrap>
-    </Container >
+    </Container>
   );
 };
 
