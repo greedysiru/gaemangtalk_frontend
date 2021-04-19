@@ -159,7 +159,8 @@ export const userActions = {
   setAuthNumber,
   updatePassword,
   setUser,
-  loginByKakao
+  loginByKakao,
+  setLoginStatus
 };
 
 export default user;

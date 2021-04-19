@@ -139,10 +139,11 @@ const ChattingRoom = (props) => {
     <Container>
       <ChatList prevRoomId={roomId} />
       <ChatWrap>
-        <ChatName roomName={roomName} />
+
         {!roomId && <NoRoom />}
         {roomId && (
           <React.Fragment>
+            <ChatName roomName={roomName} />
             <MessageList />
             <MessageWrite sendMessage={sendMessage} />
 

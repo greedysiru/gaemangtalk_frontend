@@ -27,6 +27,7 @@ const Header = (props) => {
     const userId = getCookie('userId');
     if (username) {
       dispatch(userActions.setUser({ username, userId }));
+
     }
   }, []);
 
