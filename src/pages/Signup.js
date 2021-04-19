@@ -28,6 +28,7 @@ const Signup = (props) => {
   const [isOpenUsernameValid, setIsOpenUsernameValid] = useState(false);
   const [isStartUsernameInput, setIsStartUsernameInput] = useState(false);
   const [isValidUsername, setIsValidUsername] = useState(false);
+  const [isValidUsernameLength, setIsValidUsernameLength] = useState(false);
 
   // passwrod validation
   const [isOpenPasswordValid, setIsOpenPasswordValid] = useState(false);
@@ -60,7 +61,7 @@ const Signup = (props) => {
   // 이메일 입력 - email 형식 체크, 형식 validation 초기화
   const onChangeEmail = (e) => {
     if (!isStartEmailInput) setIsStartEmailInput(true);
-    e.target.value = e.target.value.replace(/[^A-Za-z0-9@.]/gi, '');
+
     setEmail(e.target.value);
 
     if (isValidEmailMultiple) {
@@ -75,12 +76,12 @@ const Signup = (props) => {
     // validation 색깔 바꾸기 용
     if (!isStartUsernameInput) setIsStartUsernameInput(true);
     // 영어 숫자 한글 - _ 만 입력가능
-    e.target.value = e.target.value.replace(/[^가-힣A-Za-z0-9-_]/gi, '');
+    //e.target.value = e.target.value.replace(/[^가-힣A-Za-z0-9-_]/gi, '');
 
     setUsername(e.target.value);
 
     // username 길이 체크
-    setIsValidUsername(
+    setIsValidUsernameLength(
       e.target.value.length >= 3 && e.target.value.length <= 20
     );
   };
@@ -153,6 +154,14 @@ const Signup = (props) => {
                 <InputValid
                   isStart={isStartUsernameInput}
                   isValid={isValidUsername}
+                >
+                  한글,영어,숫자, -, _만 허용
+                </InputValid>
+              </ValidWrapper>
+              <ValidWrapper isOpen={isOpenUsernameValid}>
+                <InputValid
+                  isStart={isStartUsernameInput}
+                  isValid={isValidUsernameLength}
                 >
                   3~20자리
                 </InputValid>
