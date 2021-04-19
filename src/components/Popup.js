@@ -51,9 +51,12 @@ const Popup = (props) => {
 
     <PopupOverlay>
       <PopupInner ref={popupInside}>
-        <Input
-          _onChange={onChangeRoomName}
-        ></Input>
+        <InputWrap>
+          <Input
+            _onChange={onChangeRoomName}
+            placeholder='채팅방 제목을 입력해주세요.'
+          ></Input>
+        </InputWrap>
         <PopupButtons>
           <Button
             width="40%"
@@ -109,8 +112,13 @@ const PopupInner = styled.div`
 
 const PopupButtons = styled.div`
 ${(props) => props.theme.flex_row}
-width: 90%;
+width: 80%;
 margin: 0px 0px 20px 0px;
+`
+
+const InputWrap = styled.div`
+  width: 80%;
+  margin-top: 20px;
 `
 
 
