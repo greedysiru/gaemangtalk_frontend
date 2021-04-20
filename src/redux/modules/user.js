@@ -130,6 +130,20 @@ const updatePassword = (data) => async (dispatch, getState, { history }) => {
   }
 };
 
+const updateUserProfile = (userId, data) => async (
+  dispatch,
+  getState,
+  { history }
+) => {
+  try {
+    const res = await userAPI.updateUserProfile(userId, data);
+    alert('회원정보를 수정했습니다');
+    dispatch(login(res.data));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const fetchUserProfile = (type = 0) => async (
   dispatch,
   getState,
@@ -160,7 +174,8 @@ export const userActions = {
   setAuthNumber,
   updatePassword,
   loginByKakao,
-  fetchUserProfile
+  fetchUserProfile,
+  updateUserProfile
 };
 
 export default user;

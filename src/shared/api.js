@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 //axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://54.180.141.91:8080';
+axios.defaults.baseURL = 'http://15.164.97.250:8080';
 
 /* const openApi = axios.create();
 openApi.defaults.withCredentials=false;
@@ -31,6 +31,9 @@ export const userAPI = {
   },
   getUserProfile: function (data) {
     return axios.get('/api/user/profile');
+  },
+  updateUserProfile: function (userId, data) {
+    return axios.put(`/api/user/profile/${userId}`, data);
   }
 };
 
@@ -49,11 +52,11 @@ export const chatAPI = {
 export const utilAPI = {
   uploadImage: function (userId, data) {
     return axios({
-      method: 'put',
-      url: `/api/user/profile/${userId}/img`,
+      method: 'post',
+      url: `/api/s3upload`,
       data: data,
       headers: { 'Content-Type': 'multipart/form-data' }
     });
-    //return axios.put(`/api/user/profile/${userId}/img`, data);
+    //return axios.put(`/api/s3upload`, data);
   }
 };

@@ -10,7 +10,6 @@ const initialState = {
 
 // action
 const uploading = createAction('util/UPLOADING');
-//const uploadImage = createAction('util/UPLOAD_IMAGE');
 const setPreview = createAction('util/SET_PREVIEW');
 
 // middleware actions
@@ -21,10 +20,10 @@ const uploadImage = (userId, image) => async (
 ) => {
   try {
     dispatch(uploading(true));
-    console.log('uploadImage', image);
     const res = await utilAPI.uploadImage(userId, image);
-    console.log(res);
+
     dispatch(uploading(false));
+    dispatch(setPreview(res.data));
   } catch (error) {
     console.error(error);
   }
@@ -34,12 +33,16 @@ const uploadImage = (userId, image) => async (
 const util = createReducer(initialState, {
   [uploading]: (state, { payload }) => {
     state.uploading = payload;
+  },
+  [setPreview]: (state, { payload }) => {
+    state.preview = payload;
   }
 });
 
 // action creator export
 export const utilActions = {
-  uploadImage
+  uploadImage,
+  setPreview
 };
 
 export default util;

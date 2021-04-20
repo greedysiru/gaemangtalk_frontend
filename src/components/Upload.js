@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Grid } from '../elements';
 import { BiUser, BiCamera } from 'react-icons/bi';
@@ -10,9 +10,18 @@ const Upload = ({ img }) => {
   const dispatch = useDispatch();
   //const { uploading, preview } = useSelector((state) => state.image);
   const userId = useSelector((state) => state.user.userInfo?.id);
+  const preview = useSelector((state) => state.util.preview);
+  useEffect(() => {
+    if (img) {
+      dispatch(utilActions.setPreview(img));
+    }
+    return () => {
+      dispatch(utilActions.setPreview(null));
+    };
+  }, []);
 
+  useEffect(() => {}, [preview]);
   const uploading = null;
-  const preview = null;
   const imageInput = useRef();
 
   const onClickImageUpload = () => {
@@ -20,11 +29,10 @@ const Upload = ({ img }) => {
   };
 
   const onChangeImages = (e) => {
-    //const reader = new FileReader();
     const formData = new FormData();
 
     const file = imageInput.current.files[0];
-    console.log(file);
+
     formData.append('data', file);
 
     if (!file) return;
@@ -32,14 +40,10 @@ const Upload = ({ img }) => {
     dispatch(utilActions.uploadImage(userId, formData));
   };
 
-  const deletePreview = (e) => {
-    e.stopPropagation();
-    //dispatch(imageActions.setPreview(null));
-  };
   return (
     <Container onClick={onClickImageUpload}>
-      {img ? (
-        <Image src={img} />
+      {preview ? (
+        <Image src={preview} />
       ) : (
         <Avatar>
           <BiUser />
@@ -65,18 +69,17 @@ const Container = styled.div`
   cursor: pointer;
   &:hover {
     & .icon {
-      //visibility: visible;
       opacity: 1;
     }
   }
   & .icon {
     position: relative;
     display: block;
-    //visibility: hidden;
     opacity: 0;
     top: -30px;
     left: 80%;
-    background-color: white;
+    background-color: ${(props) => props.theme.main_color};
+    color: ${(props) => props.theme.theme_gray};
     border-radius: 50%;
     padding: 4px;
     ${(props) => props.theme.border_box}
@@ -98,13 +101,13 @@ const Image = styled.img`
 `;
 
 const Avatar = styled.div`
-  background-color: pink;
+  background-color: ${(props) => props.theme.main_color_blur};
   width: 200px;
   height: 200px;
-  border-radius: 80%;
+  border-radius: 70px;
   ${(props) => props.theme.flex_row};
   justify-content: center;
-  color: white;
+  color: ${(props) => props.theme.theme_yellow};
   font-size: 80px;
 `;
 export default Upload;
