@@ -23,5 +23,5 @@ export const testEmailValid = (email) => {
 };
 
 export const CLIENT_ID = 'cf46ee4d87cfa04079ea96538e2d4708';
-export const REDIRECT_URI = 'http://3.36.98.132:8080/user/kakao/callback';
+export const REDIRECT_URI = 'http://15.164.97.250:8080/user/kakao/callback';
 export const KAKAO_JS_ID = 'a24e4c33b05c355f5748898b5198ab0f';
