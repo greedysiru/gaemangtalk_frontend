@@ -48,6 +48,12 @@ export const chatAPI = {
 
 export const utilAPI = {
   uploadImage: function (userId, data) {
-    return axios.put(`/api/user/profile/${userId}/img`, data);
+    return axios({
+      method: 'put',
+      url: `/api/user/profile/${userId}/img`,
+      data: data,
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+    //return axios.put(`/api/user/profile/${userId}/img`, data);
   }
 };

@@ -21,6 +21,7 @@ const uploadImage = (userId, image) => async (
 ) => {
   try {
     dispatch(uploading(true));
+    console.log('uploadImage', image);
     const res = await utilAPI.uploadImage(userId, image);
     console.log(res);
     dispatch(uploading(false));
