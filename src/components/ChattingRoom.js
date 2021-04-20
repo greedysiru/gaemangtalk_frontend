@@ -30,7 +30,7 @@ import NoRoom from './NoRoom';
 // 채팅 방 컴포넌트
 const ChattingRoom = (props) => {
   // 소켓 통신 객체
-  const sock = new SockJS('http://54.180.141.91:8080/chatting');
+  const sock = new SockJS('http://3.36.98.132:8080/chatting');
   const ws = Stomp.over(sock);
 
   // 방 제목 가져오기
