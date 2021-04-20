@@ -83,9 +83,8 @@ const fetchLogin = (data) => async (dispatch, getState, { history }) => {
     setCookie('userId', userId);
     setCookie('email', data.email);
     axios.defaults.headers.common['token'] = `${token}`;
-    dispatch(login(res.data));
 
-    history.push('/chat');
+    dispatch(fetchUserProfile(1));
   } catch (error) {
     console.error(error);
     dispatch(setLoginError(error.response.data.errorMessage));
@@ -105,10 +104,7 @@ const loginByKakao = (data) => async (dispatch, getState, { history }) => {
     setCookie('userId', userId);
 
     axios.defaults.headers.common['token'] = `${token}`;
-
-    dispatch(login({ username, userId }));
-
-    history.push('/chat');
+    dispatch(fetchUserProfile(1));
   } catch (error) {
     console.error(error);
     dispatch(setLoginError(error.response.data.errorMessage));
@@ -134,10 +130,33 @@ const updatePassword = (data) => async (dispatch, getState, { history }) => {
   }
 };
 
-const fetchUserProfile = (data) => async (dispatch, getState, { history }) => {
+const updateUserProfile = (userId, data) => async (
+  dispatch,
+  getState,
+  { history }
+) => {
+  try {
+    const res = await userAPI.updateUserProfile(userId, data);
+    alert('회원정보를 수정했습니다');
+    dispatch(login(res.data));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const fetchUserProfile = (type = 0) => async (
+  dispatch,
+  getState,
+  { history }
+) => {
   try {
     const res = await userAPI.getUserProfile();
     dispatch(login(res.data));
+
+    // 로그인시 페이지이동
+    if (type === 1) {
+      history.push('/chat');
+    }
   } catch (error) {
     console.error(error);
   }
@@ -155,7 +174,8 @@ export const userActions = {
   setAuthNumber,
   updatePassword,
   loginByKakao,
-  fetchUserProfile
+  fetchUserProfile,
+  updateUserProfile
 };
 
 export default user;
