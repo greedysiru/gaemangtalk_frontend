@@ -72,7 +72,7 @@ const UserInfo = (props) => {
       </Line>
       <Line>
         <Text>이름</Text>
-        <div className="under">
+        <div className="under" onClick={onEdit}>
           {isEdit ? (
             <Input
               id="usernameInput"
@@ -85,7 +85,7 @@ const UserInfo = (props) => {
             <span> {value}</span>
           )}
 
-          <Penceil className="icon" onClick={onEdit} />
+          <Penceil className="icon" />
         </div>
       </Line>
       <Wrapper margin="0.5rem 0">
@@ -101,7 +101,6 @@ const UserInfo = (props) => {
 };
 
 const Container = styled.div`
-  border: 1px solid black;
   ${(props) => props.theme.flex_column};
   padding: 1rem;
   width: 300px;
@@ -116,8 +115,15 @@ const Line = styled.div`
     margin: 10px 0;
     padding-bottom: 10px;
     border-bottom: 2px dashed ${(props) => props.theme.main_color};
-    cursor: Default;
+    cursor: pointer;
     ${(props) => props.theme.flex_row};
+
+    &:hover {
+      & .icon {
+        background-color: ${(props) => props.theme.main_color};
+        color: ${(props) => props.theme.theme_gray};
+      }
+    }
 
     & .icon {
       color: gray;
@@ -125,10 +131,10 @@ const Line = styled.div`
       transition: 0.2s;
       border-radius: 50%;
       padding: 2px;
-      &:hover {
-        background-color: ${(props) => props.theme.main_color_blur};
-        color: ${(props) => props.theme.main_color_thick};
-      }
+      /* &:hover {
+        background-color: ${(props) => props.theme.main_color};
+        color: ${(props) => props.theme.theme_gray};
+      } */
     }
   }
 `;
