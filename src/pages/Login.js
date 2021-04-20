@@ -46,8 +46,13 @@ const Login = ({ history, match }) => {
   return (
     <Container>
       {username && (
-        <Wrapper>
-          {username}님 환영합니다 <Button _onClick={logout}>로그아웃</Button>
+        <Wrapper is_column>
+          {username}님 환영합니다
+          <Wrapper margin="1rem 0">
+            <Button _onClick={() => history.push('/chat')}>
+              채팅방으로 입장
+            </Button>
+          </Wrapper>
         </Wrapper>
       )}
       {!username && (

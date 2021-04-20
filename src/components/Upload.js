@@ -89,11 +89,6 @@ const Container = styled.div`
   }
 `;
 
-const Btn = styled.div`
-  position: relative;
-  left: 23vh;
-`;
-
 const Image = styled.img`
   width: 200px;
   height: 200px;
