@@ -2,8 +2,12 @@ import styled from 'styled-components';
 import React from 'react';
 
 const Image = (props) => {
-  const { shape, src, size, width, height } = props;
+  let { shape, src, size, width, height } = props;
 
+  // porps로 가져온 사진이 null인 경우 기본 프로필로 설정
+  if (src === null) {
+    src = '/default_img.png';
+  }
   const styles = {
     src: src,
     size: size,

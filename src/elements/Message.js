@@ -17,13 +17,15 @@ import { Image } from '../elements';
 // 사용자 - 상대방의 메시지 내용을 출력할 말풍선 컴포넌트
 const Message = (props) => {
   const email = getCookie('email');
-  let userId = useSelector((state) => state.user.userId);
+  // 사용자 아이디, 프로필 사진을 가져오기
+  let { userId, userProfileUrl } = useSelector((state) => state.user);
+  // 상대방의 프로필 사진을 가져오기
   if (!userId) {
     userId = getCookie('userId');
   }
   const { messageInfo } = props;
 
-  // 스피너 넣기
+  // 로딩중
   if (!messageInfo) {
     return <NoRoom />
   }
@@ -53,7 +55,10 @@ const Message = (props) => {
           </SenderSpan>
         </SenderWrap>
         <ImageWrap>
-          <Image size="40px" />
+          <Image
+            size="40px"
+            src={userProfileUrl}
+          />
         </ImageWrap>
       </MessageWrap>
     )
@@ -76,7 +81,10 @@ const Message = (props) => {
           </SenderSpan>
         </SenderWrap>
         <ImageWrap>
-          <Image size="40px" />
+          <Image
+            size="40px"
+            src={userProfileUrl}
+          />
         </ImageWrap>
       </MessageWrap>
     )
@@ -104,7 +112,10 @@ const Message = (props) => {
     return (
       < MessageWrap >
         <ImageWrap>
-          <Image size="40px" />
+          <Image
+            size="40px"
+            src={messageInfo.senderImg}
+          />
         </ImageWrap>
         <SenderWrap>
           <SenderSpan>
