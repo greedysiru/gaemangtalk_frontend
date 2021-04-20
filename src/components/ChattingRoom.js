@@ -18,6 +18,7 @@ import { getCookie } from '../shared/cookie';
 
 // 리덕스
 import { useDispatch, useSelector } from 'react-redux';
+import { history } from '../redux/configureStore';
 
 // 소켓 통신
 import Stomp from 'stompjs';
@@ -29,7 +30,7 @@ import NoRoom from './NoRoom';
 // 채팅 방 컴포넌트
 const ChattingRoom = (props) => {
   // 소켓 통신 객체
-  const sock = new SockJS('http://54.180.141.91:8080/chatting');
+  const sock = new SockJS('http://15.164.97.250:8080/chatting');
   const ws = Stomp.over(sock);
 
   // 방 제목 가져오기
@@ -111,8 +112,13 @@ const ChattingRoom = (props) => {
   }
 
   // 메시지 보내기
-  async function sendMessage(data) {
+  async function sendMessage() {
     try {
+      // token이 없으면 로그인 페이지로 이동
+      if (!token) {
+        alert('토큰이 없습니다. 다시 로그인 해주세요.');
+        history.replace('/')
+      }
       // send할 데이터
       const data = {
         type: 'TALK',

@@ -37,7 +37,7 @@ const Button = (props) => {
 
 Button.defaultProps = {
   children: null,
-  _onClick: () => {},
+  _onClick: () => { },
   is_float: false,
   margin: false,
   width: '100%',
@@ -66,7 +66,7 @@ const ElButton = styled.button`
 const FloatButton = styled.button`
   width: 50px;
   height: 50px;
-  background-color: #212121;
+  background-color: ${(props) => props.theme.theme_yellow};
   color: #ffffff;
   box-sizing: border-box;
   font-size: 36px;
