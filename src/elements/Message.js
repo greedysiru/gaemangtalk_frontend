@@ -18,13 +18,13 @@ import { Image } from '../elements';
 const Message = (props) => {
   const email = getCookie('email');
   // 사용자 아이디, 프로필 사진을 가져오기
-  let { userId, userProfileUrl } = useSelector((state) => state.user);
+  let { userId, userProfileUrl } = useSelector((state) => state.user.userInfo);
   // 상대방의 프로필 사진을 가져오기
   if (!userId) {
     userId = getCookie('userId');
   }
   const { messageInfo } = props;
-
+  console.log(userProfileUrl)
   // 로딩중
   if (!messageInfo) {
     return <NoRoom />
@@ -91,20 +91,16 @@ const Message = (props) => {
   }
   if (messageInfo.type === "ENTER") {
     return (
-
       <EnterWrap >
         {messageInfo.message}
       </EnterWrap>
-
     )
   }
   if (messageInfo.type === "QUIT") {
     return (
-
       <QuitWrap >
         {messageInfo.message}
       </QuitWrap>
-
     )
   }
   // 상대방 메시지
