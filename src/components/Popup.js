@@ -11,11 +11,14 @@ import { chatActions } from '../redux/modules/chat';
 // 리덕스
 import { useDispatch, useSelector } from 'react-redux';
 
+import Upload from '../components/Upload';
+
 // 채팅방 생성 창
 const Popup = (props) => {
   const { closePopup, visible } = props;
   const dispatch = useDispatch();
-
+  // 프리뷰 가져오기
+  const preview = useSelector((state) => state.util.preview);
   // 채팅방 이름
   const [chatRoomName, setRoomName] = React.useState();
 
@@ -27,7 +30,8 @@ const Popup = (props) => {
   // 방 생성하기
   const onClickCreateRoom = () => {
     const data = {
-      chatRoomName
+      chatRoomImg: preview,
+      chatRoomName: chatRoomName
     }
     dispatch(chatActions.createRoom(data, closePopup));
   }
@@ -57,6 +61,7 @@ const Popup = (props) => {
             placeholder='채팅방 제목을 입력해주세요.'
           ></Input>
         </InputWrap>
+        <Upload />
         <PopupButtons>
           <Button
             width="40%"
@@ -101,7 +106,7 @@ const PopupInner = styled.div`
   position: relative;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.5);
   width: 50%;
-  height: 50%;
+  height: 60%;
   background-color: whitesmoke;
   border-radius: 10px;
   top: 50%;
@@ -118,7 +123,7 @@ margin: 0px 0px 20px 0px;
 
 const InputWrap = styled.div`
   width: 80%;
-  margin-top: 20px;
+  margin: 20px 0px;
 `
 
 

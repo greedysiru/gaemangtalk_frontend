@@ -74,6 +74,9 @@ const ChatList = (props) => {
               roomName={info.chatRoomName}
               createdAt={info.createdAt}
               modifiedAt={info.modifiedAt}
+              roomImg={info.chatRoomImg}
+              userName={info.user?.username}
+              userProfile={info.user?.profileUrl}
               _onClick={(e) => {
                 enterRoom(info.id, info.chatRoomName);
               }}

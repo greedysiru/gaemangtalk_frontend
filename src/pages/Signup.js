@@ -120,7 +120,7 @@ const Signup = (props) => {
         <tbody>
           <tr>
             <th>
-              <Text>이메일*</Text>
+              <Text>이메일</Text>
             </th>
             <td className="input">
               <Input

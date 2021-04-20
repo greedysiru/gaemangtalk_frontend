@@ -10,7 +10,7 @@ import { Image } from '../elements';
 
 // 현재 존재하는 채팅을 보여주는 컴포넌트
 const Chat = (props) => {
-  const { roomName, _onClick, roomId } = props;
+  const { roomName, _onClick, roomId, roomImg, userName, userProfile } = props;
 
   // 사용자의 현재 방 id  가져오기
   const currentRoomId = useSelector((state) => state.chat.currentChat.roomId);
@@ -29,17 +29,25 @@ const Chat = (props) => {
 
   return (
     <Container onClick={_onClick} selected={is_same}>
-      <Image size="50px" />
+      <Image
+        size="50px"
+        src={roomImg}
+      />
       <ChatColumn>
         <ChatTitle>{roomName}</ChatTitle>
-        <ChatText>생성자 | 카테고리</ChatText>
+        <ChatText>
+          <Image
+            size="15px"
+            src={userProfile}
+          />
+          {userName}</ChatText>
       </ChatColumn>
     </Container>
   );
 };
 
 Chat.defaultProps = {
-  _onClick: () => {},
+  _onClick: () => { },
   roomName: false
 };
 
@@ -69,8 +77,9 @@ const ChatTitle = styled.span`
   font-size: 1.2rem;
 `;
 
-const ChatText = styled.span`
+const ChatText = styled.div`
   ${(props) => props.theme.border_box}
+  ${(props) => props.theme.flex_row}
   margin-top: 10px;
 `;
 
