@@ -141,7 +141,12 @@ const Signup = (props) => {
               </ValidWrapper>
             </td>
             <td>
-              <Button _onClick={onClickMultipleChk} disabled={!isValidEmail}>
+              <Button
+                _onClick={onClickMultipleChk}
+                disabled={!isValidEmail}
+                padding="8px"
+                width="100px"
+              >
                 중복확인
               </Button>
             </td>
@@ -259,6 +264,8 @@ const Container = styled.div`
   ${(props) => props.theme.flex_column};
   align-items: center;
   justify-content: center;
+
+
 `;
 
 const Input = styled.input`
@@ -276,6 +283,20 @@ const Table = styled.table`
   }
   & td.input {
     width: 300px;
+  }
+  @media ${(props) => props.theme.mobile} {
+    & tr{
+      ${(props) => props.theme.flex_column};
+      align-items: flex-start;
+      justify-content: center;
+    }
+    & th{
+      margin-left:8px;
+    }
+    & td {
+      width: 95%;
+      text-align: right;
+    }
   }
 `;
 

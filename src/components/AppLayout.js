@@ -7,6 +7,10 @@ import { getCookie } from '../shared/cookie';
 import { userActions } from '../redux/modules/user';
 
 function AppLayout(props) {
+  // 가로모드 감지
+  if (window.matchMedia('(orientation: landscape)').matches) {
+    window.alert('이 웹사이트는 세로모드에 최적화 되어있습니다. 세로모드로 전환 부탁드립니다.')
+  }
   const dispatch = useDispatch();
   const { is_login } = useSelector((state) => state.user);
   useEffect(() => {
@@ -46,12 +50,12 @@ function AppLayout(props) {
 const Container = styled.div`
   height: 100vh;
   width: 100vw;
-  min-width: 481px;
   ${(props) => props.theme.flex_column};
-
   @media ${(props) => props.theme.desktop} {
     flex-direction: row;
+    over-flow: scroll;
   }
+
 `;
 const Main = styled.div`
   height: 100%;

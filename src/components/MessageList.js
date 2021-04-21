@@ -53,6 +53,10 @@ const Container = styled.div`
   height: 100%;
   padding: 30px 30px 60px 30px;
   overflow: auto;
+  @media ${(props) => props.theme.mobile} {
+    height: 80%;
+    padding: 30px 10px 30px 10px;
+  }
 `;
 
 export default MessageList;

@@ -168,6 +168,9 @@ const EnterWrap = styled.div`
   color: whitesmoke;
   border-radius: 40px;
   opacity: 0.6;
+  @media ${(props) => props.theme.mobile} {
+    width: 80%;
+  }
 `
 
 const QuitWrap = styled.div`
@@ -182,6 +185,9 @@ background-color:${(props) => props.theme.main_color_thick};
 color: whitesmoke;
 border-radius: 40px;
 opacity: 0.6;
+@media ${(props) => props.theme.mobile} {
+  width: 80%;
+}
 `
 
 const SenderWrap = styled.div`

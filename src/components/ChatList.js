@@ -29,126 +29,8 @@ import { getCookie } from '../shared/cookie';
 const ChatList = (props) => {
   const dispatch = useDispatch();
   // 채팅 리스트 리덕스로부터 가져오기
-  //const chat_list = useSelector((state) => state.chat.chatInfo);
-  const chat_list = [
-    {
-      id: 1,
-      chatRoomName: '무야호gggggggggggggggggggggggggggggggggggggggg',
-      createdAt: '2020-02-02',
-      modifiedAt: '2020-02-02',
-      chatRoomImg:
-        'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg',
-      user: {
-        userName: '무야호 할아버지',
-        profileUrl:
-          'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg'
-      }
-    },
-    {
-      id: 2,
-      chatRoomName: '무야호',
-      createdAt: '2020-02-02',
-      modifiedAt: '2020-02-02',
-      chatRoomImg:
-        'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg',
-      user: {
-        userName: '무야호 할아버지',
-        profileUrl:
-          'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg'
-      }
-    },
-    {
-      id: 3,
-      chatRoomName: '무야호',
-      createdAt: '2020-02-02',
-      modifiedAt: '2020-02-02',
-      chatRoomImg:
-        'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg',
-      user: {
-        userName: '무야호 할아버지',
-        profileUrl:
-          'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg'
-      }
-    },
-    {
-      id: 4,
-      chatRoomName: '무야호',
-      createdAt: '2020-02-02',
-      modifiedAt: '2020-02-02',
-      chatRoomImg:
-        'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg',
-      user: {
-        userName: '무야호 할아버지',
-        profileUrl:
-          'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg'
-      }
-    },
-    {
-      id: 5,
-      chatRoomName: '무야호',
-      createdAt: '2020-02-02',
-      modifiedAt: '2020-02-02',
-      chatRoomImg:
-        'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg',
-      user: {
-        userName: '무야호 할아버지',
-        profileUrl:
-          'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg'
-      }
-    },
-    {
-      id: 6,
-      chatRoomName: '무야호',
-      createdAt: '2020-02-02',
-      modifiedAt: '2020-02-02',
-      chatRoomImg:
-        'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg',
-      user: {
-        userName: '무야호 할아버지',
-        profileUrl:
-          'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg'
-      }
-    },
-    {
-      id: 7,
-      chatRoomName: '무야호',
-      createdAt: '2020-02-02',
-      modifiedAt: '2020-02-02',
-      chatRoomImg:
-        'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg',
-      user: {
-        userName: '무야호 할아버지',
-        profileUrl:
-          'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg'
-      }
-    },
-    {
-      id: 8,
-      chatRoomName: '무야호',
-      createdAt: '2020-02-02',
-      modifiedAt: '2020-02-02',
-      chatRoomImg:
-        'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg',
-      user: {
-        userName: '무야호 할아버지',
-        profileUrl:
-          'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg'
-      }
-    },
-    {
-      id: 9,
-      chatRoomName: '무야호',
-      createdAt: '2020-02-02',
-      modifiedAt: '2020-02-02',
-      chatRoomImg:
-        'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg',
-      user: {
-        userName: '무야호 할아버지',
-        profileUrl:
-          'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg'
-      }
-    }
-  ];
+  const chat_list = useSelector((state) => state.chat.chatInfo);
+
 
   const { prevRoomId } = props;
 
@@ -213,7 +95,6 @@ const ChatList = (props) => {
 
 const Container = styled.div`
   ${(props) => props.theme.border_box};
-  ${(props) => props.theme.flex_column};
   justify-content: center;
   background-color: ${(props) => props.theme.theme_gray};
   width: 30%;
@@ -221,7 +102,7 @@ const Container = styled.div`
   position: relative;
   @media ${(props) => props.theme.mobile} {
     width: 100%;
-    height: 15vh;
+    height: 15%;
   }
 `;
 
@@ -250,7 +131,7 @@ const ChatListWrap = styled.div`
   @media ${(props) => props.theme.mobile} {
     flex-direction: row;
     align-items: center;
-    padding: 0;
+    padding: 10px 0px;
   }
 `;
 
@@ -270,7 +151,8 @@ const FloatingButton = styled.div`
   padding: 3px;
   cursor: pointer;
   @media ${(props) => props.theme.mobile} {
-    bottom: 10px;
+    position: fixed;
+    top: 22vh;
   }
 `;
 

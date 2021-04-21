@@ -8,18 +8,10 @@ const NoRoom = (props) => {
 const Container = styled.div`
   width: 100%;
   height: 100%;
-  //background-color: ${(props) => props.theme.main_color};
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background-color: ${(props) => props.theme.main_color};
   background-image: url('miniproject-7.png');
-  background-size: contain;
+  background-size: cover;
   background-position: center center;
-
-  @media ${(props) => props.theme.mobile} {
-    width: 100%;
-    height: 100vh;
-  }
 `;
 
 export default NoRoom;

@@ -112,6 +112,9 @@ const PopupInner = styled.div`
   top: 50%;
   margin: 0 auto;
   transform: translateY(-50%);
+  @media ${(props) => props.theme.mobile} {
+    width: 90%
+  }
 
 `
 

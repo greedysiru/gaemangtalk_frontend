@@ -93,6 +93,9 @@ const Container = styled.div`
     width: 10%;
     height: 100%;
   }
+  @media ${(props) => props.theme.mobile} {
+    height: 8%;
+  }
 `;
 
 const IconWrap = styled.div`

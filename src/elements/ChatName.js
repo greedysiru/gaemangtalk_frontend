@@ -22,6 +22,8 @@ const Container = styled.div`
   padding: 20px;
   font-size: 26px;
   font-weight: 700;
+  @media ${(props) => props.theme.mobile} {
+  }
 `;
 
 export default ChatName;

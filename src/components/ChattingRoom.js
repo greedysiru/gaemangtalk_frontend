@@ -183,7 +183,7 @@ const ChatWrap = styled.div`
 
   @media ${(props) => props.theme.mobile} {
     width: 100%;
-    height: 100vh;
+    height: 85%;
   }
 `;
 
