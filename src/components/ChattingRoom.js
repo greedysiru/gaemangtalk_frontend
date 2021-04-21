@@ -150,16 +150,14 @@ const ChattingRoom = (props) => {
   return (
     <Container>
       <ChatList prevRoomId={roomId} />
-      <ChatWrap>
-        {!roomId && <NoRoom />}
-        {roomId && (
-          <React.Fragment>
-            <ChatName roomName={roomName} />
-            <MessageList />
-            <MessageWrite sendMessage={sendMessage} />
-          </React.Fragment>
-        )}
-      </ChatWrap>
+      {!roomId && <NoRoom />}
+      {roomId && (
+        <ChatWrap>
+          <ChatName roomName={roomName} />
+          <MessageList />
+          <MessageWrite sendMessage={sendMessage} />
+        </ChatWrap>
+      )}
     </Container>
   );
 };
@@ -170,6 +168,7 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   background-color: white;
+
   color: ${(props) => props.theme.theme_yellow};
 
   @media ${(props) => props.theme.mobile} {
@@ -184,6 +183,7 @@ const ChatWrap = styled.div`
 
   @media ${(props) => props.theme.mobile} {
     width: 100%;
+    height: 100vh;
   }
 `;
 

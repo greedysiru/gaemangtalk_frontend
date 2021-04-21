@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { Input } from '../elements';
 
 // 아이콘
-import { IoArrowUp } from "react-icons/io5";
+import { IoArrowUp } from 'react-icons/io5';
 
 // 소켓 통신
 import Stomp from 'stompjs';
@@ -33,15 +33,15 @@ const MessageWrite = (props) => {
 
   // 텍스트 기록 함수
   const handleMessageText = (e) => {
-    setMessageText(e.target.value)
+    setMessageText(e.target.value);
     dispatch(chatActions.writeMessage(e.target.value));
-  }
+  };
 
   // 오토 포커스 대상
   const autoFocusRef = React.useRef(null);
   React.useEffect(() => {
     autoFocusRef.current?.focus();
-  }, [])
+  }, []);
 
   // 메세지 보내기 함수
   // const sendMessage = () => {
@@ -73,7 +73,6 @@ const MessageWrite = (props) => {
   //   );
   // }
 
-
   return (
     <Container>
       <Input
@@ -94,15 +93,11 @@ const MessageWrite = (props) => {
           onClick={() => {
             sendMessage();
             setMessageText('');
-
-          }
-          }
+          }}
         >
           <IoArrowUp />
         </IconWrap>
-
       ) : null}
-
     </Container>
   );
 };
@@ -110,22 +105,20 @@ const MessageWrite = (props) => {
 const Container = styled.div`
   ${(props) => props.theme.flex_row};
   background-color: ${(props) => props.theme.main_color_thick};
-  justify-content: flex-start; 
-  position: absolute;
-  width:70%;
+  justify-content: flex-start;
+  width: 100%;
   height: 8%;
-  top: 92%;
-  opacity: 0.6;
+  opacity: 0.5;
 `;
 
 const IconWrap = styled.div`
   ${(props) => props.theme.flex_row};
   color: whitesmoke;
   justify-content: center;
-  height:100%;
-  width:5%;
+  height: 100%;
+  width: 5%;
   font-size: 25px;
   cursor: pointer;
-`
+`;
 
 export default MessageWrite;

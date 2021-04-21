@@ -21,12 +21,12 @@ const MessageList = (props) => {
   const messageEndRef = React.useRef(null);
   //  하단 스크롤 함수
   const scrollTomBottom = () => {
-    messageEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }
+    messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
   // 렌더링시 이동
   React.useEffect(() => {
     scrollTomBottom();
-  }, [messages])
+  }, [messages]);
 
   // 메시지를 받아오면 가장 아래로 이동
   // if (messages) {
@@ -34,33 +34,23 @@ const MessageList = (props) => {
 
   // }
 
-
-
   return (
     <Container className="scroll" id="messagelist">
       {messages.map((m, idx) => {
-
-        return (<Message
-          key={idx}
-          messageInfo={m}
-          is_me={true}
-
-        />
-        )
+        return <Message key={idx} messageInfo={m} is_me={true} />;
       })}
 
       <div ref={messageEndRef}></div>
     </Container>
-
-  )
-}
+  );
+};
 
 const Container = styled.div`
   ${(props) => props.theme.border_box};
   ${(props) => props.theme.flex_column};
   justify-content: flex-start;
   width: 100%;
-  height: 90%;
+  height: 100%;
   padding: 30px 30px 60px 30px;
   overflow: auto;
 `;
