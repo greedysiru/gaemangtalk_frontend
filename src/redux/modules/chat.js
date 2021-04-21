@@ -10,6 +10,7 @@ export const initialState = {
   currentChat: {
     roomId: null,
     roomName: null,
+    category: null,
   },
   // 현재 접속 채팅 메시지
   messages: [],
@@ -20,6 +21,8 @@ export const initialState = {
   messageTotalPage: null,
   // 메시지 로딩
   loading: false,
+  // 사용자가 설정한 카테고리(채팅방 생성시)
+  selectedCategory: [],
 };
 
 // 채팅 리스트를 다루는 액션
@@ -40,6 +43,10 @@ const isLoading = createAction('chat/ISLOADING');
 const isLoaded = createAction('chat/ISLOADED');
 // 입장한 채팅방 정보를 없애기
 const clearCurrentChat = createAction('chat/CLEARCURRENTCHAT');
+// 카테고리 설정
+const setCategory = createAction('chat/SETCATEGORY');
+// 카테고리 초기화
+const clearCategory = createAction('chat/clearCategory');
 
 const chat = createReducer(initialState, {
   [getChat]: (state, action) => {
@@ -70,6 +77,12 @@ const chat = createReducer(initialState, {
   [clearCurrentChat]: (state, action) => {
     state.currentChat.roomId = null;
     state.currentChat.roomName = null;
+  },
+  [setCategory]: (state, action) => {
+    state.selectedCategory.push(action.payload);
+  },
+  [clearCategory]: (state, action) => {
+    state.selectedCategory = [];
   }
 });
 
@@ -236,6 +249,9 @@ export const chatActions = {
   isLoading,
   isLoaded,
   clearCurrentChat,
+  setCategory,
+  clearCategory,
+  getChat
 };
 
 export default chat;

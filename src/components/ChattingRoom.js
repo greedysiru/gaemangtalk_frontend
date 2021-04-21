@@ -34,7 +34,7 @@ const ChattingRoom = (props) => {
   const ws = Stomp.over(sock);
 
   // 방 제목 가져오기
-  const roomName = useSelector((state) => state.chat.currentChat.roomName);
+  const { roomName, category } = useSelector((state) => state.chat.currentChat);
   const roomId = useSelector((state) => state.chat.currentChat.roomId);
 
   // 토큰
@@ -153,7 +153,7 @@ const ChattingRoom = (props) => {
       {!roomId && <NoRoom />}
       {roomId && (
         <ChatWrap>
-          <ChatName roomName={roomName} />
+          <ChatName roomName={roomName} category={category} />
           <MessageList />
           <MessageWrite sendMessage={sendMessage} />
         </ChatWrap>

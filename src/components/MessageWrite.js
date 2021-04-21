@@ -109,6 +109,12 @@ const Container = styled.div`
   width: 100%;
   height: 8%;
   opacity: 0.5;
+  @media ${(props) => props.theme.mobile} {
+    position:fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+  }
 `;
 
 const IconWrap = styled.div`
@@ -119,6 +125,7 @@ const IconWrap = styled.div`
   width: 5%;
   font-size: 25px;
   cursor: pointer;
+  
 `;
 
 export default MessageWrite;

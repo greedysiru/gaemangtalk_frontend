@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@class101/ui": "^9.0.0-rc42",
     "@reduxjs/toolkit": "^1.5.1",
     "@stomp/stompjs": "^6.1.0",
     "@testing-library/jest-dom": "^5.11.4",

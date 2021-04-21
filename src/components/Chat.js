@@ -10,8 +10,15 @@ import { Image } from '../elements';
 
 // 현재 존재하는 채팅을 보여주는 컴포넌트
 const Chat = (props) => {
-  const { roomName, _onClick, roomId, roomImg, userName, userProfile } = props;
-
+  const { roomName, _onClick, roomId, roomImg, userName, userProfile, category } = props;
+  // 카테고리 2개까지 표시
+  const categoryInfo = [];
+  for (let i = 0; i < 2; i++) {
+    if (category[i] === undefined) {
+      continue
+    }
+    categoryInfo.push(category[i])
+  }
   // 사용자의 현재 방 id  가져오기
   const currentRoomId = useSelector((state) => state.chat.currentChat.roomId);
 
@@ -34,7 +41,13 @@ const Chat = (props) => {
         <ChatTitle>{roomName}</ChatTitle>
         <ChatText>
           <Image size="15px" src={userProfile} />
-          {userName}
+          {userName} |
+          <CategoryText>
+            {categoryInfo.map((c, idx) => {
+              return ' ' + c + ' '
+
+            })}
+          </CategoryText>
         </ChatText>
       </ChatColumn>
     </Container>
@@ -42,7 +55,7 @@ const Chat = (props) => {
 };
 
 Chat.defaultProps = {
-  _onClick: () => {},
+  _onClick: () => { },
   roomName: false
 };
 
@@ -68,7 +81,7 @@ const Container = styled.div`
     justify-content: space-between;
     border-left: none;
     border-bottom: ${(props) =>
-      props.selected ? `5px solid #F99750;` : 'none;'};
+    props.selected ? `5px solid #F99750;` : 'none;'};
   }
 `;
 const ChatColumn = styled.div`
@@ -109,5 +122,16 @@ const ChatText = styled.div`
     display: none;
   }
 `;
+
+const CategoryText = styled.div`
+${(props) => props.theme.flex_row}
+font-size: 10px;
+algin-items: center;
+margin-left: 5px;
+padding-top: 2px;
+@media ${(props) => props.theme.mobile} {
+  display: none;
+}
+`
 
 export default Chat;

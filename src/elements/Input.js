@@ -122,6 +122,7 @@ const ElMessageWrite = styled.input`
   box-sizing: border-box;
   color: whitesmoke;
   font-size: 18px;
+ 
 `
 
 export default Input;

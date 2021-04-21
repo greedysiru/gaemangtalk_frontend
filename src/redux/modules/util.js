@@ -5,7 +5,7 @@ import { utilAPI } from '../../shared/api';
 const initialState = {
   image_url: '',
   uploading: false,
-  preview: null
+  preview: null,
 };
 
 // action

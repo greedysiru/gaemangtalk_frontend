@@ -84,19 +84,19 @@ const ChatList = (props) => {
   return (
     <Container>
       <Title>Chat</Title>
-      <SelectWrap>
-        <Select
-          value={tag}
-          placeholder="채팅방 카테고리를 골라주세요"
-          options={['전체조회', 'REACT', 'SPRING', 'RN', 'NODEJS']}
-          onChange={(e) => { selectTag(e) }}
-          style={{
-            marginBottom: '20px',
-            width: '90%',
-          }}
-        />
-      </SelectWrap>
       <ChatListWrap className="scroll">
+        <SelectWrap>
+          <Select
+            value={tag}
+            placeholder="채팅방 카테고리를 골라주세요"
+            options={['전체조회', 'REACT', 'SPRING', 'RN', 'NODEJS']}
+            onChange={(e) => { selectTag(e) }}
+            style={{
+              marginBottom: '20px',
+              width: '90%',
+            }}
+          />
+        </SelectWrap>
         {/* 받아온 채팅 리스트 구현하기 */}
         {chat_list.map((info, idx) => {
           return (
@@ -156,7 +156,7 @@ const ChatListWrap = styled.div`
   width: 100%;
   height: 90%;
   overflow: auto;
-  padding: 80px 10px 0px 10px;
+  padding: 90px 10px 0px 10px;
   ${(props) => props.theme.flex_column};
   justify-content: flex-start;
 
@@ -164,7 +164,6 @@ const ChatListWrap = styled.div`
     hieght: 100%;
     flex-direction: row;
     align-items: center;
-    padding: 5px;
   }
 `;
 
@@ -197,12 +196,8 @@ ${(props) => props.theme.border_box};
   width: 100%;
   background-color: ${(props) => props.theme.theme_gray};
   @media ${(props) => props.theme.mobile} {
-    display: none;
-    // ${(props) => props.theme.flex_row};
-    // width: 22%;
-    // height: 100%;
-    // left: 0;
-    // top: 0;
+    position: static;;
+    width: 10%;
   }
 `
 

@@ -46,6 +46,9 @@ export const chatAPI = {
   },
   getChatMessages: function (roomId) {
     return axios.get(`/api/chat/rooms/${roomId}/messages`);
+  },
+  selectCategory: function (category) {
+    return axios.get(`/api/chat/rooms/search/${category}`);
   }
 };
 
