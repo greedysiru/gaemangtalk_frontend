@@ -14,6 +14,9 @@ import NoRoom from '../components/NoRoom';
 // 프로필 사진
 import { Image } from '../elements';
 
+// Spinner
+import { Spinner } from '@class101/ui';
+
 // 사용자 - 상대방의 메시지 내용을 출력할 말풍선 컴포넌트
 const Message = (props) => {
   const email = getCookie('email');
@@ -24,10 +27,19 @@ const Message = (props) => {
     userId = getCookie('userId');
   }
   const { messageInfo } = props;
-  // 로딩중
-  if (!messageInfo) {
-    return <NoRoom />
-  }
+  React.useEffect(() => {
+
+    // 로딩중
+    if (!messageInfo) {
+      return (
+        <MessageWrap>
+          <Spinner />
+        </MessageWrap>
+      )
+    }
+
+  }, [])
+
 
   // 타임 스탬프
   let time = ''
@@ -37,6 +49,7 @@ const Message = (props) => {
 
   // 사용자 본인 메시지
   // 일반로그인 유저(이전)
+
 
   // 이메일과 비교
   if (messageInfo.senderEmail === email) {
@@ -109,7 +122,7 @@ const Message = (props) => {
         <ImageWrap>
           <Image
             size="40px"
-            src={messageInfo.user.profileUrl}
+            src={messageInfo.user?.profileUrl}
           />
         </ImageWrap>
         <SenderWrap>
