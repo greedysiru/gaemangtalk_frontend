@@ -7,13 +7,17 @@ import { getCookie } from '../shared/cookie';
 import { userActions } from '../redux/modules/user';
 
 function AppLayout(props) {
-  // 가로모드 감지
-  if (window.matchMedia('(orientation: landscape)').matches) {
-    window.alert('이 웹사이트는 세로모드에 최적화 되어있습니다. 세로모드로 전환 부탁드립니다.')
-  }
+
   const dispatch = useDispatch();
   const { is_login } = useSelector((state) => state.user);
   useEffect(() => {
+    // 가로모드 감지, 경고창
+    window.addEventListener("orientationchange", function () {
+      if (window.orientation == -90 || window.orientation == 90) {
+        window.alert('이 웹사이트는 세로모드를 권장합니다. 세로모드로 전환해주세요 🙏')
+      }
+    }, false);
+
     const token = getCookie('access-token');
 
     if (token && !is_login) {
@@ -21,6 +25,7 @@ function AppLayout(props) {
       console.log(token);
       dispatch(userActions.fetchUserProfile());
     }
+
   }, []);
   // 로그인 하지 않은 경우
   if (!is_login) {

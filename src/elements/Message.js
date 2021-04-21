@@ -109,7 +109,7 @@ const Message = (props) => {
         <ImageWrap>
           <Image
             size="40px"
-            src={messageInfo.senderImg}
+            src={messageInfo.user.profileUrl}
           />
         </ImageWrap>
         <SenderWrap>
