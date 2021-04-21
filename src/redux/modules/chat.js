@@ -46,7 +46,9 @@ const clearCurrentChat = createAction('chat/CLEARCURRENTCHAT');
 // 카테고리 설정
 const setCategory = createAction('chat/SETCATEGORY');
 // 카테고리 초기화
-const clearCategory = createAction('chat/clearCategory');
+const clearCategory = createAction('chat/CELARCATEGORY');
+// 카테고리 삭제
+const deleteCategory = createAction('chat/DELETECATEGORY');
 
 const chat = createReducer(initialState, {
   [getChat]: (state, action) => {
@@ -83,6 +85,9 @@ const chat = createReducer(initialState, {
   },
   [clearCategory]: (state, action) => {
     state.selectedCategory = [];
+  },
+  [deleteCategory]: (state, action) => {
+    state.selectedCategory.splice(state.selectedCategory.indexOf(action.payload), 1);
   }
 });
 
@@ -251,7 +256,8 @@ export const chatActions = {
   clearCurrentChat,
   setCategory,
   clearCategory,
-  getChat
+  getChat,
+  deleteCategory
 };
 
 export default chat;

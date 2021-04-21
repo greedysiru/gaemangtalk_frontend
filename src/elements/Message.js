@@ -70,7 +70,7 @@ const Message = (props) => {
       <MessageWrap is_me={true}>
         <SenderWrap >
           <SenderSpan is_me={true}>
-            {messageInfo.sender}
+            {messageInfo.user ? messageInfo.user.username : messageInfo.sender}
           </SenderSpan>
           <ElMessage is_me={true}>
             {messageInfo.message}
@@ -114,7 +114,7 @@ const Message = (props) => {
         </ImageWrap>
         <SenderWrap>
           <SenderSpan>
-            {messageInfo.sender}
+            {messageInfo.user.username}
           </SenderSpan>
           <ElMessage >
             {messageInfo.message}

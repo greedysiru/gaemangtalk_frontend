@@ -69,6 +69,11 @@ const Popup = (props) => {
     dispatch(chatActions.setCategory(e.target.value));
   }
 
+  // 태그 삭제
+  const deleteCategory = (value) => {
+    dispatch(chatActions.deleteCategory(value));
+  }
+
   React.useEffect(() => {
     window.addEventListener("click", clickOutside);
     return () => {
@@ -97,8 +102,16 @@ const Popup = (props) => {
         <InputWrap>
           {Tags.map((t, idx) => {
             return (
-              <TagWrap>
+              <TagWrap key={idx}>
                 {t}
+                <span onClick={
+                  (e) => {
+                    deleteCategory(t)
+                    e.stopPropagation();
+                  }}
+                >
+                  X
+                </span>
               </TagWrap>
             )
           })}
@@ -176,15 +189,21 @@ justify-content: center;
   margin: 10px 0px 10px 0px;
 `
 const TagWrap = styled.div`
+${(props) => props.theme.flex_row}
 margin: 0px 5px;
   padding: 5px;
   font-size: 1rem;
   background-color: orange;
   border-radius: 10px;
+  color: whitesmoke;
+  & span{
+    cursor: pointer;
+    font-size: 10px;
+    margin-left: 5px;
+  }
   @media ${(props) => props.theme.mobile} {
     font-size: 0.7rem;
   }
-  color: whitesmoke;
 `
 
 
