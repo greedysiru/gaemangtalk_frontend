@@ -37,13 +37,7 @@ function AppLayout(props) {
     return (
       <Container>
         <Header />
-        <Main
-          style={{
-            width: '90%'
-          }}
-        >
-          {props.children}
-        </Main>
+        <Main>{props.children}</Main>
       </Container>
     );
   }
@@ -61,6 +55,7 @@ const Container = styled.div`
 `;
 const Main = styled.div`
   height: 100%;
+  width: 100%;
   ${(props) => props.theme.flex_row};
   justify-content: center;
   align-items: center;

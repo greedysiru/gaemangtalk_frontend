@@ -65,10 +65,10 @@ const Header = (props) => {
 
       <IconWrap
         onClick={() => {
-          dispatch(headerActions.activateChat())
-          logout()
-        }
-        }>
+          dispatch(headerActions.activateChat());
+          logout();
+        }}
+      >
         <IoLogOutOutline />
       </IconWrap>
     </Container>
@@ -86,6 +86,7 @@ const Container = styled.div`
   justify-content: center;
 
   @media ${(props) => props.theme.desktop} {
+    max-width: 100px;
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;

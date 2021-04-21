@@ -5,8 +5,7 @@ import styled from 'styled-components';
 // Components
 import ChatList from '../components/ChatList';
 
-import ChattingRoom from '../components/ChattingRoom'
-
+import ChattingRoom from '../components/ChattingRoom';
 
 // 채팅 관련 함수들 가져오기
 import { chatActions } from '../redux/modules/chat';
@@ -54,14 +53,10 @@ const Chatting = (props) => {
   // );
   // }, []);
 
-
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(chatActions.getChatList());
-  }, [])
-
-
-
+  }, []);
 
   return (
     <Container>
@@ -70,9 +65,8 @@ const Chatting = (props) => {
         <ChattingRoom />
       </ChatWrap>
     </Container>
-
-  )
-}
+  );
+};
 
 const Container = styled.div`
   ${(props) => props.theme.flex_row};
@@ -89,6 +83,6 @@ const ChatWrap = styled.div`
   width: 100%;
   height: 100%;
   position: relative;
-`
+`;
 
 export default Chatting;
