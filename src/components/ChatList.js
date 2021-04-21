@@ -29,7 +29,126 @@ import { getCookie } from '../shared/cookie';
 const ChatList = (props) => {
   const dispatch = useDispatch();
   // 채팅 리스트 리덕스로부터 가져오기
-  const chat_list = useSelector((state) => state.chat.chatInfo);
+  //const chat_list = useSelector((state) => state.chat.chatInfo);
+  const chat_list = [
+    {
+      id: 1,
+      chatRoomName: '무야호gggggggggggggggggggggggggggggggggggggggg',
+      createdAt: '2020-02-02',
+      modifiedAt: '2020-02-02',
+      chatRoomImg:
+        'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg',
+      user: {
+        userName: '무야호 할아버지',
+        profileUrl:
+          'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg'
+      }
+    },
+    {
+      id: 2,
+      chatRoomName: '무야호',
+      createdAt: '2020-02-02',
+      modifiedAt: '2020-02-02',
+      chatRoomImg:
+        'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg',
+      user: {
+        userName: '무야호 할아버지',
+        profileUrl:
+          'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg'
+      }
+    },
+    {
+      id: 3,
+      chatRoomName: '무야호',
+      createdAt: '2020-02-02',
+      modifiedAt: '2020-02-02',
+      chatRoomImg:
+        'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg',
+      user: {
+        userName: '무야호 할아버지',
+        profileUrl:
+          'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg'
+      }
+    },
+    {
+      id: 4,
+      chatRoomName: '무야호',
+      createdAt: '2020-02-02',
+      modifiedAt: '2020-02-02',
+      chatRoomImg:
+        'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg',
+      user: {
+        userName: '무야호 할아버지',
+        profileUrl:
+          'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg'
+      }
+    },
+    {
+      id: 5,
+      chatRoomName: '무야호',
+      createdAt: '2020-02-02',
+      modifiedAt: '2020-02-02',
+      chatRoomImg:
+        'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg',
+      user: {
+        userName: '무야호 할아버지',
+        profileUrl:
+          'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg'
+      }
+    },
+    {
+      id: 6,
+      chatRoomName: '무야호',
+      createdAt: '2020-02-02',
+      modifiedAt: '2020-02-02',
+      chatRoomImg:
+        'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg',
+      user: {
+        userName: '무야호 할아버지',
+        profileUrl:
+          'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg'
+      }
+    },
+    {
+      id: 7,
+      chatRoomName: '무야호',
+      createdAt: '2020-02-02',
+      modifiedAt: '2020-02-02',
+      chatRoomImg:
+        'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg',
+      user: {
+        userName: '무야호 할아버지',
+        profileUrl:
+          'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg'
+      }
+    },
+    {
+      id: 8,
+      chatRoomName: '무야호',
+      createdAt: '2020-02-02',
+      modifiedAt: '2020-02-02',
+      chatRoomImg:
+        'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg',
+      user: {
+        userName: '무야호 할아버지',
+        profileUrl:
+          'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg'
+      }
+    },
+    {
+      id: 9,
+      chatRoomName: '무야호',
+      createdAt: '2020-02-02',
+      modifiedAt: '2020-02-02',
+      chatRoomImg:
+        'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg',
+      user: {
+        userName: '무야호 할아버지',
+        profileUrl:
+          'https://img.khan.co.kr/news/2021/03/14/l_2021031401001628900137951.jpg'
+      }
+    }
+  ];
 
   const { prevRoomId } = props;
 
@@ -96,11 +215,16 @@ const ChatList = (props) => {
 
 const Container = styled.div`
   ${(props) => props.theme.border_box};
+  ${(props) => props.theme.flex_column};
+  justify-content: center;
   background-color: ${(props) => props.theme.theme_gray};
   width: 30%;
   height: 100%;
-
   position: relative;
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+    height: 15vh;
+  }
 `;
 
 const Title = styled.div`
@@ -110,6 +234,10 @@ const Title = styled.div`
   padding: 20px 20px 20px 30px;
   font-size: 26px;
   font-weight: 700;
+
+  @media ${(props) => props.theme.mobile} {
+    display: none;
+  }
 `;
 
 const ChatListWrap = styled.div`
@@ -118,6 +246,15 @@ const ChatListWrap = styled.div`
   height: 90%;
   overflow: auto;
   padding: 0px 10px 0px 10px;
+  ${(props) => props.theme.flex_column};
+  justify-content: flex-start;
+
+  @media ${(props) => props.theme.mobile} {
+    flex-direction: row;
+    align-items: center;
+
+    padding: 0;
+  }
 `;
 
 export default ChatList;

@@ -51,10 +51,8 @@ const ChattingRoom = (props) => {
 
   // 렌더링 될 때마다 연결,구독 다른 방으로 옮길 때 연결, 구독 해제
   React.useEffect(() => {
-
     wsConnectSubscribe();
     return () => {
-
       wsDisConnectUnsubscribe();
     };
   }, [roomId]);
@@ -78,7 +76,7 @@ const ChattingRoom = (props) => {
         }
       );
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -92,7 +90,7 @@ const ChattingRoom = (props) => {
         { token: token }
       );
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -107,8 +105,9 @@ const ChattingRoom = (props) => {
         } else {
           waitForConnection(ws, callback);
         }
-      }, 1 // 밀리초 간격으로 실행
-    )
+      },
+      1 // 밀리초 간격으로 실행
+    );
   }
 
   // 메시지 보내기
@@ -117,7 +116,7 @@ const ChattingRoom = (props) => {
       // token이 없으면 로그인 페이지로 이동
       if (!token) {
         alert('토큰이 없습니다. 다시 로그인 해주세요.');
-        history.replace('/')
+        history.replace('/');
       }
       // send할 데이터
       const data = {
@@ -125,8 +124,8 @@ const ChattingRoom = (props) => {
         roomId: roomId,
         sender: sender,
         message: messageText,
-        senderEmail: null,
-      }
+        senderEmail: null
+      };
       // 빈문자열이면 리턴
       if (messageText === '') {
         return;
@@ -141,30 +140,23 @@ const ChattingRoom = (props) => {
         );
         console.log(ws.ws.readyState);
         dispatch(chatActions.writeMessage(''));
-
-      })
-
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       console.log(ws.ws.readyState);
-
     }
   }
-
-
 
   return (
     <Container>
       <ChatList prevRoomId={roomId} />
       <ChatWrap>
-
         {!roomId && <NoRoom />}
         {roomId && (
           <React.Fragment>
             <ChatName roomName={roomName} />
             <MessageList />
             <MessageWrite sendMessage={sendMessage} />
-
           </React.Fragment>
         )}
       </ChatWrap>
@@ -179,13 +171,20 @@ const Container = styled.div`
   height: 100%;
   background-color: white;
   color: ${(props) => props.theme.theme_yellow};
+
+  @media ${(props) => props.theme.mobile} {
+    flex-direction: column;
+  }
 `;
 
 const ChatWrap = styled.div`
   ${(props) => props.theme.flex_column}
   width: 70%;
   height: 100%;
-`;
 
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+  }
+`;
 
 export default ChattingRoom;
