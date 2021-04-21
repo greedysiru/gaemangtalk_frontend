@@ -203,9 +203,9 @@ const ChatList = (props) => {
           );
         })}
       </ChatListWrap>
-      <Button is_float _onClick={openPopup}>
+      <FloatingButton is_float _onClick={openPopup}>
         +
-      </Button>
+      </FloatingButton>
 
       {/* 채팅 생성 팝업 창 */}
       {popupOpen && <Popup visible={popupOpen} closePopup={closePopup} />}
@@ -254,6 +254,26 @@ const ChatListWrap = styled.div`
     align-items: center;
 
     padding: 0;
+  }
+`;
+
+const FloatingButton = styled.div`
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  bottom: 50px;
+  right: 16px;
+  background-color: ${(props) => props.theme.theme_yellow};
+  color: #ffffff;
+  box-sizing: border-box;
+  font-size: 36px;
+  font-weight: 800;
+  border-radius: 50%;
+  text-align: center;
+  padding: 3px;
+
+  @media ${(props) => props.theme.mobile} {
+    bottom: 20px;
   }
 `;
 

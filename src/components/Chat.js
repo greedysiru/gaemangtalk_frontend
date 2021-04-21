@@ -60,14 +60,15 @@ const Container = styled.div`
   cursor: pointer;
   color: ${(props) => props.theme.font_color};
 
-  border: 1px black solid;
-
   @media ${(props) => props.theme.mobile} {
     height: 100%;
     margin: 0;
     padding: 0;
     flex-direction: column;
     justify-content: space-between;
+    border-left: none;
+    border-bottom: ${(props) =>
+      props.selected ? `5px solid #F99750;` : 'none;'};
   }
 `;
 const ChatColumn = styled.div`
@@ -81,6 +82,7 @@ const ChatColumn = styled.div`
 
   @media ${(props) => props.theme.mobile} {
     width: 80px;
+    margin-left: 0px;
   }
 `;
 const ChatTitle = styled.span`
@@ -94,6 +96,7 @@ const ChatTitle = styled.span`
 
   @media ${(props) => props.theme.mobile} {
     font-size: 0.75rem;
+    text-align: center;
   }
 `;
 
