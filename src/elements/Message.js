@@ -173,7 +173,7 @@ color: ${(props) => props.theme.main_color};
 
 const SenderSpan = styled.span`
 min-width: 50px;
-width: 90%;
+width: 100%;
 ${(props) => props.is_me ? 'text-align: right' : 'text-align: left'};
 margin: 5px 0px;
 `
