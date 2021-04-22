@@ -1,3 +1,20 @@
+# gaemangtalk_frontend
+
+[사이트 링크](http://gaemangtalk.site/)
+
+**gaemangtalk 프로젝트의 프론트 엔드 Repositroy 입니다.**
+
+
+
+## 프로젝트 특징
+
+* 개.망.톡!
+  * 개발자 지망생을 위한 톡
+* React, Spring을 기반으로한 채팅 웹 애플리케이션
+* 개발 공부를 하면서 고민, 잡담을 할수 있는 채팅 서비스
+* 카테고리(태그), 채팅방 이미지 설정을 하여 방 생성 가능
+* 일반 회원가입 및 소셜 로그인(카카오) 연동
+
 # withcredential?
 
 - withCredential은 옵션이 true면 다른 포트끼리 쿠키 공유가 가능하다
