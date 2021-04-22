@@ -16,11 +16,8 @@ import { Spinner } from '@class101/ui';
 // 사용자 - 상대방의 메시지 내용을 출력할 말풍선 컴포넌트
 const Message = (props) => {
   // 사용자 아이디, 프로필 사진을 가져오기
-  let { userId, profileUrl } = useSelector((state) => state.user.userInfo);
-  // 상대방의 프로필 사진을 가져오기
-  if (!userId) {
-    userId = getCookie('userId');
-  }
+  let { id, profileUrl } = useSelector((state) => state.user.userInfo);
+
   const { messageInfo } = props;
   React.useEffect(() => {
     // 로딩중
@@ -42,7 +39,7 @@ const Message = (props) => {
   }
 
   // 메시지의 유저 id 정보와 현재 유저 id가 같으면 본인 메시지
-  if (userId == messageInfo.userId) {
+  if (id == messageInfo.userId) {
     return (
       <MessageWrap is_me={true}>
         <SenderWrap >

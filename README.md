@@ -1,3 +1,15 @@
+# gaemangtalk_frontend
+
+[사이트 링크](http://gaemangtalk.site/)
+
+**gaemangtalk 프로젝트의 프론트 엔드 Repositroy 입니다.**
+
+
+
+## 프로젝트 특징
+
+* React, Spring을 기반으로한 채팅 웹 애플리케이션
+
 # withcredential?
 
 - withCredential이 뭐야?

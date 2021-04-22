@@ -25,7 +25,6 @@ function AppLayout(props) {
 
     if (token && !is_login) {
       axios.defaults.headers.common['token'] = `${token}`;
-      console.log(token);
       dispatch(userActions.fetchUserProfile());
     }
 
