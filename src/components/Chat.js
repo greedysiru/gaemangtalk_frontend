@@ -27,13 +27,6 @@ const Chat = (props) => {
   if (currentRoomId === roomId) {
     is_same = true;
   }
-
-  // key={idx}
-  // roomId={info.id}
-  // roomName={info.chatRommName}
-  // createdAt={info.createdAt}
-  // modifiedAt={info.modifiedAt}
-
   return (
     <Container onClick={_onClick} selected={is_same}>
       <Image size="50px" src={roomImg} />

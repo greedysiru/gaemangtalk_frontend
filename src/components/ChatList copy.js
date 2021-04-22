@@ -2,9 +2,6 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-// elements
-import { Button } from '../elements';
-
 // components
 import Chat from './Chat';
 import Popup from '../components/Popup';
@@ -14,14 +11,6 @@ import { useSelector, useDispatch } from 'react-redux';
 
 // 채팅 관련 함수들 가져오기
 import { chatActions } from '../redux/modules/chat';
-
-// 소켓 통신
-import Stomp from 'stompjs';
-import SockJS from 'sockjs-client';
-
-// 쿠키
-import { getCookie } from '../shared/cookie';
-
 
 // select
 import { Select } from '@class101/ui';

@@ -2,9 +2,6 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-// elements
-import { Button } from '../elements';
-
 // components
 import Chat from './Chat';
 import Popup from '../components/Popup';
@@ -14,14 +11,6 @@ import { useSelector, useDispatch } from 'react-redux';
 
 // 채팅 관련 함수들 가져오기
 import { chatActions } from '../redux/modules/chat';
-
-// 소켓 통신
-import Stomp from 'stompjs';
-import SockJS from 'sockjs-client';
-
-// 쿠키
-import { getCookie } from '../shared/cookie';
-
 
 // select
 import { Select } from '@class101/ui';
@@ -55,6 +44,7 @@ const ChatList = (props) => {
   };
   //  태그 고르기
   const selectTag = async (e) => {
+    setTag(e.target.value)
     if (e.target.value === '전체조회') {
       // 전체조회를 선택한 경우 전체조회 API 호출
       const totalList = await chatAPI.getChatList();

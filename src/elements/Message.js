@@ -1,4 +1,3 @@
-import { stripLeadingSlash } from 'history/PathUtils';
 import React from 'react';
 
 import styled from 'styled-components';
@@ -8,9 +7,6 @@ import { getCookie } from '../shared/cookie';
 // 리덕스 접근
 import { useSelector, useDispatch } from 'react-redux';
 
-// noroom
-import NoRoom from '../components/NoRoom';
-
 // 프로필 사진
 import { Image } from '../elements';
 
@@ -19,7 +15,6 @@ import { Spinner } from '@class101/ui';
 
 // 사용자 - 상대방의 메시지 내용을 출력할 말풍선 컴포넌트
 const Message = (props) => {
-  const email = getCookie('email');
   // 사용자 아이디, 프로필 사진을 가져오기
   let { userId, profileUrl } = useSelector((state) => state.user.userInfo);
   // 상대방의 프로필 사진을 가져오기
@@ -28,7 +23,6 @@ const Message = (props) => {
   }
   const { messageInfo } = props;
   React.useEffect(() => {
-
     // 로딩중
     if (!messageInfo) {
       return (
@@ -47,37 +41,7 @@ const Message = (props) => {
     time = messageInfo.createdAt.split(' ')[1];
   }
 
-  // 사용자 본인 메시지
-  // 일반로그인 유저(이전)
-
-
-  // 이메일과 비교
-  if (messageInfo.senderEmail === email) {
-    return (
-      <MessageWrap is_me={true}>
-        <SenderWrap >
-          <SenderSpan is_me={true}>
-            {messageInfo.sender}
-          </SenderSpan>
-          <ElMessage is_me={true}>
-            {messageInfo.message}
-          </ElMessage>
-          <SenderSpan is_me={true}>
-            {time}
-          </SenderSpan>
-        </SenderWrap>
-        <ImageWrap>
-          <Image
-            size="40px"
-            src={profileUrl}
-          />
-        </ImageWrap>
-      </MessageWrap>
-    )
-
-  }
-  // 유저 아이디와 비교(최신 버전)
-
+  // 메시지의 유저 id 정보와 현재 유저 id가 같으면 본인 메시지
   if (userId == messageInfo.userId) {
     return (
       <MessageWrap is_me={true}>
@@ -101,6 +65,7 @@ const Message = (props) => {
       </MessageWrap>
     )
   }
+  // 사용자 입장 메시지
   if (messageInfo.type === "ENTER") {
     return (
       <EnterWrap >
@@ -108,6 +73,7 @@ const Message = (props) => {
       </EnterWrap>
     )
   }
+  // 사용자 퇴장 메시지
   if (messageInfo.type === "QUIT") {
     return (
       <QuitWrap >
@@ -127,7 +93,7 @@ const Message = (props) => {
         </ImageWrap>
         <SenderWrap>
           <SenderSpan>
-            {messageInfo.user.username}
+            {messageInfo.user ? messageInfo.user.username : messageInfo.sender}
           </SenderSpan>
           <ElMessage >
             {messageInfo.message}

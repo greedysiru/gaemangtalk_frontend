@@ -10,7 +10,6 @@ import {
   IoPerson,
   IoConstructOutline
 } from 'react-icons/io5';
-import { getCookie } from '../shared/cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../redux/modules/user';
 
@@ -23,9 +22,12 @@ const Header = (props) => {
   const { headerChat, headerInfo } = useSelector((state) => state.header);
   const dispatch = useDispatch();
 
+  // 로그아웃
+  // 로그인 페이지로 이동 및 페이지 리로드(disconnect 및 리덕스 초기화)
   const logout = () => {
     dispatch(userActions.logout());
     history.push('/');
+    window.location.reload();
   };
 
   return (
