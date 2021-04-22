@@ -52,7 +52,11 @@ const UserInfo = (props) => {
   // 저장버튼
   const onUpdateProfile = () => {
     if (!value.length) return; // username 입력값 없을 때는 저장불가
-
+    // 10자 이하로 작성하게 하기
+    if (value.length > 10) {
+      alert('10자 이하로 작성해주세요!');
+      return
+    }
     const data = {
       profileUrl: preview,
       username: value

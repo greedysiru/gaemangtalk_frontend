@@ -37,11 +37,7 @@ const Popup = (props) => {
 
   // 방 생성하기
   const onClickCreateRoom = () => {
-    // 10자 이하로 작성하게 하기
-    if (chatRoomName.length > 10) {
-      alert('10자 이하로 작성해주세요!');
-      return
-    }
+
     const data = {
       chatRoomImg: preview,
       chatRoomName: chatRoomName,
