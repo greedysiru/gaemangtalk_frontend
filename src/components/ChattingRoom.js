@@ -58,9 +58,9 @@ const ChattingRoom = (props) => {
   }, [roomId]);
 
   // 웹소켓 연결, 구독
-  async function wsConnectSubscribe() {
+  function wsConnectSubscribe() {
     try {
-      await ws.connect(
+      ws.connect(
         {
           token: token
         },
@@ -81,9 +81,9 @@ const ChattingRoom = (props) => {
   }
 
   // 연결해제, 구독해제
-  async function wsDisConnectUnsubscribe() {
+  function wsDisConnectUnsubscribe() {
     try {
-      await ws.disconnect(
+      ws.disconnect(
         () => {
           ws.unsubscribe('sub-0');
         },
@@ -111,7 +111,7 @@ const ChattingRoom = (props) => {
   }
 
   // 메시지 보내기
-  async function sendMessage() {
+  function sendMessage() {
     try {
       // token이 없으면 로그인 페이지로 이동
       if (!token) {

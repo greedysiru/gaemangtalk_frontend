@@ -2,6 +2,10 @@
 
 [사이트 링크](http://gaemangtalk.site/)
 
+[유튜브 링크](https://youtu.be/MDPGmLslJbg)
+
+[백엔드 Repositroy 링크](https://github.com/joychae/Springboot-Webproject-ChatService)
+
 **gaemangtalk 프로젝트의 프론트 엔드 Repositroy 입니다.**
 
 
@@ -42,6 +46,27 @@
 * websocket 기반의 채팅 기능
   * sockjs-client, stompjs
 * 사용자의 메시지와 상대방의 메시지를 구분하는 ui 적용
+* 반응형 디자인
+  * 태블릿, 스마트폰
+
+
+
+## 사용 기술
+
+### 1. WebSocket
+
+* HTTP는 실시간 통신이 불가능
+* WebSocket은 실시간 통신의 문제를 해결
+* 실시간 양방향 통신을 지원
+* 핸드쉐이크(HTTP) -> 양방향 통신
+
+
+
+### 2. Stomp
+
+* Simple Text Oriented Messaging Protocol
+* 텍스트 기반의 프로토콜
+* 
 
 
 
@@ -68,7 +93,7 @@
 
 **프로젝트를 하며 마주친 문제들과 해결한 방법을 정리**
 
-### withcredential?
+### 1. withcredential?
 
 - withCredential은 옵션이 true면 다른 포트끼리 쿠키 공유가 가능하다
 - 기본값은 false
@@ -77,7 +102,7 @@
 - response header의 'Access-Control-Allow-Origin'가 \*면 withCredential이 true면 안되는 의미.
 - 지금 서버설정에서는 withCredential을 다시 false로 바꾸니 요청이 잘 들어갔다
 
-### 로그인 유지할 때 어떻게 하지?
+### 2. 로그인 유지할 때 어떻게 하지?
 
 - 새로고침하면 스토어에 저장한 user 정보가 사라져서, 로그인 상태를 유지할 방법이 필요하다.
 - 로그인할 때 필요한 사용자 정보를 쿠키나 세션 스토리지에 저장할지, 토큰만 저장해 토큰으로 user 정보를 가져올지 고민했음
@@ -91,6 +116,57 @@
 - https://ssungkang.tistory.com/entry/React-axios-%EC%9D%98-withCredentials
 
 
+
+### 3. 채팅이 끊기는 문제
+
+![websocket_error](readme_images/websocket_error.png)
+
+* Connect -> Subscribe 후 send 메소드로 메시지를 보낼 때 발생
+* 접속 자체가 되어있음에도 불구하고 간헐적으로 발생
+
+
+
+#### 원인
+
+* 웹소켓 객체의 readyState라는 프로퍼티의 상태
+* send 메소드를 보낼 때, readyState가 0이면 위의 오류가 발생하는 것이었음
+
+| Value | State      | Description                                |
+| ----- | ---------- | ------------------------------------------ |
+| 0     | CONNECTING | 소켓이 생성, 연결이 아직 되지 않음         |
+| 1     | OPEN       | 연결이 열려 있고 , 통신할 준비가 되어 있음 |
+
+
+
+#### 해결
+
+* setTimeout 함수로 readyState가 1이 될 때 send 메소드를 실행할 수 있도록 함
+
+```JavaScript
+  // 웹소켓이 연결될 때 까지 실행하는 함수
+  function waitForConnection(ws, callback) {
+    setTimeout(
+      function () {
+        // 연결되었을 때 콜백함수 실행
+        if (ws.ws.readyState === 1) {
+          callback();
+          // 연결이 안 되었으면 재호출
+        } else {
+          waitForConnection(ws, callback);
+        }
+      },
+      1 // 밀리초 간격으로 실행
+    );
+  }
+```
+
+
+
+<hr/>
+
+**reference**
+
+* https://developer.mozilla.org/ko/docs/Web/API/WebSocket/readyState
 
 
 
@@ -110,4 +186,17 @@
 | 2021.04.19 | 기본 프로필 이미지 설정<br />웹소켓 readyState 문제 해결<br />Message.js 스타일 설정<br />서버 ip 변경<br />유저 프로필 페이지 스타일링 |
 | 2021.04.20 | 업로드 api 추가<br />채팅방 리스트 사진 적용, 뷰 적용<br />반응형 디자인 적용<br />가로모드 감지<br />카테고리(태그) 설정 기능, api<br />카테고리(태그) 별 조회 기능, api |
 | 2021.04.21 | 뷰 조정 및 사용성 개선<br />로그인 기능 수정<br />사용성 테스트 및 버그 개선<br />README.md 작성 |
+
+
+
+## License
+
+### MIT
+
+
+
+## Reference
+
+* 로고제작
+  * [미리 캔버스](https://www.miricanvas.com)
 
