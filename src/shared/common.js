@@ -12,7 +12,7 @@ export const testRepatNumber = (pw) => {
 
 // 이름 형식 체크 정규식
 export const testUsernameValid = (email) => {
-  let _reg = /^[a-zA-Z0-9가-힣_-]{3,20}$/i;
+  let _reg = /^[a-zA-Z0-9ㄱ-ㅎ가-힣-_]{3,20}$/i;
   return _reg.test(email);
 };
 

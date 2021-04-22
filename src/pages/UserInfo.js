@@ -8,6 +8,7 @@ import { BiPencil as Penceil } from 'react-icons/bi';
 import useInput from '../shared/useInput';
 import ErrorMsg from '../elements/ErrorMsg';
 import { utilActions } from '../redux/modules/util';
+import { testUsernameValid } from '../shared/common';
 
 // 사용자 정보 수정 페이지
 const UserInfo = (props) => {
@@ -15,27 +16,19 @@ const UserInfo = (props) => {
 
   const [isEdit, setIsEdit] = useState(false); // user name 변경 상태
   const userInfo = useSelector((state) => state.user.userInfo); // store의 유저 정보
+  const loginError = useSelector((state) => state.user.loginError); // store의 유저 정보
   const [value, setValue, onChangeValue] = useInput(userInfo?.username); // useranme 입력 값
   const usernameInput = useRef(); // username input ref!!
   const preview = useSelector((state) => state.util.preview); // 이미지 등록 후 s3에 저장한 url
 
-  // 바깥 부분 클릭하면 수정 input에서 바뀌게
-  const handleOnClickOutside = (e) => {
-    e.stopPropagation();
-    if (!isEdit) return;
-
-    if (e.target.id === 'usernameInput') return;
-
-    setIsEdit(false);
-  };
+  const [usernameValidError, setUsernameValidError] = useState(false);
+  const [vaildMsg, setVaildMsg] = useState('');
 
   useEffect(() => {
-    window.addEventListener('click', handleOnClickOutside);
-
-    return () => {
-      window.removeEventListener('click', handleOnClickOutside);
-    };
-  });
+    if (userInfo) {
+      resetUserInfo();
+    }
+  }, [userInfo]);
 
   // 수정상태로 변경하고, input에 커서들어가게끔
   const onEdit = () => {
@@ -51,12 +44,20 @@ const UserInfo = (props) => {
 
   // 저장버튼
   const onUpdateProfile = () => {
-    if (!value.length) return; // username 입력값 없을 때는 저장불가
-    // 10자 이하로 작성하게 하기
-    if (value.length > 10) {
-      alert('10자 이하로 작성해주세요!');
-      return
+    if (value.length < 3 || value.length > 10) {
+      setUsernameValidError(true);
+      setVaildMsg('3-10자로 입력해주세요');
+      return;
     }
+
+    if (!testUsernameValid(value)) {
+      setUsernameValidError(true);
+      setVaildMsg('한글, 영어, 숫자, -, _만 입력해주세요');
+      return;
+    }
+
+    setVaildMsg(false);
+
     const data = {
       profileUrl: preview,
       username: value
@@ -69,49 +70,67 @@ const UserInfo = (props) => {
     setValue(userInfo.username);
     dispatch(utilActions.setPreview(userInfo.profileUrl));
   };
-  return (
-    <Container>
-      <Title>내 정보</Title>
-      <Wrapper>
-        <Upload img={userInfo?.profileUrl} />
-      </Wrapper>
-      <Line>
-        <Text>Email</Text>
-        <div className="under">
-          {userInfo?.email} {userInfo?.kakaoId && <IsKakao src="isKakao.png" />}
-        </div>
-      </Line>
-      <Line>
-        <Text>이름</Text>
-        <div className="under" onClick={onEdit}>
-          {isEdit ? (
-            <Input
-              id="usernameInput"
-              ref={usernameInput}
-              type="text"
-              onChange={onChangeValue}
-              value={value}
-            />
-          ) : (
-            <span> {value}</span>
-          )}
 
-          <Penceil className="icon" />
-        </div>
-      </Line>
-      <Wrapper margin="0.5rem 0">
-        <Button disabled={!value} _onClick={onUpdateProfile}>
-          저장
-        </Button>
-      </Wrapper>
-      <Wrapper margin="0.5rem 0">
-        <Button _onClick={resetUserInfo}>취소</Button>
-      </Wrapper>
+  const onClickUserContainer = (e) => {
+    if (!isEdit) return;
+    if (e.target.id !== 'usernameInput') {
+      setIsEdit(false);
+    }
+  };
+  return (
+    <Container onClick={onClickUserContainer}>
+      <InnerWrapper>
+        <Title>내 정보</Title>
+        <Wrapper>
+          <Upload img={userInfo?.profileUrl} />
+        </Wrapper>
+        <Line>
+          <Text>Email</Text>
+          <div className="under">
+            {userInfo?.email}{' '}
+            {userInfo?.kakaoId && <IsKakao src="isKakao.png" />}
+          </div>
+        </Line>
+        <Line>
+          <Text>이름</Text>
+          <div className="under" onClick={onEdit}>
+            {isEdit ? (
+              <Input
+                id="usernameInput"
+                ref={usernameInput}
+                type="text"
+                onChange={onChangeValue}
+                value={value}
+              />
+            ) : (
+              <span> {value}</span>
+            )}
+
+            <Penceil className="icon" />
+          </div>
+        </Line>
+        <ErrorMsg valid={usernameValidError}>{vaildMsg}</ErrorMsg>
+        <ErrorMsg valid={loginError}>{loginError}</ErrorMsg>
+        <Wrapper margin="0.5rem 0">
+          <Button disabled={!value} _onClick={onUpdateProfile}>
+            저장
+          </Button>
+        </Wrapper>
+        <Wrapper margin="0.5rem 0">
+          <Button _onClick={resetUserInfo}>취소</Button>
+        </Wrapper>
+      </InnerWrapper>
     </Container>
   );
 };
 
 const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  ${(props) => props.theme.flex_row};
+  justify-content: center;
+`;
+const InnerWrapper = styled.div`
   ${(props) => props.theme.flex_column};
   padding: 1rem;
   width: 300px;
