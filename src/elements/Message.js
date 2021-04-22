@@ -28,7 +28,6 @@ const Message = (props) => {
   }
   const { messageInfo } = props;
   React.useEffect(() => {
-
     // 로딩중
     if (!messageInfo) {
       return (
@@ -52,30 +51,30 @@ const Message = (props) => {
 
 
   // 이메일과 비교
-  if (messageInfo.senderEmail === email) {
-    return (
-      <MessageWrap is_me={true}>
-        <SenderWrap >
-          <SenderSpan is_me={true}>
-            {messageInfo.sender}
-          </SenderSpan>
-          <ElMessage is_me={true}>
-            {messageInfo.message}
-          </ElMessage>
-          <SenderSpan is_me={true}>
-            {time}
-          </SenderSpan>
-        </SenderWrap>
-        <ImageWrap>
-          <Image
-            size="40px"
-            src={profileUrl}
-          />
-        </ImageWrap>
-      </MessageWrap>
-    )
+  // if (messageInfo.senderEmail === email) {
+  //   return (
+  //     <MessageWrap is_me={true}>
+  //       <SenderWrap >
+  //         <SenderSpan is_me={true}>
+  //           {messageInfo.sender}
+  //         </SenderSpan>
+  //         <ElMessage is_me={true}>
+  //           {messageInfo.message}
+  //         </ElMessage>
+  //         <SenderSpan is_me={true}>
+  //           {time}
+  //         </SenderSpan>
+  //       </SenderWrap>
+  //       <ImageWrap>
+  //         <Image
+  //           size="40px"
+  //           src={profileUrl}
+  //         />
+  //       </ImageWrap>
+  //     </MessageWrap>
+  //   )
 
-  }
+  // }
   // 유저 아이디와 비교(최신 버전)
 
   if (userId == messageInfo.userId) {
@@ -127,7 +126,7 @@ const Message = (props) => {
         </ImageWrap>
         <SenderWrap>
           <SenderSpan>
-            {messageInfo.user.username}
+            {messageInfo.user ? messageInfo.user.username : messageInfo.sender}
           </SenderSpan>
           <ElMessage >
             {messageInfo.message}

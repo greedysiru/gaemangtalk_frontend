@@ -124,7 +124,6 @@ const ChattingRoom = (props) => {
         roomId: roomId,
         sender: sender,
         message: messageText,
-        senderEmail: null
       };
       // 빈문자열이면 리턴
       if (messageText === '') {
