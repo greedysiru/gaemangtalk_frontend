@@ -8,10 +8,6 @@ import Message from '../elements/Message';
 // 리덕스 접근
 import { useSelector, useDispatch } from 'react-redux';
 
-// 채팅 관련 함수들 가져오기
-import { chatActions } from '../redux/modules/chat';
-
-
 
 // 메시지 리스트 컴포넌트
 const MessageList = (props) => {
@@ -34,11 +30,6 @@ const MessageList = (props) => {
     scrollTomBottom();
   }, [messages]);
 
-  // 메시지를 받아오면 가장 아래로 이동
-  // if (messages) {
-  //   dispatch(chatActions.moveScrollBottom());
-
-  // }
 
   return (
     <Container className="scroll" id="messagelist">

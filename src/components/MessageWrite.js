@@ -8,13 +8,6 @@ import { Input } from '../elements';
 // 아이콘
 import { IoArrowUp } from 'react-icons/io5';
 
-// 소켓 통신
-import Stomp from 'stompjs';
-import SockJS from 'sockjs-client';
-
-// 쿠키
-import { getCookie } from '../shared/cookie';
-
 // 리덕스 접근
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -43,35 +36,6 @@ const MessageWrite = (props) => {
     autoFocusRef.current?.focus();
   }, []);
 
-  // 메세지 보내기 함수
-  // const sendMessage = () => {
-  //   // dispatch(chatActions.sendMessage());
-  //   // setMessageText('');
-  //   // return
-  //   const token = getCookie('access-token');
-  //   const sender = getCookie('username');
-  //   const roomId = localStorage.getItem('wschat.roomId');
-  //   let sock = new SockJS("http://54.180.141.91:8080/chatting");
-  //   let ws = Stomp.over(sock);
-  //   // 보낼 데이터
-  //   const messageData = {
-  //     'type': 'TALK',
-  //     'roomId': roomId,
-  //     'sender': sender,
-  //     'message': messageText,
-  //     'senderEmail': null,
-  //   }
-
-  //   ws.connect({
-  //     'token': token,
-  //     // 'Access-Control-Allow-Origin': '*://*',
-  //     // 'Access-Control-Allow-Methods': '*',
-  //   }
-  //     , () => {
-  //       ws.send('/pub/api/chat/message', { 'token': token }, JSON.stringify(messageData))
-  //     }
-  //   );
-  // }
 
   return (
     <Container>

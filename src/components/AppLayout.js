@@ -45,6 +45,7 @@ function AppLayout(props) {
     );
   }
 
+  // 로그인 상태일 때 헤드 출력
   if (is_login) {
     return (
       <Container>

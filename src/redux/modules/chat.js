@@ -92,25 +92,6 @@ const chat = createReducer(initialState, {
 });
 
 
-// thunk
-// 채팅방 생성
-// const createRoom = (data, closePopup) => {
-//   return function (dispatch, getState, { history }) {
-//     axios.post(`/api/chat/rooms`, data)
-//       .then((res) => {
-//         // 채팅방 리스트 다시 가져오기
-//         console.log(res)
-//         window.alert('채팅방이 생성되었습니다.')
-//         dispatch(getChatList());
-//         closePopup();
-//       })
-//       .catch((err) => {
-//         console.log(err)
-//       })
-//       ;
-//   };
-// };
-
 const createRoom = (data, closePopup) => async (dispatch, getState, { history }) => {
   try {
     const res = await chatAPI.createRoom(data);
@@ -124,20 +105,6 @@ const createRoom = (data, closePopup) => async (dispatch, getState, { history })
 };
 
 // 채팅방 목록 조회
-// const getChatList = () => {
-//   return function (dispatch, getState, { history }) {
-//     axios.get(`/api/chat/rooms`)
-//       .then((res) => {
-//         dispatch(getChat(res.data));
-//       })
-//       .catch((err) => {
-//         console.log(err)
-//       })
-//       ;
-//   };
-// };
-
-// 채팅방 목록 조회
 const getChatList = () => async (dispatch, getState, { history }) => {
   try {
     const res = await chatAPI.getChatList();
@@ -147,71 +114,6 @@ const getChatList = () => async (dispatch, getState, { history }) => {
     console.log(error);
   }
 };
-
-// web socket
-// 채팅방 입장
-// connect, subscribe
-// const enterChatRoom = () => {
-//   return function (dispatch, getState, { history }) {
-//     const token = getCookie('access-token');
-//     let sock = new SockJS("http://54.180.141.91:8080/chatting");
-//     let ws = Stomp.over(sock);
-//     const roomId = getState().chat.currentChat.roomId
-//     ws.connect({
-//       'token': token,
-//       // 'Access-Control-Allow-Origin': '*://*',
-//       // 'Access-Control-Allow-Methods': '*',
-//     }
-//       , () => {
-//         ws.subscribe(`/sub/api/chat/rooms/${roomId}`, (data) => {
-//           const newMessage = JSON.parse(data.body);
-//           dispatch(getMessages(newMessage))
-//         });
-//       }
-//     );
-
-//   }
-// }
-
-// send
-// const sendMessage = () => {
-//   return function (dispatch, getState, { history }) {
-//     let sock = new SockJS("http://54.180.141.91:8080/chatting");
-//     let ws = Stomp.over(sock);
-//     const token = getCookie('access-token');
-//     const sender = getCookie('username');
-//     const roomId = getState().chat.currentChat.roomId;
-
-//     const messageText = getState().chat.messageText;
-//     // 보낼 데이터
-//     const messageData = {
-//       'type': 'TALK',
-//       'roomId': roomId,
-//       'sender': sender,
-//       'message': messageText,
-//       'senderEmail': null,
-//     }
-
-//     ws.send('/pub/api/chat/message', { 'token': token, }, JSON.stringify(messageData))
-
-//   }
-
-// }
-
-// DB에 존재하는 채팅방 메시지들 가져오기
-// const getChatMessages = () => {
-//   return function (dispatch, getState, { history }) {
-//     const roomId = getState().chat.currentChat.roomId;
-//     axios.get(`/api/chat/rooms/${roomId}/messages`)
-//       .then((res) => {
-//         const chatMessagesArray = res.data.content;
-//         dispatch(setMessages(chatMessagesArray));
-//       })
-//       .catch((err) => {
-//         console.log(err)
-//       });
-//   };
-// };
 
 // DB에 존재하는 채팅방 메시지들 가져오기
 const getChatMessages = () => async (dispatch, getState, { history }) => {
@@ -226,22 +128,6 @@ const getChatMessages = () => async (dispatch, getState, { history }) => {
   }
 };
 
-// // 스크롤 아래 이동
-// const moveScrollBottom = () => {
-//   return function (dispatch, getState, { history }) {
-//     // 메세지리스트 요소 가져오기
-//     const MessageListElement = document.getElementById('messagelist');
-//     // 요소가 없으면 바로 리턴
-//     if (!MessageListElement) {
-//       return
-//     }
-//     // 메세지리스트 길이
-//     const MessageListElementHeight = MessageListElement.scrollHeight;
-//     // 아래로 이동
-//     MessageListElement.scroll({ top: MessageListElementHeight, left: 0, behavior: 'smooth' });
-
-//   }
-// }
 
 export const chatActions = {
   createRoom,
