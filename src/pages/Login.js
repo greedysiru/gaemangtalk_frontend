@@ -3,17 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import styled from 'styled-components';
 
-import { Button, Input, Text, Wrapper } from '../elements';
+import { Button, Input, Wrapper } from '../elements';
 import ErrorMsg from '../elements/ErrorMsg';
 import { userActions } from '../redux/modules/user';
-import { CLIENT_ID, REDIRECT_URI, KAKAO_JS_ID } from '../shared/common';
-import { deleteCookie } from '../shared/cookie';
+import { KAKAO_JS_ID } from '../shared/common';
+
 import useInput from '../shared/useInput';
 import KaKaoLogin from 'react-kakao-login';
 
 // 로그인 페이지 컴포넌트
 const Login = ({ history, match }) => {
   const dispatch = useDispatch();
+  // email, password 입력 value
+  // useInput  setValue(e.target.value)를 사용하기 위해 만든 hook
   const [email, setEmail, onChangeEmail] = useInput('');
   const [password, setPassword, onChangePassword] = useInput('');
   const loginError = useSelector((state) => state.user.loginError);
@@ -21,21 +23,22 @@ const Login = ({ history, match }) => {
 
   useEffect(() => {
     return () => {
+      // 로그인 에러가 있다면 null 처리
       dispatch(userActions.setLoginError(null));
     };
   }, []);
+
+  // 로그인
   const onLogin = () => {
     if (!email || !password) return;
 
     dispatch(userActions.fetchLogin({ email, password }));
   };
 
-  const logout = () => {
-    dispatch(userActions.logout());
-  };
-
+  // 카카오 로그인
   const kakaoLoginSuccessHandler = (res) => {
     const data = res.response;
+    // 카카오 로그인 후 받아온 토큰
     dispatch(
       userActions.loginByKakao({
         kakaoToken: data.access_token

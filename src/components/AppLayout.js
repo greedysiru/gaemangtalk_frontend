@@ -7,52 +7,40 @@ import { getCookie } from '../shared/cookie';
 import { userActions } from '../redux/modules/user';
 
 function AppLayout(props) {
-
   const dispatch = useDispatch();
   const { is_login } = useSelector((state) => state.user);
   useEffect(() => {
     // 가로모드 감지, 경고창
-    window.addEventListener("orientationchange", function () {
-      if (window.orientation == -90 || window.orientation == 90) {
-        if (window.innerWidth > 375) {
-          return
+    window.addEventListener(
+      'orientationchange',
+      function () {
+        if (window.orientation == -90 || window.orientation == 90) {
+          if (window.innerWidth > 375) {
+            return;
+          }
+          window.alert(
+            '이 웹사이트는 세로모드를 권장합니다. 세로모드로 전환해주세요 🙏'
+          );
         }
-        window.alert('이 웹사이트는 세로모드를 권장합니다. 세로모드로 전환해주세요 🙏')
-      }
-    }, false);
+      },
+      false
+    );
 
     const token = getCookie('access-token');
-
+    // 로그인 유지 로직
     if (token && !is_login) {
+      // access 토큰을 header에 넣고, 토큰으로 user정보를 불러옴
       axios.defaults.headers.common['token'] = `${token}`;
       dispatch(userActions.fetchUserProfile());
     }
-
   }, []);
-  // 로그인 하지 않은 경우
-  if (!is_login) {
-    return (
-      <Container>
-        <Main
-          style={{
-            width: '100%'
-          }}
-        >
-          {props.children}
-        </Main>
-      </Container>
-    );
-  }
-
-  // 로그인 상태일 때 헤드 출력
-  if (is_login) {
-    return (
-      <Container>
-        <Header />
-        <Main>{props.children}</Main>
-      </Container>
-    );
-  }
+  return (
+    <Container>
+      {/* 로그인했을 때만 헤더 노출 */}
+      {is_login && <Header />}
+      <Main>{props.children}</Main>
+    </Container>
+  );
 }
 
 const Container = styled.div`
@@ -63,7 +51,6 @@ const Container = styled.div`
     flex-direction: row;
     over-flow: scroll;
   }
-
 `;
 const Main = styled.div`
   height: 100%;
