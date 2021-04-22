@@ -1,5 +1,7 @@
 # gaemangtalk_frontend
 
+![logo](readme_images/logo.png)
+
 [사이트 링크](http://gaemangtalk.site/)
 
 [유튜브 링크](https://youtu.be/MDPGmLslJbg)
@@ -47,7 +49,7 @@
 
 
 
-## 사용 기술
+## 기능 상세 소개
 
 ### 1. WebSocket
 
@@ -62,7 +64,142 @@
 
 * Simple Text Oriented Messaging Protocol
 * 텍스트 기반의 프로토콜
-* 
+* `connect`, `subscribe`, `send`, `disconnect`, `usubscribe` 메소드
+  * `connect` -> `subscribe` 이후 별도의 요청 없이 서버로부터 데이터를 받을 수 있는 상태가 된다.
+  * 이 때, `send`메소드로 데이터를 전송할 수 있다.
+  * `send`로 메시지를 보내면 `subscribe`상태이므로 자동으로 자신의 메시지도 표시된다.
+  * 연결을 해제할 때, `disconnect`, `unsubscribe` 를 한다.
+
+
+
+#### 적용 코드
+
+ ```JavaScript
+// styled-components, import, export, retrun은 생략
+// 채팅 방 컴포넌트
+const ChattingRoom = (props) => {
+  // 소켓 통신 객체
+  const sock = new SockJS('http://15.164.97.250:8080/chatting');
+  const ws = Stomp.over(sock);
+
+  // 방 제목 가져오기
+  const { roomName, category } = useSelector((state) => state.chat.currentChat);
+  const roomId = useSelector((state) => state.chat.currentChat.roomId);
+
+  // 토큰
+  const token = getCookie('access-token');
+  const dispatch = useDispatch();
+
+  // 보낼 메시지 텍스트
+  const messageText = useSelector((state) => state.chat.messageText);
+  // sedner 정보 가져오기
+  let sender = useSelector((state) => state.user.userInfo?.username);
+  if (!sender) {
+    sender = getCookie('username');
+  }
+
+  // 렌더링 될 때마다 연결,구독 다른 방으로 옮길 때 연결, 구독 해제
+  React.useEffect(() => {
+    wsConnectSubscribe();
+    return () => {
+      wsDisConnectUnsubscribe();
+    };
+  }, [roomId]);
+
+  // 웹소켓 연결, 구독
+  function wsConnectSubscribe() {
+    try {
+      ws.connect(
+        {
+          token: token
+        },
+        () => {
+          ws.subscribe(
+            `/sub/api/chat/rooms/${roomId}`,
+            (data) => {
+              const newMessage = JSON.parse(data.body);
+              dispatch(chatActions.getMessages(newMessage));
+            },
+            { token: token }
+          );
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // 연결해제, 구독해제
+  function wsDisConnectUnsubscribe() {
+    try {
+      ws.disconnect(
+        () => {
+          ws.unsubscribe('sub-0');
+        },
+        { token: token }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // 웹소켓이 연결될 때 까지 실행하는 함수
+  function waitForConnection(ws, callback) {
+    setTimeout(
+      function () {
+        // 연결되었을 때 콜백함수 실행
+        if (ws.ws.readyState === 1) {
+          callback();
+          // 연결이 안 되었으면 재호출
+        } else {
+          waitForConnection(ws, callback);
+        }
+      },
+      1 // 밀리초 간격으로 실행
+    );
+  }
+
+  // 메시지 보내기
+  function sendMessage() {
+    try {
+      // token이 없으면 로그인 페이지로 이동
+      if (!token) {
+        alert('토큰이 없습니다. 다시 로그인 해주세요.');
+        history.replace('/');
+      }
+      // send할 데이터
+      const data = {
+        type: 'TALK',
+        roomId: roomId,
+        sender: sender,
+        message: messageText,
+      };
+      // 빈문자열이면 리턴
+      if (messageText === '') {
+        return;
+      }
+      // 로딩 중
+      dispatch(chatActions.isLoading());
+      waitForConnection(ws, function () {
+        ws.send(
+          '/pub/api/chat/message',
+          { token: token },
+          JSON.stringify(data)
+        );
+        console.log(ws.ws.readyState);
+        dispatch(chatActions.writeMessage(''));
+      });
+    } catch (error) {
+      console.log(error);
+      console.log(ws.ws.readyState);
+    }
+  }
+
+ ```
+
+
+
+
 
 
 
@@ -180,6 +317,24 @@
 | 2021.04.19 | 기본 프로필 이미지 설정<br />웹소켓 readyState 문제 해결<br />Message.js 스타일 설정<br />서버 ip 변경<br />유저 프로필 페이지 스타일링 |
 | 2021.04.20 | 업로드 api 추가<br />채팅방 리스트 사진 적용, 뷰 적용<br />반응형 디자인 적용<br />가로모드 감지<br />카테고리(태그) 설정 기능, api<br />카테고리(태그) 별 조회 기능, api |
 | 2021.04.21 | 뷰 조정 및 사용성 개선<br />로그인 기능 수정<br />사용성 테스트 및 버그 개선<br />README.md 작성 |
+
+
+
+## Contetnts
+
+### 반응형 디자인(스마트폰)
+
+![content1](readme_images/content1.png)
+
+![content2](readme_images/content2.png)
+
+
+
+### 반응형 디자인 (태블릿)
+
+![content3](readme_images/content3.png)
+
+![content4](readme_images/content4.png)
 
 
 
