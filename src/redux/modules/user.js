@@ -166,6 +166,7 @@ const updateUserProfile = (userId, data) => async (
     dispatch(login(res.data));
   } catch (error) {
     console.error(error);
+    dispatch(setLoginError(error.response.data.errorMessage));
   }
 };
 
