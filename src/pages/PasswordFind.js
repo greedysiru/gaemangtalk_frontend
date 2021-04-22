@@ -6,9 +6,10 @@ import ErrorMsg from '../elements/ErrorMsg';
 import useInput from '../shared/useInput';
 import { testEmailValid } from '../shared/common';
 import { userActions } from '../redux/modules/user';
-
+// 비밀번호 찾기 페이지
 const PasswordSearch = ({ history }) => {
   const dispatch = useDispatch();
+  // 인증메일을 전송하면 인증번호가 날아감! 그 번호를 store에 저장. 그 인증번호를 가져옴
   const authNumber = useSelector((state) => state.user.authNumber);
 
   // status : input(이메일입력) -> update(변경)
@@ -20,6 +21,7 @@ const PasswordSearch = ({ history }) => {
   const [password, setPassword, onChangePassword] = useInput('');
   const [passwordChk, setPasswordChk, onChangePasswordChk] = useInput('');
 
+  // 인증번호 입력창, 비밀번호 변경창 이동 - translateX 속성으로 변경
   const onClickButton = () => {
     if (status === 'input') {
       checkAuthNumber();
@@ -27,7 +29,7 @@ const PasswordSearch = ({ history }) => {
       updatePassword();
     }
   };
-
+  // 인증메일 전송
   const sendAuthMail = () => {
     dispatch(userActions.setAuthNumber(null));
 
@@ -39,6 +41,7 @@ const PasswordSearch = ({ history }) => {
     dispatch(userActions.findPassword(email));
   };
 
+  // 인증하기 버튼 - 메일로 온 인증번호가 입력한 인증번호가 같은지 확인
   const checkAuthNumber = () => {
     setIsError(null);
     if (number === authNumber) {
@@ -48,6 +51,7 @@ const PasswordSearch = ({ history }) => {
     }
   };
 
+  // 비밀번호 변경
   const updatePassword = () => {
     setIsError(null);
 
@@ -59,6 +63,7 @@ const PasswordSearch = ({ history }) => {
     dispatch(userActions.updatePassword(data));
   };
 
+  // 취소 - 이전단계 버튼 이벤트
   const goBack = () => {
     if (status === 'input') {
       return history.push('/');
@@ -80,7 +85,7 @@ const PasswordSearch = ({ history }) => {
                 _onChange={onChangeEmail}
                 placeholder="이메일을 입력해주세요"
               ></Input>
-              <Wrapper width="40%">
+              <Wrapper width="40%" margin="0.5rem">
                 <Button _onClick={sendAuthMail}>인증메일 전송</Button>
               </Wrapper>
             </Wrapper>
@@ -112,17 +117,21 @@ const PasswordSearch = ({ history }) => {
         <ErrorMsg valid={isError}>{isError}</ErrorMsg>
       </Wrapper>
       <Wrapper margin="1rem">
-        <Button _onClick={goBack}>
-          {status === 'input' ? '취소' : '이전단계'}
-        </Button>
-        <Button
-          disabled={
-            status === 'input' ? !authNumber : !password || !passwordChk
-          }
-          _onClick={onClickButton}
-        >
-          {status === 'input' ? '인증하기' : '비밀번호 변경'}
-        </Button>
+        <Wrapper margin="0.5rem">
+          <Button _onClick={goBack}>
+            {status === 'input' ? '취소' : '이전단계'}
+          </Button>
+        </Wrapper>
+        <Wrapper margin="0.5rem">
+          <Button
+            disabled={
+              status === 'input' ? !authNumber : !password || !passwordChk
+            }
+            _onClick={onClickButton}
+          >
+            {status === 'input' ? '인증하기' : '비밀번호 변경'}
+          </Button>
+        </Wrapper>
       </Wrapper>
     </Container>
   );

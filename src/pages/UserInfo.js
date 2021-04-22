@@ -9,21 +9,24 @@ import useInput from '../shared/useInput';
 import ErrorMsg from '../elements/ErrorMsg';
 import { utilActions } from '../redux/modules/util';
 
+// 사용자 정보 수정 페이지
 const UserInfo = (props) => {
   const dispatch = useDispatch();
-  const [isEdit, setIsEdit] = useState(false);
 
-  const userInfo = useSelector((state) => state.user.userInfo);
-  const [value, setValue, onChangeValue] = useInput(userInfo?.username);
-  const usernameInput = useRef();
-  const preview = useSelector((state) => state.util.preview);
+  const [isEdit, setIsEdit] = useState(false); // user name 변경 상태
+  const userInfo = useSelector((state) => state.user.userInfo); // store의 유저 정보
+  const [value, setValue, onChangeValue] = useInput(userInfo?.username); // useranme 입력 값
+  const usernameInput = useRef(); // username input ref!!
+  const preview = useSelector((state) => state.util.preview); // 이미지 등록 후 s3에 저장한 url
 
+  // 바깥 부분 클릭하면 수정 input에서 바뀌게
   const handleOnClickOutside = (e) => {
+    e.stopPropagation();
     if (!isEdit) return;
 
-    if (e.target.id !== 'usernameInput') {
-      setIsEdit(false);
-    }
+    if (e.target.id === 'usernameInput') return;
+
+    setIsEdit(false);
   };
 
   useEffect(() => {
@@ -34,9 +37,11 @@ const UserInfo = (props) => {
     };
   });
 
+  // 수정상태로 변경하고, input에 커서들어가게끔
   const onEdit = () => {
-    setIsEdit(!isEdit);
+    setIsEdit(true);
 
+    // 화면에 나타나기 전에는 focus가 안되므로 setTimeout으로 시간차를 줌
     setTimeout(() => {
       if (usernameInput.current) {
         usernameInput.current.focus();
@@ -44,16 +49,18 @@ const UserInfo = (props) => {
     }, 0);
   };
 
+  // 저장버튼
   const onUpdateProfile = () => {
-    if (!value.length) return console.log('안돼저리가');
+    if (!value.length) return; // username 입력값 없을 때는 저장불가
 
     const data = {
       profileUrl: preview,
       username: value
     };
+    // profile url과 username
     dispatch(userActions.updateUserProfile(userInfo.id, data));
   };
-
+  // 취소버튼 눌렀을 때
   const resetUserInfo = () => {
     setValue(userInfo.username);
     dispatch(utilActions.setPreview(userInfo.profileUrl));
@@ -131,10 +138,6 @@ const Line = styled.div`
       transition: 0.2s;
       border-radius: 50%;
       padding: 2px;
-      /* &:hover {
-        background-color: ${(props) => props.theme.main_color};
-        color: ${(props) => props.theme.theme_gray};
-      } */
     }
   }
 `;
