@@ -10,6 +10,28 @@
 
 **gaemangtalk 프로젝트의 프론트 엔드 Repositroy 입니다.**
 
+## 목차
+
+[1. 개요](#개요)
+
+[2. 프로젝트 특징](#프로젝트-특징)
+
+[3. 기능 상세 소개](#기능-상세-소개)
+
+[4. 상세페이지](#상세페이지)
+
+[5. 사용 패키지](#사용-패키지)
+
+[6. Trouble shooting](#Trouble-shooting)
+
+[7. 개발 타임라인](#개발-타임라인)
+
+[8. Contents](#Contents)
+
+[9. License](#License)
+
+[10. Reference](#Reference)
+
 ## 개요
 
 - 명칭 : gaemangtalk
@@ -227,19 +249,19 @@ const ChattingRoom = (props) => {
 
 ## 사용 패키지
 
-- class101/ui
+- **class101/ui**
   - 리액트와 연동되는 ui 패키지
-- reduxjs/toolkit
+- **reduxjs/toolkit**
   - 데이터 전역 관리를 위한 리덕스 관리 패키지
-- socks-client
+- **socks-client**
   - 웹 소켓 통신을 가능하게 하는 라이브러리
-- stompjs
+- **stompjs**
   - 메시지 프로토콜
-- styled-components
+- **styled-components**
   - 컴포넌트의 스타일을 설정하는 패키지
-- axios
+- **axios**
   - 서버 통신을 위한 패키지
-- connected-react-router, history
+- **connected-react-router, history**
   - 라우팅 및 페이지 이동을 위한 패키지
 
 ## Trouble shooting
